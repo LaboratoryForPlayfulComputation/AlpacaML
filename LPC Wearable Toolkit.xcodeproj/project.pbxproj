@@ -1,0 +1,686 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		311E16B9BB7151435561C858 /* Pods_LPC_Wearable_ToolkitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD29D513C89B125D5C981D25 /* Pods_LPC_Wearable_ToolkitTests.framework */; };
+		77597669F73F7D50C6144786 /* Pods_LPC_Wearable_ToolkitUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E6E3827C21ACB7E333A46FC /* Pods_LPC_Wearable_ToolkitUITests.framework */; };
+		E928029920AB48280051DC5F /* bluetoothConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E928029820AB48280051DC5F /* bluetoothConnect.swift */; };
+		E92802A220AC821E0051DC5F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E928029E20AB6FCC0051DC5F /* CoreVideo.framework */; };
+		E92802A520AC82C70051DC5F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E92802A020AB6FDA0051DC5F /* MobileCoreServices.framework */; };
+		E95C85042098DCDF00D8DC8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C85032098DCDF00D8DC8E /* AppDelegate.swift */; };
+		E95C85062098DCDF00D8DC8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C85052098DCDF00D8DC8E /* ViewController.swift */; };
+		E95C85092098DCDF00D8DC8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E95C85072098DCDF00D8DC8E /* Main.storyboard */; };
+		E95C850B2098DCDF00D8DC8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E95C850A2098DCDF00D8DC8E /* Assets.xcassets */; };
+		E95C850E2098DCDF00D8DC8E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E95C850C2098DCDF00D8DC8E /* LaunchScreen.storyboard */; };
+		E9D8B9D820ACD18C00BE0F45 /* AccClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D8B9D720ACD18C00BE0F45 /* AccClass.swift */; };
+		E9D8B9D920AD46DE00BE0F45 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E95C85322098F2FE00D8DC8E /* CoreBluetooth.framework */; };
+		EC2CA3F600B2EAF3CC964F93 /* Pods_LPC_Wearable_Toolkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3130156B642BD305BB251B /* Pods_LPC_Wearable_Toolkit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E95C85152098DCDF00D8DC8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E95C84F82098DCDF00D8DC8E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E95C84FF2098DCDF00D8DC8E;
+			remoteInfo = "LPC Wearable Toolkit";
+		};
+		E95C85202098DCDF00D8DC8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E95C84F82098DCDF00D8DC8E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E95C84FF2098DCDF00D8DC8E;
+			remoteInfo = "LPC Wearable Toolkit";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		011F54828883135DD2D72F82 /* Pods-LPC Wearable Toolkit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable Toolkit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable Toolkit/Pods-LPC Wearable Toolkit.debug.xcconfig"; sourceTree = "<group>"; };
+		02C3EAA426D9CD19263D804E /* Pods-LPC Wearable Toolkit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable Toolkit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable Toolkit/Pods-LPC Wearable Toolkit.release.xcconfig"; sourceTree = "<group>"; };
+		2611241AC6DB8A8017BC01D7 /* Pods-LPC Wearable ToolkitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitTests/Pods-LPC Wearable ToolkitTests.release.xcconfig"; sourceTree = "<group>"; };
+		3934657A810EC5A83F4D3890 /* Pods-LPC Wearable ToolkitUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitUITests/Pods-LPC Wearable ToolkitUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		6E6E3827C21ACB7E333A46FC /* Pods_LPC_Wearable_ToolkitUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LPC_Wearable_ToolkitUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		83FBE06DE7F63623CF7CE774 /* Pods-LPC Wearable ToolkitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitUITests/Pods-LPC Wearable ToolkitUITests.release.xcconfig"; sourceTree = "<group>"; };
+		9A3130156B642BD305BB251B /* Pods_LPC_Wearable_Toolkit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LPC_Wearable_Toolkit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E928029820AB48280051DC5F /* bluetoothConnect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetoothConnect.swift; sourceTree = "<group>"; };
+		E928029E20AB6FCC0051DC5F /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		E92802A020AB6FDA0051DC5F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		E95C85002098DCDF00D8DC8E /* LPC Wearable Toolkit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LPC Wearable Toolkit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E95C85032098DCDF00D8DC8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E95C85052098DCDF00D8DC8E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E95C85082098DCDF00D8DC8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E95C850A2098DCDF00D8DC8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E95C850D2098DCDF00D8DC8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E95C850F2098DCDF00D8DC8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E95C85142098DCDF00D8DC8E /* LPC Wearable ToolkitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LPC Wearable ToolkitTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E95C851F2098DCDF00D8DC8E /* LPC Wearable ToolkitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LPC Wearable ToolkitUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E95C85322098F2FE00D8DC8E /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		E9D8B9D720ACD18C00BE0F45 /* AccClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccClass.swift; sourceTree = "<group>"; };
+		FBE39D8948D0B1E804F10153 /* Pods-LPC Wearable ToolkitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitTests/Pods-LPC Wearable ToolkitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FD29D513C89B125D5C981D25 /* Pods_LPC_Wearable_ToolkitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LPC_Wearable_ToolkitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E95C84FD2098DCDF00D8DC8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9D8B9D920AD46DE00BE0F45 /* CoreBluetooth.framework in Frameworks */,
+				E92802A520AC82C70051DC5F /* MobileCoreServices.framework in Frameworks */,
+				E92802A220AC821E0051DC5F /* CoreVideo.framework in Frameworks */,
+				EC2CA3F600B2EAF3CC964F93 /* Pods_LPC_Wearable_Toolkit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E95C85112098DCDF00D8DC8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				311E16B9BB7151435561C858 /* Pods_LPC_Wearable_ToolkitTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E95C851C2098DCDF00D8DC8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77597669F73F7D50C6144786 /* Pods_LPC_Wearable_ToolkitUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7DA13150A95C91E0637F61AF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				011F54828883135DD2D72F82 /* Pods-LPC Wearable Toolkit.debug.xcconfig */,
+				02C3EAA426D9CD19263D804E /* Pods-LPC Wearable Toolkit.release.xcconfig */,
+				FBE39D8948D0B1E804F10153 /* Pods-LPC Wearable ToolkitTests.debug.xcconfig */,
+				2611241AC6DB8A8017BC01D7 /* Pods-LPC Wearable ToolkitTests.release.xcconfig */,
+				3934657A810EC5A83F4D3890 /* Pods-LPC Wearable ToolkitUITests.debug.xcconfig */,
+				83FBE06DE7F63623CF7CE774 /* Pods-LPC Wearable ToolkitUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E95C84F72098DCDF00D8DC8E = {
+			isa = PBXGroup;
+			children = (
+				E95C85022098DCDF00D8DC8E /* LPC Wearable Toolkit */,
+				E95C85012098DCDF00D8DC8E /* Products */,
+				E95C85312098F2FD00D8DC8E /* Frameworks */,
+				7DA13150A95C91E0637F61AF /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		E95C85012098DCDF00D8DC8E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E95C85002098DCDF00D8DC8E /* LPC Wearable Toolkit.app */,
+				E95C85142098DCDF00D8DC8E /* LPC Wearable ToolkitTests.xctest */,
+				E95C851F2098DCDF00D8DC8E /* LPC Wearable ToolkitUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E95C85022098DCDF00D8DC8E /* LPC Wearable Toolkit */ = {
+			isa = PBXGroup;
+			children = (
+				E95C85032098DCDF00D8DC8E /* AppDelegate.swift */,
+				E95C85052098DCDF00D8DC8E /* ViewController.swift */,
+				E9D8B9D720ACD18C00BE0F45 /* AccClass.swift */,
+				E928029820AB48280051DC5F /* bluetoothConnect.swift */,
+				E95C85072098DCDF00D8DC8E /* Main.storyboard */,
+				E95C850A2098DCDF00D8DC8E /* Assets.xcassets */,
+				E95C850C2098DCDF00D8DC8E /* LaunchScreen.storyboard */,
+				E95C850F2098DCDF00D8DC8E /* Info.plist */,
+			);
+			path = "LPC Wearable Toolkit";
+			sourceTree = "<group>";
+		};
+		E95C85312098F2FD00D8DC8E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E92802A020AB6FDA0051DC5F /* MobileCoreServices.framework */,
+				E928029E20AB6FCC0051DC5F /* CoreVideo.framework */,
+				E95C85322098F2FE00D8DC8E /* CoreBluetooth.framework */,
+				9A3130156B642BD305BB251B /* Pods_LPC_Wearable_Toolkit.framework */,
+				FD29D513C89B125D5C981D25 /* Pods_LPC_Wearable_ToolkitTests.framework */,
+				6E6E3827C21ACB7E333A46FC /* Pods_LPC_Wearable_ToolkitUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E95C84FF2098DCDF00D8DC8E /* LPC Wearable Toolkit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E95C85282098DCDF00D8DC8E /* Build configuration list for PBXNativeTarget "LPC Wearable Toolkit" */;
+			buildPhases = (
+				37012E2B1AC4FC7FD6800DCF /* [CP] Check Pods Manifest.lock */,
+				E95C84FC2098DCDF00D8DC8E /* Sources */,
+				E95C84FD2098DCDF00D8DC8E /* Frameworks */,
+				E95C84FE2098DCDF00D8DC8E /* Resources */,
+				1C32FAFA09AFB5191BC3CB4D /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "LPC Wearable Toolkit";
+			productName = "LPC Wearable Toolkit";
+			productReference = E95C85002098DCDF00D8DC8E /* LPC Wearable Toolkit.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E95C85132098DCDF00D8DC8E /* LPC Wearable ToolkitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E95C852B2098DCDF00D8DC8E /* Build configuration list for PBXNativeTarget "LPC Wearable ToolkitTests" */;
+			buildPhases = (
+				9A2241C1480D8621E60CEE90 /* [CP] Check Pods Manifest.lock */,
+				E95C85102098DCDF00D8DC8E /* Sources */,
+				E95C85112098DCDF00D8DC8E /* Frameworks */,
+				E95C85122098DCDF00D8DC8E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E95C85162098DCDF00D8DC8E /* PBXTargetDependency */,
+			);
+			name = "LPC Wearable ToolkitTests";
+			productName = "LPC Wearable ToolkitTests";
+			productReference = E95C85142098DCDF00D8DC8E /* LPC Wearable ToolkitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E95C851E2098DCDF00D8DC8E /* LPC Wearable ToolkitUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E95C852E2098DCDF00D8DC8E /* Build configuration list for PBXNativeTarget "LPC Wearable ToolkitUITests" */;
+			buildPhases = (
+				AAEA47A2B8CD93936B5D9460 /* [CP] Check Pods Manifest.lock */,
+				E95C851B2098DCDF00D8DC8E /* Sources */,
+				E95C851C2098DCDF00D8DC8E /* Frameworks */,
+				E95C851D2098DCDF00D8DC8E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E95C85212098DCDF00D8DC8E /* PBXTargetDependency */,
+			);
+			name = "LPC Wearable ToolkitUITests";
+			productName = "LPC Wearable ToolkitUITests";
+			productReference = E95C851F2098DCDF00D8DC8E /* LPC Wearable ToolkitUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E95C84F82098DCDF00D8DC8E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Varun Narayanswamy LPC";
+				TargetAttributes = {
+					E95C84FF2098DCDF00D8DC8E = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					E95C85132098DCDF00D8DC8E = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = E95C84FF2098DCDF00D8DC8E;
+					};
+					E95C851E2098DCDF00D8DC8E = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = E95C84FF2098DCDF00D8DC8E;
+					};
+				};
+			};
+			buildConfigurationList = E95C84FB2098DCDF00D8DC8E /* Build configuration list for PBXProject "LPC Wearable Toolkit" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E95C84F72098DCDF00D8DC8E;
+			productRefGroup = E95C85012098DCDF00D8DC8E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E95C84FF2098DCDF00D8DC8E /* LPC Wearable Toolkit */,
+				E95C85132098DCDF00D8DC8E /* LPC Wearable ToolkitTests */,
+				E95C851E2098DCDF00D8DC8E /* LPC Wearable ToolkitUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E95C84FE2098DCDF00D8DC8E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E95C850E2098DCDF00D8DC8E /* LaunchScreen.storyboard in Resources */,
+				E95C850B2098DCDF00D8DC8E /* Assets.xcassets in Resources */,
+				E95C85092098DCDF00D8DC8E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E95C85122098DCDF00D8DC8E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E95C851D2098DCDF00D8DC8E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1C32FAFA09AFB5191BC3CB4D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LPC Wearable Toolkit/Pods-LPC Wearable Toolkit-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LPC Wearable Toolkit/Pods-LPC Wearable Toolkit-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		37012E2B1AC4FC7FD6800DCF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LPC Wearable Toolkit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9A2241C1480D8621E60CEE90 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LPC Wearable ToolkitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AAEA47A2B8CD93936B5D9460 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LPC Wearable ToolkitUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E95C84FC2098DCDF00D8DC8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E95C85062098DCDF00D8DC8E /* ViewController.swift in Sources */,
+				E95C85042098DCDF00D8DC8E /* AppDelegate.swift in Sources */,
+				E9D8B9D820ACD18C00BE0F45 /* AccClass.swift in Sources */,
+				E928029920AB48280051DC5F /* bluetoothConnect.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E95C85102098DCDF00D8DC8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E95C851B2098DCDF00D8DC8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E95C85162098DCDF00D8DC8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E95C84FF2098DCDF00D8DC8E /* LPC Wearable Toolkit */;
+			targetProxy = E95C85152098DCDF00D8DC8E /* PBXContainerItemProxy */;
+		};
+		E95C85212098DCDF00D8DC8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E95C84FF2098DCDF00D8DC8E /* LPC Wearable Toolkit */;
+			targetProxy = E95C85202098DCDF00D8DC8E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E95C85072098DCDF00D8DC8E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E95C85082098DCDF00D8DC8E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E95C850C2098DCDF00D8DC8E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E95C850D2098DCDF00D8DC8E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E95C85262098DCDF00D8DC8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E95C85272098DCDF00D8DC8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E95C85292098DCDF00D8DC8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 011F54828883135DD2D72F82 /* Pods-LPC Wearable Toolkit.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RF8WDUR5RE;
+				INFOPLIST_FILE = "LPC Wearable Toolkit/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Varun.LPC-Wearable-Toolkit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E95C852A2098DCDF00D8DC8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02C3EAA426D9CD19263D804E /* Pods-LPC Wearable Toolkit.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RF8WDUR5RE;
+				INFOPLIST_FILE = "LPC Wearable Toolkit/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Varun.LPC-Wearable-Toolkit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E95C852C2098DCDF00D8DC8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FBE39D8948D0B1E804F10153 /* Pods-LPC Wearable ToolkitTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RF8WDUR5RE;
+				INFOPLIST_FILE = "LPC Wearable ToolkitTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Varun.LPC-Wearable-ToolkitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LPC Wearable Toolkit.app/LPC Wearable Toolkit";
+			};
+			name = Debug;
+		};
+		E95C852D2098DCDF00D8DC8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2611241AC6DB8A8017BC01D7 /* Pods-LPC Wearable ToolkitTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RF8WDUR5RE;
+				INFOPLIST_FILE = "LPC Wearable ToolkitTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Varun.LPC-Wearable-ToolkitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LPC Wearable Toolkit.app/LPC Wearable Toolkit";
+			};
+			name = Release;
+		};
+		E95C852F2098DCDF00D8DC8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3934657A810EC5A83F4D3890 /* Pods-LPC Wearable ToolkitUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RF8WDUR5RE;
+				INFOPLIST_FILE = "LPC Wearable ToolkitUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Varun.LPC-Wearable-ToolkitUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "LPC Wearable Toolkit";
+			};
+			name = Debug;
+		};
+		E95C85302098DCDF00D8DC8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 83FBE06DE7F63623CF7CE774 /* Pods-LPC Wearable ToolkitUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RF8WDUR5RE;
+				INFOPLIST_FILE = "LPC Wearable ToolkitUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Varun.LPC-Wearable-ToolkitUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "LPC Wearable Toolkit";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E95C84FB2098DCDF00D8DC8E /* Build configuration list for PBXProject "LPC Wearable Toolkit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E95C85262098DCDF00D8DC8E /* Debug */,
+				E95C85272098DCDF00D8DC8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E95C85282098DCDF00D8DC8E /* Build configuration list for PBXNativeTarget "LPC Wearable Toolkit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E95C85292098DCDF00D8DC8E /* Debug */,
+				E95C852A2098DCDF00D8DC8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E95C852B2098DCDF00D8DC8E /* Build configuration list for PBXNativeTarget "LPC Wearable ToolkitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E95C852C2098DCDF00D8DC8E /* Debug */,
+				E95C852D2098DCDF00D8DC8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E95C852E2098DCDF00D8DC8E /* Build configuration list for PBXNativeTarget "LPC Wearable ToolkitUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E95C852F2098DCDF00D8DC8E /* Debug */,
+				E95C85302098DCDF00D8DC8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E95C84F82098DCDF00D8DC8E /* Project object */;
+}
