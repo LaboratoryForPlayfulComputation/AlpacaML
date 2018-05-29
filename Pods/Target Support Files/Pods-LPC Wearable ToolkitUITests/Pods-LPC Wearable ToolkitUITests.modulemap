@@ -1,0 +1,6 @@
+framework module Pods_LPC_Wearable_ToolkitUITests {
+  umbrella header "Pods-LPC Wearable ToolkitUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
