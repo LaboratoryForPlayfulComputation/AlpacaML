@@ -19,6 +19,8 @@
 		E95C850E2098DCDF00D8DC8E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E95C850C2098DCDF00D8DC8E /* LaunchScreen.storyboard */; };
 		E9D8B9D820ACD18C00BE0F45 /* AccClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D8B9D720ACD18C00BE0F45 /* AccClass.swift */; };
 		E9D8B9D920AD46DE00BE0F45 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E95C85322098F2FE00D8DC8E /* CoreBluetooth.framework */; };
+		E9E71C3220BF49A6002757DF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9E71C3120BF49A6002757DF /* AVFoundation.framework */; };
+		E9E71C3420BF49AC002757DF /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9E71C3320BF49AC002757DF /* AVKit.framework */; };
 		EC2CA3F600B2EAF3CC964F93 /* Pods_LPC_Wearable_Toolkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3130156B642BD305BB251B /* Pods_LPC_Wearable_Toolkit.framework */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +63,8 @@
 		E95C851F2098DCDF00D8DC8E /* LPC Wearable ToolkitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LPC Wearable ToolkitUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E95C85322098F2FE00D8DC8E /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		E9D8B9D720ACD18C00BE0F45 /* AccClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccClass.swift; sourceTree = "<group>"; };
+		E9E71C3120BF49A6002757DF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		E9E71C3320BF49AC002757DF /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		FBE39D8948D0B1E804F10153 /* Pods-LPC Wearable ToolkitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitTests/Pods-LPC Wearable ToolkitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FD29D513C89B125D5C981D25 /* Pods_LPC_Wearable_ToolkitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LPC_Wearable_ToolkitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -70,6 +74,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9E71C3420BF49AC002757DF /* AVKit.framework in Frameworks */,
+				E9E71C3220BF49A6002757DF /* AVFoundation.framework in Frameworks */,
 				E9D8B9D920AD46DE00BE0F45 /* CoreBluetooth.framework in Frameworks */,
 				E92802A520AC82C70051DC5F /* MobileCoreServices.framework in Frameworks */,
 				E92802A220AC821E0051DC5F /* CoreVideo.framework in Frameworks */,
@@ -147,6 +153,8 @@
 		E95C85312098F2FD00D8DC8E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E9E71C3320BF49AC002757DF /* AVKit.framework */,
+				E9E71C3120BF49A6002757DF /* AVFoundation.framework */,
 				E92802A020AB6FDA0051DC5F /* MobileCoreServices.framework */,
 				E928029E20AB6FCC0051DC5F /* CoreVideo.framework */,
 				E95C85322098F2FE00D8DC8E /* CoreBluetooth.framework */,

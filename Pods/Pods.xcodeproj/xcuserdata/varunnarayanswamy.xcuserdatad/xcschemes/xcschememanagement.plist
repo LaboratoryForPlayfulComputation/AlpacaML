@@ -7,7 +7,7 @@
 		<key>Charts.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<key>Pods-LPC Wearable Toolkit.xcscheme</key>
 		<dict>
