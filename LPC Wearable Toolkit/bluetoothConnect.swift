@@ -93,7 +93,7 @@ public class Microbit: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate {
      This name must be provided when intializing an instance of Microbit class. It is used to scan for
      micro:bit peripheral.
      */
-    private var deviceName:String
+    public var deviceName:String
     /**
      property represents the microbit client i.e the apple device.
      corebluetooth knows this as the Central Manager.
@@ -239,9 +239,9 @@ public class Microbit: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate {
     
     // MARK: Initialization of class instance
     
-    public init(_ deviceName:String) {
+    public override init() {
         print("init")
-        self.deviceName = deviceName
+        self.deviceName = ""
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
     }

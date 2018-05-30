@@ -22,17 +22,18 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     //find bluetooth
     //var observation: NSKeyValueObservation?
     //gepev
-    var microbit = Microbit("BBC micro:bit [gepev]")
+    var microbit = Microbit()
     var connected = false
     var periodType = PeriodType.p1
     var getVal = true
     var x = 0
     var y = 0
     var z = 0
-
+    
     @IBOutlet weak var updated: UILabel!
     @IBAction func bluetooth(_ sender: UIButton)
     {
+        microbit.deviceName = "BBC micro:bit [gepev]"
         if (connected == false)
         {
             //observation = microbit.observe(\Microbit.update, options: [.new])
@@ -45,29 +46,29 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             print("done scanning")
             microbit.accelerometer(period: periodType)
             func accelerometerSet(period: PeriodType) {
-             microbit.accelerometer(period: period)
-             }
+                microbit.accelerometer(period: period)
+            }
             sender.setTitle("Disconnect", for: .normal)
             DispatchQueue.global(qos: .userInitiated).async
-            {
-                while (exists == true)
                 {
-                    let words:String! = UserDefaults.standard.string(forKey: "update")
-                    if (words == "Firmware revision number = 2.0.0-rc9--g")
+                    while (exists == true)
                     {
-                        print("break")
-                        exists = false
-                    }
-                    else
-                    {
-                        DispatchQueue.main.sync {
-                            self.updated.text = words
+                        let words:String! = UserDefaults.standard.string(forKey: "update")
+                        if (words == "Firmware revision number = 2.0.0-rc9--g")
+                        {
+                            print("break")
+                            exists = false
                         }
+                        else
+                        {
+                            DispatchQueue.main.sync {
+                                self.updated.text = words
+                            }
+                        }
+                        // let boolean = UserDefaults.standard.bool(forKey: "boolean")
                     }
-                   // let boolean = UserDefaults.standard.bool(forKey: "boolean")
-                }
-                self.updated.text = "You are Connected"
-                // Bounce back to the main thread to update the UI
+                    self.updated.text = "You are Connected"
+                    // Bounce back to the main thread to update the UI
             }
             connected = true
         }
@@ -91,6 +92,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         }
         else
         {
+            
             self.getVal = true
             DispatchQueue.global(qos: .userInitiated).async {
                 while (self.getVal == true)
@@ -98,7 +100,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                     self.x = UserDefaults.standard.integer(forKey: "xData")
                     self.y = UserDefaults.standard.integer(forKey: "yData")
                     self.z = UserDefaults.standard.integer(forKey: "zData")
-                  //  var boolean = UserDefaults.standard.bool(forKey: "boolean")
+                    //  var boolean = UserDefaults.standard.bool(forKey: "boolean")
                     print(self.x,self.y,self.z)
                     let x_val = self.x
                     let y_val = self.y
@@ -111,16 +113,34 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                     DispatchQueue.main.sync {
                         self.updateGraph()
                     }
-
                 }
                 // Bounce back to the main thread to update the UI
             }
         }
     }
     
+    @IBAction func Video(_ sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
+        {
+            let video = UIImagePickerController()
+            video.delegate = self
+            video.sourceType = .camera
+            video.mediaTypes = [kUTTypeMovie as String]
+            video.allowsEditing = true
+            video.showsCameraControls = true
+            self.present(video, animated: true, completion: nil)
+        }
+        else
+        {
+            print("camera is not available")
+        }
+        //let CameraView = VideoRecorder()
+        //self.present(CameraView, animated: true, completion: nil)
+    }
+    
     @IBAction func stop(_ sender: UIButton) {
         print("stop")
-         self.getVal = false
+        self.getVal = false
     }
     
     @IBAction func reset(_ sender: UIButton) {
@@ -144,7 +164,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  deviceName.delegate = self
+        //  deviceName.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -178,9 +198,11 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     
 }
 /*extension MicrobitUIController: UITextFieldDelegate
-{
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-}*/
+ {
+ func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+ textField.resignFirstResponder()
+ return true
+ }
+ }*/
+
+
