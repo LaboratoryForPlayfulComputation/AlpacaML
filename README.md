@@ -4,9 +4,7 @@ The wearable toolkit is an all purpose wearable that can be used with a variety 
 # How to Use this App
 1. Make sure you change the name of the microbit in the ViewController.swift file to the name of your micro:bit right now it is "gepev" (if you don’t know the name of your microbit- you can connect using the “micro:bit” app from the app store. More specific instructions coming soon)
 
-2. Create a simple microbit program that looks something like this, and download it to your micro:bit:
-
-
+2. Create a simple microbit program that looks something like this, and download it to your micro:bit
 
 3. From Xcode: Make sure your iPhone is plugged into your laptop
 4. Select your iPhone as the device you want to test on (this is on the top toolbar)
