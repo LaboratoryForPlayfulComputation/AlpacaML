@@ -551,11 +551,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RF8WDUR5RE;
+				DEVELOPMENT_TEAM = 5RUY2M5J7H;
 				INFOPLIST_FILE = "LPC Wearable Toolkit/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Varun.LPC-Wearable-Toolkit";
+				PRODUCT_BUNDLE_IDENTIFIER = "MurphyB.LPC-Wearable-Toolkit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -568,11 +568,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RF8WDUR5RE;
+				DEVELOPMENT_TEAM = 5RUY2M5J7H;
 				INFOPLIST_FILE = "LPC Wearable Toolkit/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Varun.LPC-Wearable-Toolkit";
+				PRODUCT_BUNDLE_IDENTIFIER = "MurphyB.LPC-Wearable-Toolkit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

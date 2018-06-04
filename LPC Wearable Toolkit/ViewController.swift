@@ -33,7 +33,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     @IBOutlet weak var updated: UILabel!
     @IBAction func bluetooth(_ sender: UIButton)
     {
-        microbit.deviceName = "BBC micro:bit [gepev]"
+        microbit.deviceName = "BBC micro:bit [gipov]"
         if (connected == false)
         {
             //observation = microbit.observe(\Microbit.update, options: [.new])
@@ -190,6 +190,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         let data = LineChartData() //This is the object that will be added to the chart
         data.addDataSet(line1) //Adds the line to the dataSet
         
+        if(numbers.count > 200 ){
+            numbers.remove(at: 0)
+        }
         
         chtChart.data = data //finally - it adds the chart data to the chart and causes an update
         chtChart.chartDescription?.text = "Acceleration" // Here we set the description for the graph
