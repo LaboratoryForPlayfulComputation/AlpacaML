@@ -31,9 +31,12 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     var z = 0
     
     @IBOutlet weak var updated: UILabel!
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var stopButton: UIButton!
+    
     @IBAction func bluetooth(_ sender: UIButton)
     {
-        microbit.deviceName = "BBC micro:bit [gepev]"
+        microbit.deviceName = "BBC micro:bit [gipov]"
         if (connected == false)
         {
             //observation = microbit.observe(\Microbit.update, options: [.new])
@@ -118,8 +121,8 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             }
         }
     }
-    
-    @IBAction func Video(_ sender: UIButton) {
+
+    /*@IBAction func Video(_ sender: UIButton) {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
         {
             let video = UIImagePickerController()
@@ -137,6 +140,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         //let CameraView = VideoRecorder()
         //self.present(CameraView, animated: true, completion: nil)
     }
+  */
+
+    
     
     @IBAction func stop(_ sender: UIButton) {
         print("stop")
@@ -164,6 +170,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //  deviceName.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -172,6 +179,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
     func updateGraph(){
         
@@ -190,6 +198,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         let data = LineChartData() //This is the object that will be added to the chart
         data.addDataSet(line1) //Adds the line to the dataSet
         
+        if(numbers.count > 200 ){
+            numbers.remove(at: 0)
+        }
         
         chtChart.data = data //finally - it adds the chart data to the chart and causes an update
         chtChart.chartDescription?.text = "Acceleration" // Here we set the description for the graph
