@@ -12,18 +12,13 @@ import MobileCoreServices
 import CoreBluetooth
 import Charts
 
-class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    //@IBOutlet weak var txtTextBox: UITextField!
-    // hmmmmmmm
+class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDelegate, ChartViewDelegate {
     @IBOutlet weak var chtChart: LineChartView!
+    var player = AVPlayer()
+    var timestamp:Double = 0
     var numbers:[Double] = []
-    //var microbit:Microbit = Microbit("BBC micro:bit [tizip]")
-    //class ViewController: UIViewController {
-    //find bluetooth
-    //var observation: NSKeyValueObservation?
-    //gepev
     var microbit = Microbit()
-    var connected = false
+    var connected_to_device = false
     var periodType = PeriodType.p1
     var getVal = true
     var x = 0
@@ -34,15 +29,11 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     @IBAction func bluetooth(_ sender: UIButton)
     {
         microbit.deviceName = "BBC micro:bit [gepev]"
-        if (connected == false)
+        if (connected_to_device == false)
         {
-            //observation = microbit.observe(\Microbit.update, options: [.new])
-            //{ [updated] microbit, _ in self.updated.text = microbit.update.text }
-            print(self.connected)
+            print(self.connected_to_device)
             updated.text = "Hello"
-            //microbitAccelerometer.delegate = self
-            var exists = microbit.startScanning()
-            //updated.text = microbit.update.text!
+            var is_connecting = microbit.startScanning()
             print("done scanning")
             microbit.accelerometer(period: periodType)
             func accelerometerSet(period: PeriodType) {
@@ -51,13 +42,13 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             sender.setTitle("Disconnect", for: .normal)
             DispatchQueue.global(qos: .userInitiated).async
                 {
-                    while (exists == true)
+                    while (is_connecting == true)
                     {
                         let words:String! = UserDefaults.standard.string(forKey: "update")
                         if (words == "Firmware revision number = 2.0.0-rc9--g")
                         {
                             print("break")
-                            exists = false
+                            is_connecting = false
                         }
                         else
                         {
@@ -65,16 +56,14 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                                 self.updated.text = words
                             }
                         }
-                        // let boolean = UserDefaults.standard.bool(forKey: "boolean")
                     }
                     self.updated.text = "You are Connected"
-                    // Bounce back to the main thread to update the UI
             }
-            connected = true
+            connected_to_device = true
         }
         else
         {
-            connected = false
+            connected_to_device = false
             microbit.disconnect()
             self.updated.text = "Disconnected"
             sender.setTitle("Connect", for: .normal)
@@ -83,8 +72,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     }
     
     @IBAction func record(_ sender: UIButton) {
-        //let camera = UIImagePickerController()
-        if (connected == false)
+        if (connected_to_device == false)
         {
             print("connect to bluetooth first")
             updated.text = "connect to bluetooth first"
@@ -100,7 +88,6 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                     self.x = UserDefaults.standard.integer(forKey: "xData")
                     self.y = UserDefaults.standard.integer(forKey: "yData")
                     self.z = UserDefaults.standard.integer(forKey: "zData")
-                    //  var boolean = UserDefaults.standard.bool(forKey: "boolean")
                     print(self.x,self.y,self.z)
                     let x_val = self.x
                     let y_val = self.y
@@ -114,28 +101,19 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                         self.updateGraph()
                     }
                 }
-                // Bounce back to the main thread to update the UI
             }
         }
     }
     
-    @IBAction func Video(_ sender: UIButton) {
+    @IBAction func Video(_ sender: AnyObject) {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
         {
-            let video = UIImagePickerController()
-            video.delegate = self
-            video.sourceType = .camera
-            video.mediaTypes = [kUTTypeMovie as String]
-            video.allowsEditing = true
-            video.showsCameraControls = true
-            self.present(video, animated: true, completion: nil)
+             VideoHelper.startMediaBrowser(delegate: self, sourceType: .camera)
         }
         else
         {
             print("camera is not available")
         }
-        //let CameraView = VideoRecorder()
-        //self.present(CameraView, animated: true, completion: nil)
     }
     
     @IBAction func stop(_ sender: UIButton) {
@@ -164,45 +142,81 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //  deviceName.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
+        chtChart.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func updateGraph(){
         
-        var lineChartEntry  = [ChartDataEntry]() //this is the Array that will eventually be displayed on the graph.
-        
-        
-        //here is the for loop
+        var lineChartEntry  = [ChartDataEntry]()
         for i in 0..<self.numbers.count {
-            let value = ChartDataEntry(x: Double(i), y: self.numbers[i]) // here we set the X and Y status in a data chart entry
-            lineChartEntry.append(value) // here we add it to the data set
+            let value = ChartDataEntry(x: Double(i), y: self.numbers[i])
+            lineChartEntry.append(value)
         }
+        let line1 = LineChartDataSet(values: lineChartEntry, label: "Number")
+        line1.colors = [NSUIColor.blue]
+        let data = LineChartData()
+        data.addDataSet(line1)
+        chtChart.data = data
+        chtChart.chartDescription?.text = "Acceleration"
+    }
+    
+    @objc func video(_ videoPath: String, didFinishSavingWithError error: Error?, contextInfo info: AnyObject) {
+        let title = (error == nil) ? "Success" : "Error"
+        let message = (error == nil) ? "Video was saved" : "Video failed to save"
         
-        let line1 = LineChartDataSet(values: lineChartEntry, label: "Number") //Here we convert lineChartEntry to a LineChartDataSet
-        line1.colors = [NSUIColor.blue] //Sets the colour to blue
-        
-        let data = LineChartData() //This is the object that will be added to the chart
-        data.addDataSet(line1) //Adds the line to the dataSet
-        
-        
-        chtChart.data = data //finally - it adds the chart data to the chart and causes an update
-        chtChart.chartDescription?.text = "Acceleration" // Here we set the description for the graph
-        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    public func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        print("\(entry.x)")
+        timestamp = entry.x/100
+        UserDefaults.standard.set(timestamp, forKey: "timestamp")
     }
     
 }
-/*extension MicrobitUIController: UITextFieldDelegate
- {
- func textFieldShouldReturn(_ textField: UITextField) -> Bool {
- textField.resignFirstResponder()
- return true
- }
- }*/
+extension MicrobitUIController: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        dismiss(animated: true, completion: nil)
+        guard let mediaType = info[UIImagePickerControllerMediaType] as? String,
+            mediaType == (kUTTypeMovie as String),
+            let url = info[UIImagePickerControllerMediaURL] as? NSURL//,
+           // UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path)
+            else { return }
+        
+        // Handle a movie capture
+        //UISaveVideoAtPathToSavedPhotosAlbum(url.path!, self, #selector(video(_:didFinishSavingWithError:contextInfo:)), nil)
+        
+        player = AVPlayer(url: url as URL)
+        let small_screen = AVPlayerViewController()
+        small_screen.view.frame = CGRect (x:0, y:50, width:320, height:250)
+        small_screen.player = player
+        self.addChildViewController(small_screen)
+        self.view.addSubview(small_screen.view)
+        small_screen.didMove(toParentViewController: self)
+        print("before while loop")
+        DispatchQueue.global(qos: .userInitiated).async{
+            print("in dispatch queue")
+            while (self.getVal == false){
+                let userSelection = UserDefaults.standard.integer(forKey: "timestamp")
+                print("getVal loop")
+                let input_time = Int64(userSelection)
+                let time = CMTime(value: input_time, timescale: 1)
+                print(time)
+                self.player.seek(to: time)
+            }
+        }
+    }
+}
+
+extension MicrobitUIController: UINavigationControllerDelegate {
+}
+
+
 
 

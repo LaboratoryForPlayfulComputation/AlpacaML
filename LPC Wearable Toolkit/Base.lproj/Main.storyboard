@@ -25,17 +25,10 @@
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                                 <state key="normal" title="Record"/>
                                 <connections>
+                                    <action selector="Video:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E0m-By-6bW"/>
                                     <action selector="record:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EF6-dq-7xK"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dNG-e3-uOr" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="27" y="130" width="267" height="308"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" updatesFrequently="YES"/>
-                                </accessibility>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tqV-qX-6gS">
                                 <rect key="frame" x="62" y="457" width="32" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -78,6 +71,14 @@
                                     <action selector="Save:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Dn2-ic-DJB"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dNG-e3-uOr" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="30" y="306" width="267" height="98"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" updatesFrequently="YES"/>
+                                </accessibility>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.90382124352331605" green="0.90382124352331605" blue="0.90382124352331605" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
