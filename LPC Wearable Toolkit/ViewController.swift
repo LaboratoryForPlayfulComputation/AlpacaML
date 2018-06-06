@@ -19,8 +19,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     var numbers:[Double] = []
     var microbit = Microbit()
     var connected_to_device = false
-    var periodType = PeriodType.p1
+    var periodType = PeriodType.p1000
     var getVal = true
+    var chart_pressed = false
     var x = 0
     var y = 0
     var z = 0
@@ -119,6 +120,31 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     @IBAction func stop(_ sender: UIButton) {
         print("stop")
         self.getVal = false
+        DispatchQueue.global(qos: .userInitiated).async{
+            //print("here")
+            while (self.getVal == false){
+                if (self.chart_pressed == true)
+                {
+                    //print("in dispatchqueue")
+                    self.chart_pressed = false
+                    let duration = self.player.currentItem!.asset.duration
+                    let length_seconds = CMTimeGetSeconds(duration)
+                    let int_length_seconds = Int64(length_seconds)
+                    let userSelection = UserDefaults.standard.integer(forKey: "timestamp")
+                    let input_time = Int64(userSelection)
+                    //print("getVal loop")
+                    if (input_time>int_length_seconds){
+                        self.player.seek(to: duration)
+                    }
+                    else{
+                        let time = CMTime(value: input_time, timescale: 1)
+                        print("time: \(input_time)")
+                        //print(time)
+                        self.player.seek(to: time)
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func reset(_ sender: UIButton) {
@@ -174,9 +200,11 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     }
     
     public func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-        print("\(entry.x)")
+        chart_pressed = true
         timestamp = entry.x/100
-        UserDefaults.standard.set(timestamp, forKey: "timestamp")
+        let rounded_time = Double(round(timestamp))
+        print("\(rounded_time)")
+        UserDefaults.standard.set(rounded_time, forKey: "timestamp")
     }
     
 }
@@ -200,17 +228,6 @@ extension MicrobitUIController: UIImagePickerControllerDelegate {
         self.view.addSubview(small_screen.view)
         small_screen.didMove(toParentViewController: self)
         print("before while loop")
-        DispatchQueue.global(qos: .userInitiated).async{
-            print("in dispatch queue")
-            while (self.getVal == false){
-                let userSelection = UserDefaults.standard.integer(forKey: "timestamp")
-                print("getVal loop")
-                let input_time = Int64(userSelection)
-                let time = CMTime(value: input_time, timescale: 1)
-                print(time)
-                self.player.seek(to: time)
-            }
-        }
     }
 }
 

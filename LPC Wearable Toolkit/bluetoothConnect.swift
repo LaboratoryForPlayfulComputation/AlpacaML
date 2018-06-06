@@ -71,6 +71,7 @@ public enum PeriodType:UInt16 {
     case p80 = 80
     case p160 = 160
     case p640 = 640
+    case p1000 = 1000
 }
 /**
  Available events that can be detected by the micro:bit using control.onEvent
@@ -669,6 +670,7 @@ public class Microbit: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate {
      - period: the interval in milliseconds between the accelerometer reporting data. Only specific values are acceptable as defined by PeriodType.
      */
     public func accelerometer(period:PeriodType) {
+        print("\(period)")
         print("made it to period")
         guard let accelerometerPeriodCharacteristic = accelerometerPeriodCharacteristic else {return}
         let accelerometerPeriodData = toData(period.rawValue)
