@@ -14,11 +14,14 @@ import Charts
 
 class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDelegate, ChartViewDelegate {
     @IBOutlet weak var chtChart: LineChartView!
+    var i = 0
     var player = AVPlayer()
     var timestamp:Double = 0
+    var is_connecting = false
     var numbers:[Double] = []
     var microbit = Microbit()
     var connected_to_device = false
+    var reset = false
     var periodType = PeriodType.p1000
     var getVal = true
     var chart_pressed = false
@@ -34,7 +37,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         {
             print(self.connected_to_device)
             updated.text = "Hello"
-            var is_connecting = microbit.startScanning()
+            is_connecting = microbit.startScanning()
             print("done scanning")
             microbit.accelerometer(period: periodType)
             func accelerometerSet(period: PeriodType) {
@@ -43,13 +46,13 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             sender.setTitle("Disconnect", for: .normal)
             DispatchQueue.global(qos: .userInitiated).async
                 {
-                    while (is_connecting == true)
+                    while (self.is_connecting == true)
                     {
                         let words:String! = UserDefaults.standard.string(forKey: "update")
                         if (words == "Firmware revision number = 2.0.0-rc9--g")
                         {
                             print("break")
-                            is_connecting = false
+                            self.is_connecting = false
                         }
                         else
                         {
@@ -64,6 +67,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         }
         else
         {
+            is_connecting = false
             connected_to_device = false
             microbit.disconnect()
             self.updated.text = "Disconnected"
@@ -73,6 +77,12 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     }
     
     @IBAction func record(_ sender: UIButton) {
+        
+        //NC.default.addObserver(self, selector: @selector("pressed"), name: Notification.Name("_UIImagePickerControllerUserDidCaptureItem"), object: nil)
+        func pressed()
+        {
+            print("pressed")
+        }
         if (connected_to_device == false)
         {
             print("connect to bluetooth first")
@@ -100,6 +110,8 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                     self.numbers.append(Acc)
                     DispatchQueue.main.sync {
                         self.updateGraph()
+                        print(self.i)
+                        self.i = self.i + 1
                     }
                 }
             }
@@ -143,6 +155,10 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                         self.player.seek(to: time)
                     }
                 }
+                else
+                {
+        
+                }
             }
         }
     }
@@ -151,6 +167,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         self.numbers = [0]
         self.updateGraph()
         self.getVal = false
+        reset = true
     }
     
     @IBAction func Save(_ sender: UIButton) {
@@ -184,6 +201,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         }
         let line1 = LineChartDataSet(values: lineChartEntry, label: "Number")
         line1.colors = [NSUIColor.blue]
+        chtChart.setVisibleXRangeMaximum(100)
         let data = LineChartData()
         data.addDataSet(line1)
         chtChart.data = data
@@ -208,6 +226,15 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     }
     
 }
+
+
+
+
+
+
+
+
+
 extension MicrobitUIController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         dismiss(animated: true, completion: nil)
