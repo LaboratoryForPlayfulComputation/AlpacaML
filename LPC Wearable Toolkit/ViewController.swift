@@ -155,10 +155,6 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                         self.player.seek(to: time)
                     }
                 }
-                else
-                {
-        
-                }
             }
         }
     }
@@ -202,6 +198,8 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         let line1 = LineChartDataSet(values: lineChartEntry, label: "Number")
         line1.colors = [NSUIColor.blue]
         chtChart.setVisibleXRangeMaximum(100)
+        let num = chtChart.highestVisibleX
+        print(num)
         let data = LineChartData()
         data.addDataSet(line1)
         chtChart.data = data
