@@ -135,24 +135,51 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         DispatchQueue.global(qos: .userInitiated).async{
             //print("here")
             while (self.getVal == false){
+                //var previous_time:Double = 0
+                let duration = self.player.currentItem!.asset.duration
+                let current_time = self.player.currentTime()
+                let current_time_seconds = CMTimeGetSeconds(current_time)
+                //qiocl
+                let current_time_double = Double(current_time_seconds)
+                let length_seconds = CMTimeGetSeconds(duration)
+                let int_length_seconds = Int64(length_seconds)
                 if (self.chart_pressed == true)
                 {
-                    //print("in dispatchqueue")
-                    self.chart_pressed = false
-                    let duration = self.player.currentItem!.asset.duration
-                    let length_seconds = CMTimeGetSeconds(duration)
-                    let int_length_seconds = Int64(length_seconds)
+                    print("here")
                     let userSelection = UserDefaults.standard.integer(forKey: "timestamp")
                     let input_time = Int64(userSelection)
+                    //print("in dispatchqueue")
+                    self.chart_pressed = false
                     //print("getVal loop")
-                    if (input_time>int_length_seconds){
+                    if (input_time>=int_length_seconds){
                         self.player.seek(to: duration)
                     }
                     else{
-                        let time = CMTime(value: input_time, timescale: 1)
-                        print("time: \(input_time)")
-                        //print(time)
-                        self.player.seek(to: time)
+                            let time = CMTime(value: input_time, timescale: 1)
+                            print("time: \(input_time)")
+                            self.player.seek(to: time)
+
+                    }
+                }
+                else
+                {
+                    let rangeMid = Double(current_time_seconds)*100
+                    let rangeMax = Double(rangeMid)+100 //Double(self.secondsRange)
+                    let rangeMin = Double(rangeMid)-100 //Double(self.secondsRange)
+                 //   let start = self.numbers[Int(rangeMin)]
+                 //   let end = self.numbers[Int(rangeMax)]
+                    if(self.player.timeControlStatus == AVPlayerTimeControlStatus.playing){
+                        DispatchQueue.main.sync {
+                            if (rangeMin<0)
+                            {
+                                self.chtChart.moveViewToX(0)
+                            }
+                            else
+                            {
+                                self.chtChart.moveViewToX(rangeMin)
+                                self.chtChart.setVisibleXRangeMaximum(rangeMax-rangeMin)
+                            }
+                        }
                     }
                 }
             }
@@ -182,6 +209,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         chtChart.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(tap_record(notification:)), name: .AVCaptureSessionWasInterrupted, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -198,8 +226,6 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         let line1 = LineChartDataSet(values: lineChartEntry, label: "Number")
         line1.colors = [NSUIColor.blue]
         chtChart.setVisibleXRangeMaximum(100)
-        let num = chtChart.highestVisibleX
-        print(num)
         let data = LineChartData()
         data.addDataSet(line1)
         chtChart.data = data
@@ -222,6 +248,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         print("\(rounded_time)")
         UserDefaults.standard.set(rounded_time, forKey: "timestamp")
     }
+    @objc func tap_record(notification: NSNotification) {
+        print("pressed")
+    }
     
 }
 
@@ -236,6 +265,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
 extension MicrobitUIController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         dismiss(animated: true, completion: nil)
+        print("finished")
         guard let mediaType = info[UIImagePickerControllerMediaType] as? String,
             mediaType == (kUTTypeMovie as String),
             let url = info[UIImagePickerControllerMediaURL] as? NSURL//,
