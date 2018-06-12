@@ -23,7 +23,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     var connected_to_device = false
     var reset = false
     var periodType = PeriodType.p1000
-    var getVal = true
+    var getVal = false
     var chart_pressed = false
     var x = 0
     var y = 0
@@ -32,7 +32,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     @IBOutlet weak var updated: UILabel!
     @IBAction func bluetooth(_ sender: UIButton)
     {
-        microbit.deviceName = "BBC micro:bit [gepev]"
+        microbit.deviceName = "BBC micro:bit [gipov]"
         if (connected_to_device == false)
         {
             print(self.connected_to_device)
@@ -108,6 +108,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                     let Acc = sqrt(Double(added))
                     print("total acceleration \(Acc)")
                     self.numbers.append(Acc)
+                    
                     DispatchQueue.main.sync {
                         self.updateGraph()
                         print(self.i)
