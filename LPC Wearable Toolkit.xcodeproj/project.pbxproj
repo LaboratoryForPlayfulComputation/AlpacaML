@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		311E16B9BB7151435561C858 /* Pods_LPC_Wearable_ToolkitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD29D513C89B125D5C981D25 /* Pods_LPC_Wearable_ToolkitTests.framework */; };
 		77597669F73F7D50C6144786 /* Pods_LPC_Wearable_ToolkitUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E6E3827C21ACB7E333A46FC /* Pods_LPC_Wearable_ToolkitUITests.framework */; };
-		E90FE12420C702A600FB2201 /* VideoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FE12320C702A600FB2201 /* VideoHelper.swift */; };
 		E928029920AB48280051DC5F /* bluetoothConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E928029820AB48280051DC5F /* bluetoothConnect.swift */; };
 		E92802A220AC821E0051DC5F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E928029E20AB6FCC0051DC5F /* CoreVideo.framework */; };
 		E92802A520AC82C70051DC5F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E92802A020AB6FDA0051DC5F /* MobileCoreServices.framework */; };
@@ -53,7 +52,6 @@
 		6E6E3827C21ACB7E333A46FC /* Pods_LPC_Wearable_ToolkitUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LPC_Wearable_ToolkitUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83FBE06DE7F63623CF7CE774 /* Pods-LPC Wearable ToolkitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitUITests/Pods-LPC Wearable ToolkitUITests.release.xcconfig"; sourceTree = "<group>"; };
 		9A3130156B642BD305BB251B /* Pods_LPC_Wearable_Toolkit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LPC_Wearable_Toolkit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E90FE12320C702A600FB2201 /* VideoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoHelper.swift; sourceTree = "<group>"; };
 		E928029820AB48280051DC5F /* bluetoothConnect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetoothConnect.swift; sourceTree = "<group>"; };
 		E928029E20AB6FCC0051DC5F /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		E92802A020AB6FDA0051DC5F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -150,7 +148,6 @@
 				E95C85052098DCDF00D8DC8E /* ViewController.swift */,
 				E9D8B9D720ACD18C00BE0F45 /* AccClass.swift */,
 				E928029820AB48280051DC5F /* bluetoothConnect.swift */,
-				E90FE12320C702A600FB2201 /* VideoHelper.swift */,
 				E95C85072098DCDF00D8DC8E /* Main.storyboard */,
 				E94E0B3220CED9670013F3C4 /* CustomOverlayViewController.swift */,
 				E9939CC920CF09920063505D /* CustomOverlayView.swift */,
@@ -395,7 +392,6 @@
 				E95C85042098DCDF00D8DC8E /* AppDelegate.swift in Sources */,
 				E9939CCA20CF09920063505D /* CustomOverlayView.swift in Sources */,
 				E9D8B9D820ACD18C00BE0F45 /* AccClass.swift in Sources */,
-				E90FE12420C702A600FB2201 /* VideoHelper.swift in Sources */,
 				E928029920AB48280051DC5F /* bluetoothConnect.swift in Sources */,
 				E94E0B3420CED9670013F3C4 /* CustomOverlayViewController.swift in Sources */,
 			);

@@ -34,6 +34,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     var z = 0
     
     func didCancel(overlayView: CustomOverlayView) {
+        mediaUI.cameraOverlayView?.removeFromSuperview()
         mediaUI.dismiss(animated: true, completion: nil)
     }
     
@@ -43,37 +44,15 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             print("recording")
             mediaUI.startVideoCapture()
             recording = true
-            /*DispatchQueue.global(qos: .userInitiated).async {
-                while (self.getVal == true)
-                {
-                    self.x = UserDefaults.standard.integer(forKey: "xData")
-                    self.y = UserDefaults.standard.integer(forKey: "yData")
-                    self.z = UserDefaults.standard.integer(forKey: "zData")
-                    print(self.x,self.y,self.z)
-                    let x_val = self.x
-                    let y_val = self.y
-                    let z_val = self.z
-                    let added = x_val*x_val + y_val*y_val + z_val*z_val
-                    print(added)
-                    let Acc = sqrt(Double(added))
-                    print("total acceleration \(Acc)")
-                    self.numbers.append(Acc)
-                    DispatchQueue.main.sync {
-                        self.updateGraph()
-                        print(self.i)
-                        self.i = self.i + 1
-                    }
-                }
-            }*/
             timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(MicrobitUIController.graphing), userInfo: nil, repeats: true)
         }
         else
         {
             print("stop recording")
             mediaUI.stopVideoCapture()
-            //getVal = false
             timer.invalidate()
             recording = false
+            mediaUI.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -87,14 +66,11 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                 let y_val = self.y
                 let z_val = self.z
                 let added = x_val*x_val + y_val*y_val + z_val*z_val
-                //print(added)
                 let Acc = sqrt(Double(added))
                 print("total acceleration \(Acc)")
                 self.numbers.append(Acc)
                 DispatchQueue.main.sync {
                     self.updateGraph()
-                    //print(self.i)
-                    //self.i = self.i + 1
                 }
             }
     }
@@ -103,7 +79,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     @IBOutlet weak var updated: UILabel!
     @IBAction func bluetooth(_ sender: UIButton)
     {
-        microbit.deviceName = "BBC micro:bit [gipov]"
+        microbit.deviceName = "BBC micro:bit [gepev]"
         if (connected_to_device == false)
         {
             print(self.connected_to_device)
@@ -149,128 +125,35 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     
     @IBAction func record(_ sender: UIButton) {
         
-        //NC.default.addObserver(self, selector: @selector("pressed"), name: Notification.Name("_UIImagePickerControllerUserDidCaptureItem"), object: nil)
-        func pressed()
-        {
-            print("pressed")
-        }
+        
+    }
+    
+    @IBAction func Video(_ sender: AnyObject) {
         if (connected_to_device == false)
         {
             print("connect to bluetooth first")
             updated.text = "connect to bluetooth first"
             microbit.buttonPress_Disconnect()
-        }
-        /*else
-        {
-            
-            self.getVal = true
-            DispatchQueue.global(qos: .userInitiated).async {
-                while (self.getVal == true)
-                {
-                    self.x = UserDefaults.standard.integer(forKey: "xData")
-                    self.y = UserDefaults.standard.integer(forKey: "yData")
-                    self.z = UserDefaults.standard.integer(forKey: "zData")
-                    print(self.x,self.y,self.z)
-                    let x_val = self.x
-                    let y_val = self.y
-                    let z_val = self.z
-                    let added = x_val*x_val + y_val*y_val + z_val*z_val
-                    print(added)
-                    let Acc = sqrt(Double(added))
-                    print("total acceleration \(Acc)")
-                    self.numbers.append(Acc)
-                    
-                    DispatchQueue.main.sync {
-                        self.updateGraph()
-                        print(self.i)
-                        self.i = self.i + 1
-                    }
-                }
+            numbers = [0]
+        } else if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+                let customViewController = CustomOverlayViewController()
+                let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
+                print("\(customView)")
+                print("\(mediaUI.view.frame)")
+                customView.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 568.0)
+                print("\(customView.frame)")
+                customView.delegate = self
+                mediaUI.sourceType = .camera
+                mediaUI.showsCameraControls = false
+                mediaUI.cameraOverlayView = customView
+                mediaUI.mediaTypes = [kUTTypeMovie as String]
+                mediaUI.allowsEditing = true
+                mediaUI.delegate = self
+                self.present(mediaUI, animated: true, completion: {self.mediaUI.cameraOverlayView = customView})
+                print("end of video")
+            } else {
+                print("camera is not available")
             }
-        }*/
-    }
-    
-    @IBAction func Video(_ sender: AnyObject) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
-        {
-            //VideoHelper.startMediaBrowser(delegate: self, sourceType: .camera)
-            //let customView = CustomOverlayView()
-            let customViewController = CustomOverlayViewController(nibName:"CustomOverlayViewController", bundle: nil)
-            let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
-            customView.frame = mediaUI.view.frame
-            customView.delegate = self
-            mediaUI.sourceType = .camera
-            mediaUI.showsCameraControls = false
-            mediaUI.cameraOverlayView = customView
-            mediaUI.mediaTypes = [kUTTypeMovie as String]
-            mediaUI.allowsEditing = true
-            mediaUI.delegate = self
-            self.present(mediaUI, animated: true, completion: {self.mediaUI.cameraOverlayView = customView})
-            print("end of video")
-        }
-        else
-        {
-            print("camera is not available")
-        }
-    }
-    
-    @IBAction func stop(_ sender: UIButton) {
-        print("stop")
-        self.getVal = false
-        DispatchQueue.global(qos: .userInitiated).async{
-            //print("here")
-            while (self.getVal == false){
-                //var previous_time:Double = 0
-                let duration = self.player.currentItem!.asset.duration
-                let current_time = self.player.currentTime()
-                let current_time_seconds = CMTimeGetSeconds(current_time)
-                //qiocl
-                //let current_time_double = Double(current_time_seconds)
-                let length_seconds = CMTimeGetSeconds(duration)
-                let int_length_seconds = Int64(length_seconds)
-                if (self.chart_pressed == true)
-                {
-                    print("here")
-                    let userSelection = UserDefaults.standard.integer(forKey: "timestamp")
-                    let input_time = Int64(userSelection)
-                    //print("in dispatchqueue")
-                    self.chart_pressed = false
-                    //print("getVal loop")
-                    if (input_time>=int_length_seconds){
-                        print(int_length_seconds)
-                        print("why")
-                        self.player.seek(to: duration)
-                    }
-                    else{
-                            let time = CMTime(value: input_time, timescale: 1)
-                            print("time: \(input_time)")
-                            self.player.seek(to: time)
-
-                    }
-                }
-                else
-                {
-                    let rangeMid = Double(current_time_seconds)*10
-                    let rangeMax = Double(rangeMid)+10 //Double(self.secondsRange)
-                    let rangeMin = Double(rangeMid)-10 //Double(self.secondsRange)
-                 //   let start = self.numbers[Int(rangeMin)]
-                 //   let end = self.numbers[Int(rangeMax)]
-                    if(self.player.timeControlStatus == AVPlayerTimeControlStatus.playing){
-                        DispatchQueue.main.sync {
-                            if (rangeMin<0)
-                            {
-                                self.chtChart.moveViewToX(0)
-                            }
-                            else
-                            {
-                                self.chtChart.moveViewToX(rangeMin)
-                                self.chtChart.setVisibleXRangeMaximum(rangeMax-rangeMin)
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
     
     @IBAction func reset(_ sender: UIButton) {
@@ -296,7 +179,6 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         chtChart.delegate = self
-        NotificationCenter.default.addObserver(self, selector: #selector(tap_record(notification:)), name: .AVCaptureSessionWasInterrupted, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -336,33 +218,53 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         print("\(rounded_time)")
         UserDefaults.standard.set(rounded_time, forKey: "timestamp")
     }
-    @objc func tap_record(notification: NSNotification) {
-        print("pressed")
-    }
     
+    func ending_menu(){
+        DispatchQueue.global(qos: .userInitiated).async{
+            while (self.getVal == false){
+                let duration = self.player.currentItem!.asset.duration
+                let current_time = self.player.currentTime()
+                let current_time_seconds = CMTimeGetSeconds(current_time)
+                let length_seconds = CMTimeGetSeconds(duration)
+                let int_length_seconds = Int64(length_seconds)
+                if (self.chart_pressed == true) {
+                    let userSelection = UserDefaults.standard.integer(forKey: "timestamp")
+                    let input_time = Int64(userSelection)
+                    self.chart_pressed = false
+                    if (input_time>=int_length_seconds){
+                        print(int_length_seconds)
+                        self.player.seek(to: duration)
+                    } else {
+                        let time = CMTime(value: input_time, timescale: 1)
+                        self.player.seek(to: time)
+                    }
+                } else {
+                    let rangeMid = Double(current_time_seconds)*10
+                    let rangeMax = Double(rangeMid)+10
+                    let rangeMin = Double(rangeMid)-10
+                    if(self.player.timeControlStatus == AVPlayerTimeControlStatus.playing){
+                        DispatchQueue.main.sync {
+                            if (rangeMin<0) {
+                                self.chtChart.moveViewToX(0)
+                            } else {
+                                self.chtChart.moveViewToX(rangeMin)
+                                self.chtChart.setVisibleXRangeMaximum(rangeMax-rangeMin+1)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
-
-
-
-
-
-
-
-
 
 extension MicrobitUIController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         dismiss(animated: true, completion: nil)
-        print("finished")
         guard let mediaType = info[UIImagePickerControllerMediaType] as? String,
             mediaType == (kUTTypeMovie as String),
-            let url = info[UIImagePickerControllerMediaURL] as? NSURL//,
-           // UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path)
+            let url = info[UIImagePickerControllerMediaURL] as? NSURL
             else { return }
-        
-        // Handle a movie capture
-        //UISaveVideoAtPathToSavedPhotosAlbum(url.path!, self, #selector(video(_:didFinishSavingWithError:contextInfo:)), nil)
-        
         player = AVPlayer(url: url as URL)
         let small_screen = AVPlayerViewController()
         small_screen.view.frame = CGRect (x:0, y:50, width:320, height:250)
@@ -370,7 +272,7 @@ extension MicrobitUIController: UIImagePickerControllerDelegate {
         self.addChildViewController(small_screen)
         self.view.addSubview(small_screen.view)
         small_screen.didMove(toParentViewController: self)
-        print("before while loop")
+        ending_menu()
     }
 }
 

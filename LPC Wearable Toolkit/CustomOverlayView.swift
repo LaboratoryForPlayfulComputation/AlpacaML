@@ -27,6 +27,7 @@ public class CustomOverlayView: UIView {
         delegate.didShoot(overlayView: self)
         print("press")
         if (pressed == false){
+            time.text = "0:00"
             video_timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(CustomOverlayView.video_time), userInfo: nil, repeats: true)
             pressed = true
         }
