@@ -3,18 +3,26 @@ import MobileCoreServices
 import AVFoundation
 
 class VideoHelper {
-    
+    let mediaUIMain = UIImagePickerController()
     static func startMediaBrowser(delegate: UIViewController & UINavigationControllerDelegate & UIImagePickerControllerDelegate, sourceType: UIImagePickerControllerSourceType) {
         guard UIImagePickerController.isSourceTypeAvailable(sourceType) else { return }
+       // let customViewController = CustomOverlayViewController(nibName:"CustomOverlayViewController", bundle: nil)
+      //  let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
         let mediaUI = UIImagePickerController()
+        let customView = CustomOverlayView()
+       // customView.frame = mediaUI.view.frame
         mediaUI.sourceType = sourceType
-        mediaUI.showsCameraControls = true
-        //mediaUI.cameraOverlayView = CameraControls()
+        mediaUI.showsCameraControls = false
+        mediaUI.cameraOverlayView = customView
         mediaUI.mediaTypes = [kUTTypeMovie as String]
         mediaUI.allowsEditing = true
         mediaUI.delegate = delegate
-        delegate.present(mediaUI, animated: true, completion: nil)
+        delegate.present(mediaUI, animated: true, completion: {mediaUI.cameraOverlayView = customView})
+       /* func didShoot(overlayView: CustomOverlayView) {
+            mediaUI.startVideoCapture()
+        }*/
     }
+
     
     static func orientationFromTransform(_ transform: CGAffineTransform) -> (orientation: UIImageOrientation, isPortrait: Bool) {
         var assetOrientation = UIImageOrientation.up
@@ -63,4 +71,6 @@ class VideoHelper {
     }
     
 }
+
+
 
