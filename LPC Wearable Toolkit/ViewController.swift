@@ -77,6 +77,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     
     
     @IBOutlet weak var updated: UILabel!
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var stopButton: UIButton!
+    
     @IBAction func bluetooth(_ sender: UIButton)
     {
         microbit.deviceName = "BBC micro:bit [gepev]"
@@ -184,6 +187,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
     
     func updateGraph(){
         
