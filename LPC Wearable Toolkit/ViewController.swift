@@ -13,7 +13,8 @@ import CoreBluetooth
 import Charts
 
 class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDelegate, ChartViewDelegate, CustomOverlayDelegate {
-    
+    @IBOutlet weak var Arrow: UIImageView!
+     var middle_time = 0.0
     var recording = false
     @IBOutlet weak var chtChart: LineChartView!
     var i = 0
@@ -22,11 +23,13 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     let mediaUI = UIImagePickerController()
     var timestamp:Double = 0
     var is_connecting = false
-    var numbers:[Double] = []
+    var X_acc:[Double] = []
+    var Y_acc:[Double] = []
+    var Z_acc:[Double] = []
     var microbit = Microbit()
     var connected_to_device = false
     var reset = false
-    var periodType = PeriodType.p1000
+    var periodType = PeriodType.p1
     var getVal = false
     var chart_pressed = false
     var x = 0
@@ -62,13 +65,15 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                 self.y = UserDefaults.standard.integer(forKey: "yData")
                 self.z = UserDefaults.standard.integer(forKey: "zData")
                 print(self.x,self.y,self.z)
-                let x_val = self.x
-                let y_val = self.y
-                let z_val = self.z
+                let x_val = Double(self.x)
+                let y_val = Double(self.y)
+                let z_val = Double(self.z)
                 let added = x_val*x_val + y_val*y_val + z_val*z_val
                 let Acc = sqrt(Double(added))
                 print("total acceleration \(Acc)")
-                self.numbers.append(Acc)
+                self.X_acc.append(x_val)
+                self.Y_acc.append(y_val)
+                self.Z_acc.append(z_val)
                 DispatchQueue.main.sync {
                     self.updateGraph()
                 }
@@ -129,12 +134,17 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     }
     
     @IBAction func Video(_ sender: AnyObject) {
+        X_acc = [0]
+        Y_acc = [0]
+        Z_acc = [0]
         if (connected_to_device == false)
         {
             print("connect to bluetooth first")
             updated.text = "connect to bluetooth first"
             microbit.buttonPress_Disconnect()
-            numbers = [0]
+            X_acc = [0]
+            Y_acc = [0]
+            Z_acc = [0]
         } else if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
                 let customViewController = CustomOverlayViewController()
                 let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
@@ -157,7 +167,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     }
     
     @IBAction func reset(_ sender: UIButton) {
-        self.numbers = [0]
+        self.X_acc = [0]
+        self.Y_acc = [0]
+        self.Z_acc = [0]
         self.updateGraph()
         self.getVal = false
         reset = true
@@ -179,6 +191,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         chtChart.delegate = self
+        Arrow.center = CGPoint(x:60.5, y:443)
     }
     
     override func didReceiveMemoryWarning() {
@@ -187,17 +200,34 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     
     func updateGraph(){
         
-        var lineChartEntry  = [ChartDataEntry]()
-        for i in 0..<self.numbers.count {
-            let value = ChartDataEntry(x: Double(i), y: self.numbers[i])
-            lineChartEntry.append(value)
+        var XChartEntry  = [ChartDataEntry]()
+        var YChartEntry = [ChartDataEntry]()
+        var ZChartEntry = [ChartDataEntry]()
+        for i in 0..<self.X_acc.count {
+            let x_value = ChartDataEntry(x: Double(i), y: self.X_acc[i])
+            let y_value = ChartDataEntry(x:Double(i), y: self.Y_acc[i])
+            let z_value = ChartDataEntry(x:Double(i), y: self.Z_acc[i])
+            XChartEntry.append(x_value)
+            YChartEntry.append(y_value)
+            ZChartEntry.append(z_value)
         }
-        let line1 = LineChartDataSet(values: lineChartEntry, label: "Number")
-        line1.setDrawHighlightIndicators(false)
+        let line1 = LineChartDataSet(values: XChartEntry, label: "X values")
+        let line2 = LineChartDataSet(values: YChartEntry, label: "Y values")
+        let line3 = LineChartDataSet(values: ZChartEntry, label: "Z values")
+        line1.drawCirclesEnabled = false
         line1.colors = [NSUIColor.blue]
+        line1.drawValuesEnabled = false
+        line2.drawValuesEnabled = false
+        line2.drawCirclesEnabled = false
+        line2.colors = [NSUIColor.red]
+        line3.drawValuesEnabled = false
+        line3.drawCirclesEnabled = false
+        line3.colors = [NSUIColor.green]
         chtChart.setVisibleXRangeMaximum(20)
         let data = LineChartData()
         data.addDataSet(line1)
+        data.addDataSet(line2)
+        data.addDataSet(line3)
         chtChart.data = data
         chtChart.chartDescription?.text = "Acceleration"
     }
@@ -246,9 +276,15 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                         DispatchQueue.main.sync {
                             if (rangeMin<0) {
                                 self.chtChart.moveViewToX(0)
+                                self.Arrow.center = CGPoint(x: 100*current_time_seconds+60.5, y: 443)
+                            } else if (rangeMax>10*length_seconds){
+                                self.Arrow.center = CGPoint(x: 100*(current_time_seconds-self.middle_time) + 160.5, y: 443)
+                                //print(current_time_seconds-self.middle_time)
                             } else {
+                                self.middle_time = current_time_seconds
                                 self.chtChart.moveViewToX(rangeMin)
                                 self.chtChart.setVisibleXRangeMaximum(rangeMax-rangeMin+1)
+                                self.Arrow.center = CGPoint(x: 160.5, y: 443)
                             }
                         }
                     }
