@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,16 +19,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Update" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="3" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Css-IK-pF4">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Update" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="3" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Css-IK-pF4">
                                 <rect key="frame" x="12" y="89" width="296" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yK4-Gu-g3t">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yK4-Gu-g3t">
                                 <rect key="frame" x="130.5" y="51" width="59" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Connect">
                                     <color key="titleShadowColor" red="0.1237451424870466" green="0.1237451424870466" blue="0.1237451424870466" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -36,17 +35,15 @@
                                     <action selector="bluetooth:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fiY-6L-KdB"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K5K-Hb-2Fn">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K5K-Hb-2Fn">
                                 <rect key="frame" x="59" y="509" width="34" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
                                     <action selector="Save:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Dn2-ic-DJB"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dTt-AY-BJp">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dTt-AY-BJp">
                                 <rect key="frame" x="133" y="509" width="54" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.54012276785714286" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                                 <state key="normal" title="Camera"/>
@@ -54,17 +51,18 @@
                                     <action selector="Video:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E0m-By-6bW"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dNG-e3-uOr" customClass="LineChartView" customModule="Charts">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNG-e3-uOr" customClass="LineChartView" customModule="Charts">
                                 <rect key="frame" x="16" y="346" width="288" height="122"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" updatesFrequently="YES"/>
                                 </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="122" id="v3f-iG-L4H"/>
+                                </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJm-Uf-ttD">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJm-Uf-ttD">
                                 <rect key="frame" x="227" y="509" width="35" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="reset"/>
                                 <connections>
                                     <action selector="reset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oed-1z-6PF"/>
@@ -76,6 +74,22 @@
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.90382124352331605" green="0.90382124352331605" blue="0.90382124352331605" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="dNG-e3-uOr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="51C-MW-8TO"/>
+                            <constraint firstItem="K5K-Hb-2Fn" firstAttribute="trailing" secondItem="dTt-AY-BJp" secondAttribute="leading" constant="-40" id="8ni-vF-MyX"/>
+                            <constraint firstItem="Css-IK-pF4" firstAttribute="top" secondItem="yK4-Gu-g3t" secondAttribute="bottom" constant="8" id="Fe6-uU-Fy8"/>
+                            <constraint firstItem="yK4-Gu-g3t" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="L8b-pD-bbF"/>
+                            <constraint firstItem="dTt-AY-BJp" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LSE-P1-Wo6"/>
+                            <constraint firstItem="K5K-Hb-2Fn" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottomMargin" constant="-29" id="RVL-6X-Vae"/>
+                            <constraint firstItem="dNG-e3-uOr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eJ7-Pt-CLk"/>
+                            <constraint firstItem="IJm-Uf-ttD" firstAttribute="leading" secondItem="dTt-AY-BJp" secondAttribute="trailing" constant="40" id="fDn-zq-n1t"/>
+                            <constraint firstItem="Css-IK-pF4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kAF-9N-9Ld"/>
+                            <constraint firstItem="Css-IK-pF4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="12" id="lB5-y1-or1"/>
+                            <constraint firstItem="dTt-AY-BJp" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-29" id="m1n-sh-fIl"/>
+                            <constraint firstItem="yK4-Gu-g3t" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="31" id="r5s-I0-mUO"/>
+                            <constraint firstItem="dTt-AY-BJp" firstAttribute="top" secondItem="dNG-e3-uOr" secondAttribute="bottom" constant="41" id="sA0-5a-qL2"/>
+                            <constraint firstItem="IJm-Uf-ttD" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottomMargin" constant="-29" id="sz2-Wc-BrG"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
