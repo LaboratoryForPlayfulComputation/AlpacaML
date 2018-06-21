@@ -35,6 +35,8 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     var gesture_name = ""
     var gesture_start_time = 0
     var gesture_end_time = 0
+    var dragged = false
+    var change_background = false
     
     func didCancel(overlayView: CustomOverlayView) {
         mediaUI.cameraOverlayView?.removeFromSuperview()
@@ -225,6 +227,21 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         print("\(rounded_time)")
         UserDefaults.standard.set(rounded_time, forKey: "timestamp")
     }
+    
+    public func isBeingDragged(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight){
+        dragged = true
+        let duration = self.player.currentItem!.asset.duration
+        let current_end_time = self.player.currentTime()
+        let current_end_time_seconds = CMTimeGetSeconds(current_end_time)
+        let length_end_seconds = CMTimeGetSeconds(duration)
+        let int_length_end_seconds = Int64(length_end_seconds)
+        if(i<int_length_end_seconds){
+                gesture_name = "user input"
+                change_background = true
+            
+        }
+    }
+    
     
     func ending_menu(){
         DispatchQueue.global(qos: .userInitiated).async{
