@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17E199" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Acceleration" representedClassName="Acceleration" syncable="YES" codeGenerationType="class">
+        <attribute name="period" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="xAcceleration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="yAcceleration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="zAcceleration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="Gesture" representedClassName="Gesture" syncable="YES" codeGenerationType="class">
+        <attribute name="activity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="classification" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endSegment" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="gesture" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startSegment" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="video" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MLData" representedClassName="MLData" syncable="YES" codeGenerationType="class">
+        <attribute name="enoughData" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="modelAlgoritm" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Acceleration" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="Gesture" positionX="-54" positionY="36" width="128" height="135"/>
+        <element name="MLData" positionX="-36" positionY="54" width="128" height="75"/>
+    </elements>
+</model>

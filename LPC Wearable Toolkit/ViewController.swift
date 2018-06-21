@@ -32,6 +32,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     var x = 0
     var y = 0
     var z = 0
+    var gesture_name = ""
+    var gesture_start_time = 0
+    var gesture_end_time = 0
     
     func didCancel(overlayView: CustomOverlayView) {
         mediaUI.cameraOverlayView?.removeFromSuperview()
@@ -82,7 +85,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     
     @IBAction func bluetooth(_ sender: UIButton)
     {
-        microbit.deviceName = "BBC micro:bit [gepev]"
+        microbit.deviceName = "BBC micro:bit [gipov]"
         if (connected_to_device == false)
         {
             print(self.connected_to_device)
@@ -257,6 +260,28 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                         }
                     }
                 }
+                self.gesture_start_time = Int(int_length_seconds)
+                //self.gesture_end_time = Int(end_time)
+                print(self.gesture_start_time,self.gesture_end_time)
+
+                /*if(int_length_seconds != -1){
+                    if(self.chart_pressed == true){
+                        let userSelection = UserDefaults.standard.integer(forKey: "timestamp")
+                        let end_time = Int64(userSelection)
+                    //}
+                    //let i = int_length_seconds
+                        for i in int_length_seconds..<end_time{
+                            self.gesture_name = "user input"
+                        }
+                        
+                        self.gesture_start_time = Int(int_length_seconds)
+                        self.gesture_end_time = Int(end_time)
+                        print(self.gesture_start_time,self.gesture_end_time)
+
+                            
+                        
+                    }
+                }*/
             }
         }
     }
