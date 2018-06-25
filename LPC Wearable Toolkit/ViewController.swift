@@ -209,6 +209,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     }
     
     
+    
     func updateGraph(){
         
         var XChartEntry  = [ChartDataEntry]()
