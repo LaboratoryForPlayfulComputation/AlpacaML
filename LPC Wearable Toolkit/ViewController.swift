@@ -13,12 +13,15 @@ import CoreBluetooth
 import Charts
 
 class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDelegate, ChartViewDelegate, CustomOverlayDelegate {
+    var first_video = true
+    var video_size = CGRect()
     @IBOutlet weak var Arrow: UIImageView!
      var middle_time = 0.0
     var recording = false
     @IBOutlet weak var chtChart: LineChartView!
     var i = 0
     var timer = Timer()
+    let small_screen = AVPlayerViewController()
     var player = AVPlayer()
     let mediaUI = UIImagePickerController()
     var timestamp:Double = 0
@@ -50,9 +53,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         if (recording != true)
         {
             print("recording")
+            timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(MicrobitUIController.graphing), userInfo: nil, repeats: true)
             mediaUI.startVideoCapture()
             recording = true
-            timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(MicrobitUIController.graphing), userInfo: nil, repeats: true)
         }
         else
         {
@@ -61,6 +64,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             timer.invalidate()
             recording = false
             mediaUI.dismiss(animated: true, completion: nil)
+            Arrow.isHidden = false
         }
     }
     
@@ -73,9 +77,6 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                 let x_val = Double(self.x)
                 let y_val = Double(self.y)
                 let z_val = Double(self.z)
-                let added = x_val*x_val + y_val*y_val + z_val*z_val
-                let Acc = sqrt(Double(added))
-                print("total acceleration \(Acc)")
                 self.X_acc.append(x_val)
                 self.Y_acc.append(y_val)
                 self.Z_acc.append(z_val)
@@ -121,7 +122,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                             }
                         }
                     }
-                    self.updated.text = "You are Connected"
+                    DispatchQueue.main.sync {
+                        self.updated.text = "You are Connected"
+                    }
             }
             connected_to_device = true
         }
@@ -133,11 +136,6 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             self.updated.text = "Disconnected"
             sender.setTitle("Connect", for: .normal)
         }
-        
-    }
-    
-    @IBAction func record(_ sender: UIButton) {
-        
         
     }
     
@@ -154,12 +152,13 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             Y_acc = [0]
             Z_acc = [0]
         } else if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+                if (first_video == true){
+                    video_size = mediaUI.view.frame
+                    first_video = false
+                }
                 let customViewController = CustomOverlayViewController()
                 let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
-                print("\(customView)")
-                print("\(mediaUI.view.frame)")
-                customView.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 568.0)
-                print("\(customView.frame)")
+                customView.frame = video_size
                 customView.delegate = self
                 mediaUI.sourceType = .camera
                 mediaUI.showsCameraControls = false
@@ -199,7 +198,10 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         chtChart.delegate = self
-        Arrow.center = CGPoint(x:60.5, y:443)
+        Arrow.isHidden = true
+        let DoubleTap =  UILongPressGestureRecognizer(target: self, action: #selector(MicrobitUIController.segment(_:)))
+        DoubleTap.minimumPressDuration = 1
+        chtChart.addGestureRecognizer(DoubleTap)
     }
     
     override func didReceiveMemoryWarning() {
@@ -223,6 +225,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         let line1 = LineChartDataSet(values: XChartEntry, label: "X values")
         let line2 = LineChartDataSet(values: YChartEntry, label: "Y values")
         let line3 = LineChartDataSet(values: ZChartEntry, label: "Z values")
+        line1.highlightEnabled = true
         line1.drawCirclesEnabled = false
         line1.colors = [NSUIColor.blue]
         line1.drawValuesEnabled = false
@@ -262,6 +265,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     
     
     func ending_menu(){
+        NotificationCenter.default.addObserver(self, selector: #selector(MicrobitUIController.rotated_video), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         DispatchQueue.global(qos: .userInitiated).async{
             while (self.getVal == false){
                 let duration = self.player.currentItem!.asset.duration
@@ -286,17 +290,22 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                     let rangeMin = Double(rangeMid)-10
                     if(self.player.timeControlStatus == AVPlayerTimeControlStatus.playing){
                         DispatchQueue.main.sync {
+                            let chart_left = self.chtChart.center.x - self.chtChart.frame.size.width/2
                             if (rangeMin<0) {
                                 self.chtChart.moveViewToX(0)
-                                self.Arrow.center = CGPoint(x: 100*current_time_seconds+60.5, y: 443)
+                                self.Arrow.center = CGPoint(x: 100*current_time_seconds + Double(chart_left) + Double(self.chtChart.frame.width/6), y: Double(self.Arrow.center.y))
                             } else if (rangeMax>10*length_seconds){
-                                self.Arrow.center = CGPoint(x: 100*(current_time_seconds-self.middle_time) + 160.5, y: 443)
-                                //print(current_time_seconds-self.middle_time)
+                                self.Arrow.center = CGPoint(x: 100*(current_time_seconds-self.middle_time) + Double(self.chtChart.center.x), y: Double(self.Arrow.center.y))
+                                print(UIScreen.main.bounds.width)
+                                print(self.chtChart.frame.width/6)
+                                print(self.chtChart.frame.width)
                             } else {
                                 self.middle_time = current_time_seconds
                                 self.chtChart.moveViewToX(rangeMin)
                                 self.chtChart.setVisibleXRangeMaximum(rangeMax-rangeMin+1)
-                                self.Arrow.center = CGPoint(x: 160.5, y: 443)
+                                self.Arrow.center = CGPoint(x: self.chtChart.center.x, y: self.Arrow.center.y)
+                                print(self.Arrow.center)
+                                self.chtChart.bringSubview(toFront: self.Arrow)
                             }
                         }
                     }
@@ -326,6 +335,36 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             }
         }
     }
+    @objc func rotated_video() -> Bool {
+        let chart_left = chtChart.center.x - chtChart.frame.size.width/2
+        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
+            
+            small_screen.view.frame = CGRect(x:0, y:chtChart.center.y - chtChart.frame.height/2, width: chart_left-10, height: UIScreen.main.bounds.height - chtChart.frame.size.height - 10)
+            return true
+        }
+        
+        else if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
+            small_screen.view.frame = CGRect (x:0, y:50, width:UIScreen.main.bounds.width, height:UIScreen.main.bounds.height/2-50)
+            return false
+        }
+        else
+        {
+            guard let window = self.view.window
+                else {return false}
+            if (window.frame.width>window.frame.height)
+            {
+                print("width")
+                small_screen.view.frame = CGRect(x:0, y:chtChart.center.y - chtChart.frame.height/2, width: chart_left-10, height: UIScreen.main.bounds.height - chtChart.frame.size.height - 10)
+                return true
+            }
+            else
+            {
+                print("height")
+                small_screen.view.frame = CGRect (x:0, y:50, width:UIScreen.main.bounds.width, height:UIScreen.main.bounds.height/2-50)
+                return false
+            }
+        }
+    }
 }
 
 extension MicrobitUIController: UIImagePickerControllerDelegate {
@@ -336,8 +375,6 @@ extension MicrobitUIController: UIImagePickerControllerDelegate {
             let url = info[UIImagePickerControllerMediaURL] as? NSURL
             else { return }
         player = AVPlayer(url: url as URL)
-        let small_screen = AVPlayerViewController()
-        small_screen.view.frame = CGRect (x:0, y:50, width:320, height:250)
         small_screen.player = player
         self.addChildViewController(small_screen)
         self.view.addSubview(small_screen.view)
@@ -347,6 +384,16 @@ extension MicrobitUIController: UIImagePickerControllerDelegate {
 }
 
 extension MicrobitUIController: UINavigationControllerDelegate {
+}
+
+extension UIImagePickerController
+{
+    override open var shouldAutorotate: Bool {
+        return true
+    }
+    override open var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return .all
+    }
 }
 
 
