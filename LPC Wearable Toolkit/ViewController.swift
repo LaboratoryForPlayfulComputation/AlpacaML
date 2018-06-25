@@ -258,19 +258,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         UserDefaults.standard.set(rounded_time, forKey: "timestamp")
     }
     
-    public func isBeingDragged(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight){
-        dragged = true
-        let duration = self.player.currentItem!.asset.duration
-        let current_end_time = self.player.currentTime()
-        let current_end_time_seconds = CMTimeGetSeconds(current_end_time)
-        let length_end_seconds = CMTimeGetSeconds(duration)
-        let int_length_end_seconds = Int64(length_end_seconds)
-        if(i<int_length_end_seconds){
-                gesture_name = "user input"
-                change_background = true
-            
-        }
-    }
+
     
     
     func ending_menu(){
