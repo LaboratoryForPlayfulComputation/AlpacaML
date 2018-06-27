@@ -13,6 +13,11 @@ import CoreBluetooth
 import Charts
 
 class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDelegate, ChartViewDelegate, CustomOverlayDelegate {
+    var start_val = 0.0
+    var updated_val = 0.0
+    var line1 = LineChartDataSet()
+    var line2 = LineChartDataSet()
+    var line3 = LineChartDataSet()
     var first_video = true
     var video_size = CGRect()
     @IBOutlet weak var Arrow: UIImageView!
@@ -191,9 +196,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         super.viewDidLoad()
         chtChart.delegate = self
         Arrow.isHidden = true
-        let DoubleTap =  UILongPressGestureRecognizer(target: self, action: #selector(MicrobitUIController.segment(_:)))
-        DoubleTap.minimumPressDuration = 1
-        chtChart.addGestureRecognizer(DoubleTap)
+        let LongTap =  UILongPressGestureRecognizer(target: self, action: #selector(MicrobitUIController.segment(_:)))
+        LongTap.minimumPressDuration = 1
+        chtChart.addGestureRecognizer(LongTap)
     }
     
     override func didReceiveMemoryWarning() {
@@ -202,9 +207,49 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     
     @objc func segment(_ sender: UITapGestureRecognizer)
     {
+        let highlighted_label = UIView()
+        highlighted_label.isHidden = false
+        highlighted_label.backgroundColor = UIColor.blue
+        highlighted_label.alpha = 0.5
+        chtChart.addSubview(highlighted_label)
+        chtChart.backgroundColor = UIColor.clear
         let held_val = sender.location(in: chtChart)
-        let held_val_graph: CGPoint = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
-        print("held\(held_val_graph)")
+        var held_val_graph: CGPoint = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
+        let highlight = Highlight(x: Double(held_val_graph.x), dataSetIndex: Int(held_val_graph.x), stackIndex: Int(held_val_graph.x))
+        chtChart.highlightValue(highlight)
+        if (Double(held_val_graph.x) <= chtChart.lowestVisibleX)
+        {
+            print("left side")
+            chtChart.moveViewToX(chtChart.lowestVisibleX-0.5)
+        }
+        else if (Double(held_val_graph.x) >= chtChart.highestVisibleX)
+        {
+            print("right side")
+            chtChart.moveViewToX(chtChart.lowestVisibleX+0.5)
+        }
+        if(sender.state == UIGestureRecognizerState.began)
+        {
+            held_val_graph = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
+            start_val = Double(held_val_graph.x)
+            print("start \(start_val)")
+        }
+        else if(sender.state == UIGestureRecognizerState.changed)
+        {
+            //highlighted_label.isHidden = false
+            held_val_graph = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
+            updated_val = Double(held_val_graph.x)
+            highlighted_label.center.x = CGFloat(updated_val - start_val)
+            highlighted_label.frame.size.height = chtChart.frame.size.height
+            print("update \(updated_val)")
+            print(chtChart.lowestVisibleX)
+        }
+        else if(sender.state == UIGestureRecognizerState.ended)
+        {
+            print("S-\(start_val) && E- \(updated_val)")
+            let video_url = ((player.currentItem?.asset) as? AVURLAsset)?.url
+            cropVideo(sourceURL: video_url!, startTime: start_val/10, endTime: updated_val/10)
+        }
+        
     }
     
     func updateGraph(){
@@ -220,9 +265,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             YChartEntry.append(y_value)
             ZChartEntry.append(z_value)
         }
-        let line1 = LineChartDataSet(values: XChartEntry, label: "X values")
-        let line2 = LineChartDataSet(values: YChartEntry, label: "Y values")
-        let line3 = LineChartDataSet(values: ZChartEntry, label: "Z values")
+        line1 = LineChartDataSet(values: XChartEntry, label: "X values")
+        line2 = LineChartDataSet(values: YChartEntry, label: "Y values")
+        line3 = LineChartDataSet(values: ZChartEntry, label: "Z values")
         line1.highlightEnabled = true
         line1.drawCirclesEnabled = false
         line1.colors = [NSUIColor.blue]
@@ -234,6 +279,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         line3.drawCirclesEnabled = false
         line3.colors = [NSUIColor.green]
         chtChart.setVisibleXRangeMaximum(20)
+        chtChart.scaleYEnabled = false
         let data = LineChartData()
         data.addDataSet(line1)
         data.addDataSet(line2)
@@ -338,10 +384,50 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             }
         }
     }
+    func cropVideo(sourceURL: URL, startTime: Double, endTime: Double, completion: ((_ outputUrl: URL) -> Void)? = nil)
+    {
+        let fileManager = FileManager.default
+        let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        
+        let asset = AVAsset(url: sourceURL)
+        let length = Float(asset.duration.value) / Float(asset.duration.timescale)
+        print("video length: \(length) seconds")
+        
+        var outputURL = documentDirectory.appendingPathComponent("output")
+        do {
+            try fileManager.createDirectory(at: outputURL, withIntermediateDirectories: true, attributes: nil)
+            outputURL = outputURL.appendingPathComponent("\(sourceURL.lastPathComponent).mp4")
+        }catch let error {
+            print(error)
+        }
+        
+        try? fileManager.removeItem(at: outputURL)
+        
+        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else { return }
+        exportSession.outputURL = outputURL
+        exportSession.outputFileType = .mp4
+        
+        let timeRange = CMTimeRange(start: CMTime(seconds: startTime, preferredTimescale: 1000),
+                                    end: CMTime(seconds: endTime, preferredTimescale: 1000))
+        exportSession.timeRange = timeRange
+        exportSession.exportAsynchronously {
+            switch exportSession.status {
+            case .completed:
+                print("exported at \(outputURL)")
+                completion?(outputURL)
+            case .failed:
+                print("failed \(exportSession.error.debugDescription)")
+            case .cancelled:
+                print("cancelled \(exportSession.error.debugDescription)")
+            default: break
+            }
+            UISaveVideoAtPathToSavedPhotosAlbum(outputURL.path, self, nil, nil)
+        }
+    }
 }
 
 extension MicrobitUIController: UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         dismiss(animated: true, completion: nil)
         guard let mediaType = info[UIImagePickerControllerMediaType] as? String,
             mediaType == (kUTTypeMovie as String),
