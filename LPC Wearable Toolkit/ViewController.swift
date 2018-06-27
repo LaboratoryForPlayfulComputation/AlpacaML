@@ -208,7 +208,35 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         super.didReceiveMemoryWarning()
     }
     
+    @objc func segment(_ sender: UITapGestureRecognizer)
+    {
+        let held_val = sender.location(in: chtChart)
+        let held_val_graph: CGPoint = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
+        let touchPoint = sender.location(in: self.view)
+        
+        /*if held_vals.contains(touchPoint) {
+            //chtChart.drawGridBackgroundEnabled = true
+            //chtChart.gridBackgroundColor = UIColor.orange
+            
+            
+            //chtChart.backgroundColor = UIColor.orange
+        }*/
+        //chtChart.backgroundColor = UIColor.orange
+        print("held\(held_val_graph)")
+    }
     
+    
+/*    func panDetected(_ sender: UITapGestureRecognizer){
+        let touchPoint = sender.location(in: self.view)
+        
+        if chtChart.frame.contains(touchPoint){
+            chtChart.gridBackgroundColor = UIColor.orange
+            chtChart.drawGridBackgroundEnabled = true
+
+        }
+        chtChart.drawGridBackgroundEnabled = false
+
+    }*/
     
     func updateGraph(){
         
