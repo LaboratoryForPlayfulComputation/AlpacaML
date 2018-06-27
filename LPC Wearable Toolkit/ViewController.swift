@@ -24,6 +24,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
      var middle_time = 0.0
     var recording = false
     @IBOutlet weak var chtChart: LineChartView!
+    @IBOutlet weak var labelMessage: UILabel!
+    //@IBAction func buttonPopup(_ sender: UIButton) {
+
     var i = 0
     var timer = Timer()
     let small_screen = AVPlayerViewController()
@@ -213,41 +216,85 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         super.didReceiveMemoryWarning()
     }
     
+    
     @objc func segment(_ sender: UITapGestureRecognizer)
     {
-        let highlighted_label = UIView()
-        highlighted_label.isHidden = false
-        highlighted_label.backgroundColor = UIColor.blue
-        highlighted_label.alpha = 0.5
-        chtChart.addSubview(highlighted_label)
-        chtChart.backgroundColor = UIColor.clear
-        let held_val = sender.location(in: chtChart)
-        let held_val_graph: CGPoint = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
-        let touchPoint = sender.location(in: self.view)
+            let highlighted_label = UIView()
+            highlighted_label.isHidden = false
+            highlighted_label.backgroundColor = UIColor.blue
+            highlighted_label.alpha = 0.5
+            chtChart.addSubview(highlighted_label)
+            chtChart.backgroundColor = UIColor.clear
+            let held_val = sender.location(in: chtChart)
+            var held_val_graph: CGPoint = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
+            let highlight = Highlight(x: Double(held_val_graph.x), dataSetIndex: Int(held_val_graph.x), stackIndex: Int(held_val_graph.x))
+            chtChart.highlightValue(highlight)
+            if (Double(held_val_graph.x) <= chtChart.lowestVisibleX){
+                print("left side")
+                chtChart.moveViewToX(chtChart.lowestVisibleX-0.5)
+            }
+            else if (Double(held_val_graph.x) >= chtChart.highestVisibleX){
+                print("right side")
+                chtChart.moveViewToX(chtChart.lowestVisibleX+0.5)
+            }
+            if(sender.state == UIGestureRecognizerState.began){
+                held_val_graph = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
+                start_val = Double(held_val_graph.x)
+                print("start \(start_val)")
+            }
+            else if(sender.state == UIGestureRecognizerState.changed){
+                //highlighted_label.isHidden = false
+                held_val_graph = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
+                updated_val = Double(held_val_graph.x)
+                highlighted_label.center.x = CGFloat(updated_val - start_val)
+                highlighted_label.frame.size.height = chtChart.frame.size.height
+                print("update \(updated_val)")
+                print(chtChart.lowestVisibleX)
+            }
+            else if(sender.state == UIGestureRecognizerState.ended){
+                print("S-\(start_val) && E- \(updated_val)")
+                let video_url = ((player.currentItem?.asset) as? AVURLAsset)?.url
+                cropVideo(sourceURL: video_url!, startTime: start_val/10, endTime: updated_val/10)
+                showInputDialog()
+            }
+            
+        }
+    
+    //@IBAction func buttonPopup(_ sender: UIButton) {
+    //    showInputDialog()
+    //}
+    
+    func showInputDialog() {
+        //Creating UIAlertController and
+        //Setting title and message for the alert dialog
+        let alertController = UIAlertController(title: "Enter details?", message: "Enter your gesture name", preferredStyle: .alert)
         
-        /*if held_vals.contains(touchPoint) {
-            //chtChart.drawGridBackgroundEnabled = true
-            //chtChart.gridBackgroundColor = UIColor.orange
+        //the confirm action taking the inputs
+        let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
             
+            //getting the input values from user
+            self.gesture_name = (alertController.textFields?[0].text)!
             
-            //chtChart.backgroundColor = UIColor.orange
-        }*/
-        //chtChart.backgroundColor = UIColor.orange
-        print("held\(held_val_graph)")
+            self.labelMessage.text = "Gesture Name: " + self.gesture_name
+            
+        }
+        
+        //the cancel action doing nothing
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        
+        //adding textfields to our dialog box
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Enter Gesture Name"
+        }
+        
+        //adding the action to dialogbox
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        //finally presenting the dialog box
+        self.present(alertController, animated: true, completion: nil)
     }
     
-    
-/*    func panDetected(_ sender: UITapGestureRecognizer){
-        let touchPoint = sender.location(in: self.view)
-        
-        if chtChart.frame.contains(touchPoint){
-            chtChart.gridBackgroundColor = UIColor.orange
-            chtChart.drawGridBackgroundEnabled = true
-
-        }
-        chtChart.drawGridBackgroundEnabled = false
-
-    }*/
     
     func updateGraph(){
         
