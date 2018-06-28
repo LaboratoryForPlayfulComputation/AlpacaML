@@ -26,7 +26,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     @IBOutlet weak var chtChart: LineChartView!
     @IBOutlet weak var labelMessage: UILabel!
     //@IBAction func buttonPopup(_ sender: UIButton) {
-
+    //var gesture_names:[String] = []
     var i = 0
     var timer = Timer()
     let small_screen = AVPlayerViewController()
@@ -46,11 +46,15 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     var x = 0
     var y = 0
     var z = 0
-    var gesture_name = ""
+    //var gesture_name = ""
+    var gesture_label = 0
     var gesture_start_time = 0
     var gesture_end_time = 0
     var dragged = false
     var change_background = false
+    
+    let GoodButton = UIButton(type: UIButtonType.system) as UIButton
+    let BadButton = UIButton(type: UIButtonType.system) as UIButton
     
     func didCancel(overlayView: CustomOverlayView) {
         mediaUI.cameraOverlayView?.removeFromSuperview()
@@ -210,12 +214,60 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         let LongTap =  UILongPressGestureRecognizer(target: self, action: #selector(MicrobitUIController.segment(_:)))
         LongTap.minimumPressDuration = 1
         chtChart.addGestureRecognizer(LongTap)
+        
+        /*
+        let GoodButton = UIButton(type: UIButtonType.system) as UIButton
+        let BadButton = UIButton(type: UIButtonType.system) as UIButton*/
+        
+        let good_xPostion:CGFloat = 50
+        let yPostion:CGFloat = 100
+        let buttonWidth:CGFloat = 150
+        let buttonHeight:CGFloat = 45
+        
+        let bad_xPosition:CGFloat = 250
+        
+        GoodButton.frame = CGRect(x:good_xPostion, y:yPostion, width:buttonWidth, height:buttonHeight)
+        BadButton.frame = CGRect(x:bad_xPosition,y:yPostion, width: buttonWidth, height:buttonHeight)
+        
+        GoodButton.backgroundColor = UIColor.green
+        GoodButton.setTitle("Good", for: UIControlState.normal)
+        GoodButton.tintColor = UIColor.black
+        GoodButton.addTarget(self, action: #selector(MicrobitUIController.buttonAction(_:)), for: .touchUpInside)
+        
+        BadButton.backgroundColor = UIColor.red
+        BadButton.setTitle("Bad", for: UIControlState.normal)
+        BadButton.tintColor = UIColor.black
+        BadButton.addTarget(self, action: #selector(MicrobitUIController.buttonAction(_:)), for: .touchUpInside)
+        
+        self.view.addSubview(GoodButton)
+        self.view.addSubview(BadButton)
+        
+        GoodButton.isHidden = true
+        BadButton.isHidden = true
+        
+        
+    }
+    
+    @objc func buttonAction(_ sender:UIButton!){
+        if(sender == GoodButton){
+            gesture_label = 1
+        }
+        else if(sender == BadButton){
+            gesture_label = 0
+        }
+        GoodButton.isHidden = true
+        BadButton.isHidden = true
+        print(gesture_label)
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+
+
     
     @objc func segment(_ sender: UITapGestureRecognizer)
     {
@@ -253,9 +305,15 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             }
             else if(sender.state == UIGestureRecognizerState.ended){
                 print("S-\(start_val) && E- \(updated_val)")
-                let video_url = ((player.currentItem?.asset) as? AVURLAsset)?.url
-                cropVideo(sourceURL: video_url!, startTime: start_val/10, endTime: updated_val/10)
-                showInputDialog()
+                GoodButton.isHidden = false
+                BadButton.isHidden = false
+                
+                if(GoodButton != nil){
+                    
+                }
+                //let video_url = ((player.currentItem?.asset) as? AVURLAsset)?.url
+                //cropVideo(sourceURL: video_url!, startTime: start_val/10, endTime: updated_val/10)
+                //showInputDialog()
             }
             
         }
@@ -264,7 +322,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     //    showInputDialog()
     //}
     
-    func showInputDialog() {
+    /*func showInputDialog() {
         //Creating UIAlertController and
         //Setting title and message for the alert dialog
         let alertController = UIAlertController(title: "Enter details?", message: "Enter your gesture name", preferredStyle: .alert)
@@ -273,10 +331,16 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
             
             //getting the input values from user
-            self.gesture_name = (alertController.textFields?[0].text)!
-            
+            self.gesture_name = (alertController.textFields![0].text)!
             self.labelMessage.text = "Gesture Name: " + self.gesture_name
-            
+            if(self.labelMessage != nil){
+                print("Contains a value!")
+                print(self.gesture_names)
+            }
+            else {
+                print("Doesn’t contain a value.")
+                
+            }
         }
         
         //the cancel action doing nothing
@@ -293,7 +357,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         
         //finally presenting the dialog box
         self.present(alertController, animated: true, completion: nil)
-    }
+    }*/
     
     
     func updateGraph(){
