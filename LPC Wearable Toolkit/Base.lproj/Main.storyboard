@@ -53,6 +53,10 @@
                                     <action selector="Video:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E0m-By-6bW"/>
                                 </connections>
                             </button>
+                            <scrollView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KAG-pO-x7I">
+                                <rect key="frame" x="16" y="301" width="288" height="175"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNG-e3-uOr" customClass="LineChartView" customModule="Charts">
                                 <rect key="frame" x="16" y="301" width="288" height="175"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -347,6 +351,7 @@
                     <connections>
                         <outlet property="Arrow" destination="B0t-ga-acv" id="sIS-cB-boB"/>
                         <outlet property="chtChart" destination="dNG-e3-uOr" id="ZY7-PC-BTC"/>
+                        <outlet property="highlight_segments" destination="KAG-pO-x7I" id="BeH-nP-2vs"/>
                         <outlet property="updated" destination="Css-IK-pF4" id="pGs-t4-Am5"/>
                     </connections>
                 </viewController>

@@ -11,10 +11,15 @@ import AVKit
 import MobileCoreServices
 import CoreBluetooth
 import Charts
+import CoreGraphics
 
 class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDelegate, ChartViewDelegate, CustomOverlayDelegate {
-    var start_val = 0.0
-    var updated_val = 0.0
+    //var filling = [UIColor]()
+    @IBOutlet weak var highlight_segments: UIScrollView!
+    var start_val = CGPoint()
+    var updated_val = CGPoint()
+    var start_val_x = 0.0
+    var updated_val_x = 0.0
     var line1 = LineChartDataSet()
     var line2 = LineChartDataSet()
     var line3 = LineChartDataSet()
@@ -196,23 +201,41 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         super.viewDidLoad()
         chtChart.delegate = self
         Arrow.isHidden = true
-        let LongTap =  UILongPressGestureRecognizer(target: self, action: #selector(MicrobitUIController.segment(_:)))
+        let LongTap =  UILongPressGestureRecognizer(target: self, action: #selector(MicrobitUIController.segment(_:, _ chartView: ChartViewBase, entry: ChartDataEntry)))
         LongTap.minimumPressDuration = 1
         chtChart.addGestureRecognizer(LongTap)
+        view.bringSubview(toFront: highlight_segments)
+        highlight_segments.alpha = 0.1
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    @objc func segment(_ sender: UITapGestureRecognizer)
+    func highlighting(start_point: CGPoint, updated_point: CGPoint, lowest_val: Int)
     {
-        let highlighted_label = UIView()
-        highlighted_label.isHidden = false
-        highlighted_label.backgroundColor = UIColor.blue
-        highlighted_label.alpha = 0.5
-        chtChart.addSubview(highlighted_label)
-        chtChart.backgroundColor = UIColor.clear
+        let new_image = UIView()
+        highlight_segments.setContentOffset(start_point, animated: true)
+        new_image.backgroundColor = UIColor.brown
+        let highlight_start = chtChart.convert(start_point, to: highlight_segments)
+        let highlight_end = chtChart.convert(updated_point, to: highlight_segments)
+        new_image.frame.size.width = (highlight_end.x - highlight_start.x)*10
+        new_image.frame.size.height = (highlight_segments.frame.height)
+        print(new_image.frame.size.width)
+        print(highlight_start)
+        print(highlight_end)
+        new_image.center.x = highlight_segments.center.x //(highlight_start.x + highlight_end.x)/2
+        print((highlight_start.x + highlight_end.x)/2)
+        new_image.center.y = highlight_segments.center.y
+        let y_centering = highlight_segments.center.y - highlight_segments.frame.height/2
+        highlight_segments.setContentOffset(CGPoint(x: CGFloat(lowest_val), y: y_centering), animated: true)
+        print(new_image.center)
+        highlight_segments.addSubview(new_image)
+        highlight_segments.bringSubview(toFront: new_image)
+    }
+    @objc func segment(_ sender: UITapGestureRecognizer, _ chartView: ChartViewBase, _ entry: ChartDataEntry)
+    {
         let held_val = sender.location(in: chtChart)
         var held_val_graph: CGPoint = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
         let highlight = Highlight(x: Double(held_val_graph.x), dataSetIndex: Int(held_val_graph.x), stackIndex: Int(held_val_graph.x))
@@ -230,24 +253,69 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         if(sender.state == UIGestureRecognizerState.began)
         {
             held_val_graph = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
-            start_val = Double(held_val_graph.x)
-            print("start \(start_val)")
+            start_val = held_val_graph
+            start_val_x = Double(held_val_graph.x)
+            print("start \(start_val_x)")
         }
         else if(sender.state == UIGestureRecognizerState.changed)
         {
             //highlighted_label.isHidden = false
+            updated_val = held_val_graph
             held_val_graph = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
-            updated_val = Double(held_val_graph.x)
-            highlighted_label.center.x = CGFloat(updated_val - start_val)
-            highlighted_label.frame.size.height = chtChart.frame.size.height
-            print("update \(updated_val)")
+            updated_val_x = Double(held_val_graph.x)
+            print("update \(updated_val_x)")
             print(chtChart.lowestVisibleX)
         }
         else if(sender.state == UIGestureRecognizerState.ended)
         {
-            print("S-\(start_val) && E- \(updated_val)")
+            let chart_basis = ChartViewBase()
+            let Rect = UIView()
+            chart_basis.addSubview(Rect)
+            Rect.backgroundColor = UIColor.brown
+            Rect.center = chtChart.center
+            Rect.frame.size.height = chtChart.frame.height
+            Rect.frame.size.width = 20
+            chart_basis.bringSubview(toFront: Rect)
+            
+            /*let highlighted_label = UIView()
+            chtChart.addSubview(highlighted_label)
+            chtChart.didAddSubview(highlighted_label)
+            //chtChart.bringSubview(toFront: highlighted_label)
+            print("chart center \(chtChart.center.x)")
+            //highlighted_label.center.x = (highlighted_label.superview?.center.x)!
+            highlighted_label.center.x = CGFloat(chtChart.lowestVisibleX)
+            print(updated_val-start_val)
+            highlighted_label.frame.size.width = CGFloat(chtChart.xRange)
+            highlighted_label.frame.size.height = (highlighted_label.superview?.frame.size.height)!
+            highlighted_label.backgroundColor = UIColor.blue
+            highlighted_label.alpha = 0.5
+            let start_index = Int(start_val)
+            let ending_index = Int(updated_val)
+            if (updated_val>start_val)
+            {
+                var i = start_index
+                while(i<ending_index)
+                {
+                    filling.append(UIColor.brown)
+                    i = i + 1
+                }
+            }
+            else
+            {
+                var i = ending_index
+                while(i<start_index)
+                {
+                    filling.append(UIColor.brown)
+                    i = i + 1
+                }
+            }*/
+            
+            //line1.fillColor = filling
+            //highlighting(start_point: start_val, updated_point: updated_val, lowest_val: Int(chtChart.lowestVisibleX))
+            
+            print("S-\(start_val_x) && E- \(updated_val_x)")
             let video_url = ((player.currentItem?.asset) as? AVURLAsset)?.url
-            cropVideo(sourceURL: video_url!, startTime: start_val/10, endTime: updated_val/10)
+            cropVideo(sourceURL: video_url!, startTime: start_val_x/10, endTime: updated_val_x/10)
         }
         
     }
@@ -269,6 +337,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         line2 = LineChartDataSet(values: YChartEntry, label: "Y values")
         line3 = LineChartDataSet(values: ZChartEntry, label: "Z values")
         line1.highlightEnabled = true
+        line1.fillColor = UIColor.clear
         line1.drawCirclesEnabled = false
         line1.colors = [NSUIColor.blue]
         line1.drawValuesEnabled = false
@@ -278,6 +347,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         line3.drawValuesEnabled = false
         line3.drawCirclesEnabled = false
         line3.colors = [NSUIColor.green]
+    
         chtChart.setVisibleXRangeMaximum(20)
         chtChart.scaleYEnabled = false
         let data = LineChartData()
@@ -306,6 +376,13 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     }
     
     func ending_menu(){
+        self.highlight_segments.translatesAutoresizingMaskIntoConstraints = true
+        self.highlight_segments.frame.size.height = chtChart.frame.height - chtChart.xAxis.labelHeight - chtChart.legend.font.capHeight
+        self.highlight_segments.frame.size.width = chtChart.frame.width - chtChart.getYAxisWidth(.left) - chtChart.getYAxisWidth(.right)
+        self.highlight_segments.contentSize = chtChart.intrinsicContentSize
+        self.highlight_segments.center.x = view.center.x
+        self.highlight_segments.center.y = chtChart.center.y
+        highlight_segments.backgroundColor = UIColor.yellow
         NotificationCenter.default.addObserver(self, selector: #selector(MicrobitUIController.rotated_video), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         DispatchQueue.global(qos: .userInitiated).async{
             while (self.getVal == false){
