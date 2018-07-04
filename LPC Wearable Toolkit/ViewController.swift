@@ -11,6 +11,7 @@ import AVKit
 import MobileCoreServices
 import CoreBluetooth
 import Charts
+import CoreML
 
 class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDelegate, ChartViewDelegate, CustomOverlayDelegate {
     var start_val = 0.0
@@ -27,6 +28,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     @IBOutlet weak var labelMessage: UILabel!
     //@IBAction func buttonPopup(_ sender: UIButton) {
     //var gesture_names:[String] = []
+    
     var i = 0
     var timer = Timer()
     let small_screen = AVPlayerViewController()
@@ -215,9 +217,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         LongTap.minimumPressDuration = 1
         chtChart.addGestureRecognizer(LongTap)
         
-        /*
-        let GoodButton = UIButton(type: UIButtonType.system) as UIButton
-        let BadButton = UIButton(type: UIButtonType.system) as UIButton*/
+
         
         let good_xPostion:CGFloat = 50
         let yPostion:CGFloat = 100
@@ -259,7 +259,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         BadButton.isHidden = true
         print(gesture_label)
         
-        
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -308,9 +308,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                 GoodButton.isHidden = false
                 BadButton.isHidden = false
                 
-                if(GoodButton != nil){
-                    
-                }
+
                 //let video_url = ((player.currentItem?.asset) as? AVURLAsset)?.url
                 //cropVideo(sourceURL: video_url!, startTime: start_val/10, endTime: updated_val/10)
                 //showInputDialog()
@@ -587,7 +585,5 @@ extension UIImagePickerController
         return .all
     }
 }
-
-
 
 
