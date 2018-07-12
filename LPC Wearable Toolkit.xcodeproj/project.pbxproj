@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E3C7C8820EE6B6100363CD3 /* DynamicTimeWarping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3C7C8720EE6B6100363CD3 /* DynamicTimeWarping.swift */; };
 		2E88B1CE20D302F60001E4CE /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E88B1CD20D302F60001E4CE /* CoreData.swift */; };
 		2E88B1D120D3030A0001E4CE /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2E88B1CF20D3030A0001E4CE /* CoreDataModel.xcdatamodeld */; };
+		2EA2D02120F558B0008F30AA /* ClassificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2D02020F558B0008F30AA /* ClassificationView.swift */; };
+		2EA2D02520F663F3008F30AA /* CoreDataAcceleration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2D02420F663F3008F30AA /* CoreDataAcceleration.swift */; };
 		311E16B9BB7151435561C858 /* Pods_LPC_Wearable_ToolkitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD29D513C89B125D5C981D25 /* Pods_LPC_Wearable_ToolkitTests.framework */; };
 		77597669F73F7D50C6144786 /* Pods_LPC_Wearable_ToolkitUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E6E3827C21ACB7E333A46FC /* Pods_LPC_Wearable_ToolkitUITests.framework */; };
 		E928029920AB48280051DC5F /* bluetoothConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E928029820AB48280051DC5F /* bluetoothConnect.swift */; };
@@ -50,8 +53,11 @@
 		011F54828883135DD2D72F82 /* Pods-LPC Wearable Toolkit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable Toolkit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable Toolkit/Pods-LPC Wearable Toolkit.debug.xcconfig"; sourceTree = "<group>"; };
 		02C3EAA426D9CD19263D804E /* Pods-LPC Wearable Toolkit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable Toolkit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable Toolkit/Pods-LPC Wearable Toolkit.release.xcconfig"; sourceTree = "<group>"; };
 		2611241AC6DB8A8017BC01D7 /* Pods-LPC Wearable ToolkitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitTests/Pods-LPC Wearable ToolkitTests.release.xcconfig"; sourceTree = "<group>"; };
+		2E3C7C8720EE6B6100363CD3 /* DynamicTimeWarping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTimeWarping.swift; sourceTree = "<group>"; };
 		2E88B1CD20D302F60001E4CE /* CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		2E88B1D020D3030A0001E4CE /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		2EA2D02020F558B0008F30AA /* ClassificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationView.swift; sourceTree = "<group>"; };
+		2EA2D02420F663F3008F30AA /* CoreDataAcceleration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataAcceleration.swift; sourceTree = "<group>"; };
 		3934657A810EC5A83F4D3890 /* Pods-LPC Wearable ToolkitUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitUITests/Pods-LPC Wearable ToolkitUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		6E6E3827C21ACB7E333A46FC /* Pods_LPC_Wearable_ToolkitUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LPC_Wearable_ToolkitUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83FBE06DE7F63623CF7CE774 /* Pods-LPC Wearable ToolkitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitUITests/Pods-LPC Wearable ToolkitUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -149,7 +155,10 @@
 			isa = PBXGroup;
 			children = (
 				E95C85032098DCDF00D8DC8E /* AppDelegate.swift */,
+				2E3C7C8720EE6B6100363CD3 /* DynamicTimeWarping.swift */,
 				E95C85052098DCDF00D8DC8E /* ViewController.swift */,
+				2EA2D02020F558B0008F30AA /* ClassificationView.swift */,
+				2EA2D02420F663F3008F30AA /* CoreDataAcceleration.swift */,
 				2E88B1CD20D302F60001E4CE /* CoreData.swift */,
 				E9D8B9D720ACD18C00BE0F45 /* AccClass.swift */,
 				E928029820AB48280051DC5F /* bluetoothConnect.swift */,
@@ -395,6 +404,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E95C85062098DCDF00D8DC8E /* ViewController.swift in Sources */,
+				2E3C7C8820EE6B6100363CD3 /* DynamicTimeWarping.swift in Sources */,
+				2EA2D02520F663F3008F30AA /* CoreDataAcceleration.swift in Sources */,
+				2EA2D02120F558B0008F30AA /* ClassificationView.swift in Sources */,
 				E95C85042098DCDF00D8DC8E /* AppDelegate.swift in Sources */,
 				E9939CCA20CF09920063505D /* CustomOverlayView.swift in Sources */,
 				E9D8B9D820ACD18C00BE0F45 /* AccClass.swift in Sources */,
@@ -573,7 +585,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5RUY2M5J7H;
 				INFOPLIST_FILE = "LPC Wearable Toolkit/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "MurphyB.LPC-Wearable-Toolkit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -590,7 +602,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5RUY2M5J7H;
 				INFOPLIST_FILE = "LPC Wearable Toolkit/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "MurphyB.LPC-Wearable-Toolkit";
 				PRODUCT_NAME = "$(TARGET_NAME)";

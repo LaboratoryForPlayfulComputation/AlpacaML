@@ -10,9 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-/*//MARK ACCELERATION OBJECT//
-var period: [NSManagedObject] = []
-var timestamp: [NSManagedObject] = []
+//MARK ACCELERATION OBJECT//
 var xAcceleration: [NSManagedObject] = []
 var yAcceleration: [NSManagedObject] = []
 var zAcceleration: [NSManagedObject] = []
@@ -25,11 +23,22 @@ var video: [NSManagedObject] = []
 
 //MARK MLDATA OBJECT//
 var enoughData: [NSManagedObject] = []
-var modelAlgorithm: [NSManagedObject] = []*/
+var modelAlgorithm: [NSManagedObject] = []
 
 var Accxyz: [NSManagedObject] = []
 var Gestures: [NSManagedObject] = []
 var MLDatas: [NSManagedObject] = []
+
+
+let myCustomViewController: MicrobitUIController = MicrobitUIController(nibName: nil, bundle: nil)
+var getXAcc = myCustomViewController.x
+var getYAcc = myCustomViewController.y
+var getZAcc = myCustomViewController.z
+var xData: Double = Double(getXAcc)
+var yData: Double = Double(getYAcc)
+var zData: Double = Double(getZAcc)
+
+//var video_ = myCustomViewController.outputURL
 
 /*let saveAction = UIAlertAction(title: "Save", style: .default) {
     [unowned self] action in
@@ -79,19 +88,19 @@ func save(period_: Double, timestamp_: Double, xData: Double, yData: Double, zDa
     */
     // 3
     // MARK ACCELERATION //
-    acceleration.setValue(timestamp_, forKeyPath: "timestamp")
-    acceleration.setValue(period_, forKeyPath: "period")
     acceleration.setValue(xData, forKeyPath: "xAcceleration")
     acceleration.setValue(yData, forKeyPath: "yAcceleration")
     acceleration.setValue(zData, forKeyPath: "zAcceleration")
     
     /*//MARK GESTURE//
-    Gesture.setValue(<#T##value: Any?##Any?#>, forKey: "activity")
-    Gesture.setValue(<#T##value: Any?##Any?#>, forKey: "classification")
-    Gesture.setValue(<#T##value: Any?##Any?#>, forKey: "gesture")
-    Gesture.setValue(<#T##value: Any?##Any?#>, forKey: "video")
-    */
-
+    Gesture.setValue(activity_, forKey: "activity")
+    Gesture.setValue(classification_, forKey: "classification")
+    Gesture.setValue(gesture_, forKey: "gesture")
+    Gesture.setValue(video_, forKey: "video")
+    
+     MLData.setValue(enoughData_, forKeyPath: "enoughData")
+     MLData.setValue(modelAlgorithm_, forKeyPath: "modelAlgorithm")
+*/
 
     
     // 4
@@ -103,4 +112,6 @@ func save(period_: Double, timestamp_: Double, xData: Double, yData: Double, zDa
     } catch let error as NSError {
         print("Could not save. \(error), \(error.userInfo)")
     }
+    
+    print("Here is what is in CoreData: \(xData), \(yData), \(zData)")
 }

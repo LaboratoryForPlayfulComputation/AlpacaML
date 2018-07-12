@@ -12,6 +12,7 @@ import MobileCoreServices
 import CoreBluetooth
 import Charts
 import CoreML
+import CoreData
 
 class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDelegate, ChartViewDelegate, CustomOverlayDelegate {
     var start_val = 0.0
@@ -29,6 +30,8 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     //@IBAction func buttonPopup(_ sender: UIButton) {
     //var gesture_names:[String] = []
     
+    
+    var Name:String = "sportsball"
     var i = 0
     var timer = Timer()
     let small_screen = AVPlayerViewController()
@@ -58,6 +61,55 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     let GoodButton = UIButton(type: UIButtonType.system) as UIButton
     let BadButton = UIButton(type: UIButtonType.system) as UIButton
     
+    var accelerationStore = CoreDataAcceleration()
+    
+    //var accelerations: [NSManagedObject] = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        chtChart.delegate = self
+        Arrow.isHidden = true
+        let LongTap =  UILongPressGestureRecognizer(target: self, action: #selector(MicrobitUIController.segment(_:)))
+        LongTap.minimumPressDuration = 1
+        chtChart.addGestureRecognizer(LongTap)
+        
+        //func LongTap(sender: UILongPressGestureRecognizer)
+        //{
+        //    X_acc.append(Double(x))
+        //    Y_acc.append(Double(y))
+        //    Z_acc.append(Double(z))
+        //}
+        
+        
+        let good_xPostion:CGFloat = 50
+        let yPostion:CGFloat = 100
+        let buttonWidth:CGFloat = 150
+        let buttonHeight:CGFloat = 45
+        
+        let bad_xPosition:CGFloat = 250
+        
+        GoodButton.frame = CGRect(x:good_xPostion, y:yPostion, width:buttonWidth, height:buttonHeight)
+        BadButton.frame = CGRect(x:bad_xPosition,y:yPostion, width: buttonWidth, height:buttonHeight)
+        
+        GoodButton.backgroundColor = UIColor.green
+        GoodButton.setTitle("Good", for: UIControlState.normal)
+        GoodButton.tintColor = UIColor.black
+        GoodButton.addTarget(self, action: #selector(MicrobitUIController.buttonAction(_:)), for: .touchUpInside)
+        
+        BadButton.backgroundColor = UIColor.red
+        BadButton.setTitle("Bad", for: UIControlState.normal)
+        BadButton.tintColor = UIColor.black
+        BadButton.addTarget(self, action: #selector(MicrobitUIController.buttonAction(_:)), for: .touchUpInside)
+        
+        self.view.addSubview(GoodButton)
+        self.view.addSubview(BadButton)
+        
+        GoodButton.isHidden = true
+        BadButton.isHidden = true
+        
+        
+    }
+    
     func didCancel(overlayView: CustomOverlayView) {
         mediaUI.cameraOverlayView?.removeFromSuperview()
         mediaUI.dismiss(animated: true, completion: nil)
@@ -84,20 +136,19 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     
     @objc func graphing(){
         DispatchQueue.global(qos: .userInitiated).async {
-                self.x = UserDefaults.standard.integer(forKey: "xData")
-                self.y = UserDefaults.standard.integer(forKey: "yData")
-                self.z = UserDefaults.standard.integer(forKey: "zData")
-                print(self.x,self.y,self.z)
-                let x_val = Double(self.x)
-                let y_val = Double(self.y)
-                let z_val = Double(self.z)
-                self.X_acc.append(x_val)
-                self.Y_acc.append(y_val)
-                self.Z_acc.append(z_val)
-                DispatchQueue.main.sync {
-                    self.updateGraph()
-                }
+            print(self.x,self.y,self.z)
+            let x_val = Double(self.x)
+            let y_val = Double(self.y)
+            let z_val = Double(self.z)
+            print("check to see what this says:\(CMTimeGetSeconds(self.player.currentTime()))")
+            self.accelerationStore.save(x: x_val,y: y_val,z: z_val, timestamp: Int(NSDate().timeIntervalSince1970),sport: self.Name, id: 1)
+            self.X_acc.append(x_val)
+            self.Y_acc.append(y_val)
+            self.Z_acc.append(z_val)
+            DispatchQueue.main.sync {
+                self.updateGraph()
             }
+        }
     }
     
     
@@ -209,44 +260,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         self.present(alert, animated: true, completion: nil)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        chtChart.delegate = self
-        Arrow.isHidden = true
-        let LongTap =  UILongPressGestureRecognizer(target: self, action: #selector(MicrobitUIController.segment(_:)))
-        LongTap.minimumPressDuration = 1
-        chtChart.addGestureRecognizer(LongTap)
-        
-
-        
-        let good_xPostion:CGFloat = 50
-        let yPostion:CGFloat = 100
-        let buttonWidth:CGFloat = 150
-        let buttonHeight:CGFloat = 45
-        
-        let bad_xPosition:CGFloat = 250
-        
-        GoodButton.frame = CGRect(x:good_xPostion, y:yPostion, width:buttonWidth, height:buttonHeight)
-        BadButton.frame = CGRect(x:bad_xPosition,y:yPostion, width: buttonWidth, height:buttonHeight)
-        
-        GoodButton.backgroundColor = UIColor.green
-        GoodButton.setTitle("Good", for: UIControlState.normal)
-        GoodButton.tintColor = UIColor.black
-        GoodButton.addTarget(self, action: #selector(MicrobitUIController.buttonAction(_:)), for: .touchUpInside)
-        
-        BadButton.backgroundColor = UIColor.red
-        BadButton.setTitle("Bad", for: UIControlState.normal)
-        BadButton.tintColor = UIColor.black
-        BadButton.addTarget(self, action: #selector(MicrobitUIController.buttonAction(_:)), for: .touchUpInside)
-        
-        self.view.addSubview(GoodButton)
-        self.view.addSubview(BadButton)
-        
-        GoodButton.isHidden = true
-        BadButton.isHidden = true
-        
-        
-    }
+    
     
     @objc func buttonAction(_ sender:UIButton!){
         if(sender == GoodButton){
@@ -265,9 +279,6 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-
-
     
     @objc func segment(_ sender: UITapGestureRecognizer)
     {

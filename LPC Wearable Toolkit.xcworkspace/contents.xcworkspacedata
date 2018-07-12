@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../../Desktop/Swift-DTW-KNN-master/Source/KNNDTW.swift">
-   </FileRef>
-   <FileRef
       location = "group:LPC Wearable Toolkit.xcodeproj">
    </FileRef>
    <FileRef
