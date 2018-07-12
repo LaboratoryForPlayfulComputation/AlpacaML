@@ -22,6 +22,7 @@
 		E9939CCA20CF09920063505D /* CustomOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9939CC920CF09920063505D /* CustomOverlayView.swift */; };
 		E9D8B9D820ACD18C00BE0F45 /* AccClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D8B9D720ACD18C00BE0F45 /* AccClass.swift */; };
 		E9D8B9D920AD46DE00BE0F45 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E95C85322098F2FE00D8DC8E /* CoreBluetooth.framework */; };
+		E9E6033C20F671FE00F8F867 /* gesture_menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E6033B20F671FE00F8F867 /* gesture_menu.swift */; };
 		E9E71C3220BF49A6002757DF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9E71C3120BF49A6002757DF /* AVFoundation.framework */; };
 		E9E71C3420BF49AC002757DF /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9E71C3320BF49AC002757DF /* AVKit.framework */; };
 		EC2CA3F600B2EAF3CC964F93 /* Pods_LPC_Wearable_Toolkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3130156B642BD305BB251B /* Pods_LPC_Wearable_Toolkit.framework */; };
@@ -69,6 +70,7 @@
 		E95C85322098F2FE00D8DC8E /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		E9939CC920CF09920063505D /* CustomOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOverlayView.swift; sourceTree = "<group>"; };
 		E9D8B9D720ACD18C00BE0F45 /* AccClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccClass.swift; sourceTree = "<group>"; };
+		E9E6033B20F671FE00F8F867 /* gesture_menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gesture_menu.swift; sourceTree = "<group>"; };
 		E9E71C3120BF49A6002757DF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E9E71C3320BF49AC002757DF /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		FBE39D8948D0B1E804F10153 /* Pods-LPC Wearable ToolkitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitTests/Pods-LPC Wearable ToolkitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				E9D8B9D720ACD18C00BE0F45 /* AccClass.swift */,
 				E928029820AB48280051DC5F /* bluetoothConnect.swift */,
 				E95C85072098DCDF00D8DC8E /* Main.storyboard */,
+				E9E6033B20F671FE00F8F867 /* gesture_menu.swift */,
 				E94E0B3220CED9670013F3C4 /* CustomOverlayViewController.swift */,
 				E9939CC920CF09920063505D /* CustomOverlayView.swift */,
 				E94E0B3320CED9670013F3C4 /* CustomOverlayViewController.xib */,
@@ -391,6 +394,7 @@
 				E95C85062098DCDF00D8DC8E /* ViewController.swift in Sources */,
 				E95C85042098DCDF00D8DC8E /* AppDelegate.swift in Sources */,
 				E9939CCA20CF09920063505D /* CustomOverlayView.swift in Sources */,
+				E9E6033C20F671FE00F8F867 /* gesture_menu.swift in Sources */,
 				E9D8B9D820ACD18C00BE0F45 /* AccClass.swift in Sources */,
 				E928029920AB48280051DC5F /* bluetoothConnect.swift in Sources */,
 				E94E0B3420CED9670013F3C4 /* CustomOverlayViewController.swift in Sources */,
