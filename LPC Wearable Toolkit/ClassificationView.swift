@@ -39,12 +39,12 @@ class ClassificationView: UIViewController, UITextFieldDelegate{
         TrainButton.backgroundColor = UIColor.green
         TrainButton.setTitle("Train", for: UIControlState.normal)
         TrainButton.tintColor = UIColor.black
-        TrainButton.addTarget(self, action: #selector(MicrobitUIController.buttonAction(_:)), for: .touchUpInside)
+        //TrainButton.addTarget(self, action: #selector(MicrobitUIController.buttonAction(_:)), for: .touchUpInside)
         
         ClassifyButton.backgroundColor = UIColor.blue
         ClassifyButton.setTitle("Classify", for: UIControlState.normal)
         ClassifyButton.tintColor = UIColor.black
-        ClassifyButton.addTarget(self, action: #selector(MicrobitUIController.buttonAction(_:)), for: .touchUpInside)
+        //ClassifyButton.addTarget(self, action: #selector(MicrobitUIController.buttonAction(_:)), for: .touchUpInside)
         
         self.view.addSubview(TrainButton)
         self.view.addSubview(ClassifyButton)
@@ -57,10 +57,6 @@ class ClassificationView: UIViewController, UITextFieldDelegate{
         label.textAlignment = .center
         label.text = "UPDATE STATUS"
         self.view.addSubview(label)
-        
-        
-        
-
     }
 
     @objc func buttonAction(_ sender:UIButton!){
