@@ -12,6 +12,7 @@
 		2E88B1D120D3030A0001E4CE /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2E88B1CF20D3030A0001E4CE /* CoreDataModel.xcdatamodeld */; };
 		2EA2D02120F558B0008F30AA /* ClassificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2D02020F558B0008F30AA /* ClassificationView.swift */; };
 		2EA2D02520F663F3008F30AA /* CoreDataAcceleration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2D02420F663F3008F30AA /* CoreDataAcceleration.swift */; };
+		2EA2D02720F7DE7C008F30AA /* CoreDataGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2D02620F7DE7C008F30AA /* CoreDataGesture.swift */; };
 		311E16B9BB7151435561C858 /* Pods_LPC_Wearable_ToolkitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD29D513C89B125D5C981D25 /* Pods_LPC_Wearable_ToolkitTests.framework */; };
 		77597669F73F7D50C6144786 /* Pods_LPC_Wearable_ToolkitUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E6E3827C21ACB7E333A46FC /* Pods_LPC_Wearable_ToolkitUITests.framework */; };
 		E928029920AB48280051DC5F /* bluetoothConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E928029820AB48280051DC5F /* bluetoothConnect.swift */; };
@@ -58,6 +59,7 @@
 		2E88B1D020D3030A0001E4CE /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		2EA2D02020F558B0008F30AA /* ClassificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationView.swift; sourceTree = "<group>"; };
 		2EA2D02420F663F3008F30AA /* CoreDataAcceleration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataAcceleration.swift; sourceTree = "<group>"; };
+		2EA2D02620F7DE7C008F30AA /* CoreDataGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataGesture.swift; sourceTree = "<group>"; };
 		3934657A810EC5A83F4D3890 /* Pods-LPC Wearable ToolkitUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitUITests/Pods-LPC Wearable ToolkitUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		6E6E3827C21ACB7E333A46FC /* Pods_LPC_Wearable_ToolkitUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LPC_Wearable_ToolkitUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83FBE06DE7F63623CF7CE774 /* Pods-LPC Wearable ToolkitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitUITests/Pods-LPC Wearable ToolkitUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				E95C85052098DCDF00D8DC8E /* ViewController.swift */,
 				2EA2D02020F558B0008F30AA /* ClassificationView.swift */,
 				2EA2D02420F663F3008F30AA /* CoreDataAcceleration.swift */,
+				2EA2D02620F7DE7C008F30AA /* CoreDataGesture.swift */,
 				2E88B1CD20D302F60001E4CE /* CoreData.swift */,
 				E9D8B9D720ACD18C00BE0F45 /* AccClass.swift */,
 				E928029820AB48280051DC5F /* bluetoothConnect.swift */,
@@ -413,6 +416,7 @@
 				2E88B1CE20D302F60001E4CE /* CoreData.swift in Sources */,
 				E928029920AB48280051DC5F /* bluetoothConnect.swift in Sources */,
 				2E88B1D120D3030A0001E4CE /* CoreDataModel.xcdatamodeld in Sources */,
+				2EA2D02720F7DE7C008F30AA /* CoreDataGesture.swift in Sources */,
 				E94E0B3420CED9670013F3C4 /* CustomOverlayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
