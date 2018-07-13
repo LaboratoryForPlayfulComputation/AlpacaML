@@ -36,7 +36,7 @@ class CoreDataGesture {
     }
     
 
-    func save(id: Int64,tempGesture: String,tempRating: String,sport: String, start_ts: Int64, stop_ts: Int64 ) {
+    func save(id: Int64,tempGesture: String, tempRating: String,sport: String, start_ts: Int64, stop_ts: Int64 ) {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
