@@ -15,6 +15,12 @@ import CoreML
 import CoreData
 
 class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDelegate, ChartViewDelegate, CustomOverlayDelegate {
+    var line1 = LineChartDataSet()
+    var line2 = LineChartDataSet()
+    var line3 = LineChartDataSet()
+    var xColors = [UIColor]()
+    var yColors = [UIColor]()
+    var zColors = [UIColor]()
     var startingValue = 0.0
     var updatedValue = 0.0
     var isFirstVideo = true
@@ -29,9 +35,9 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     @IBOutlet weak var updated: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
-
+    
     let Name:String = "sportsball" // Placeolder
-
+    
     var timer = Timer()
     let smallScreen = AVPlayerViewController()
     var player = AVPlayer()
@@ -73,7 +79,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     // MARK : Bluetooth
     
     @IBAction func bluetooth(_ sender: UIButton) {
-        microbit.deviceName = "BBC micro:bit [zoget]"
+        microbit.deviceName = "BBC micro:bit [gepev]"
         if (isConnectedToDevice == false) {
             print(self.isConnectedToDevice)
             updated.text = "Hello"
@@ -151,25 +157,25 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             updated.text = "connect to bluetooth first" // TODO: [AZ] this should probably be an alert
             microbit.buttonPress_Disconnect()
         } else if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-                if (isFirstVideo == true) {
-                    videoSize = mediaUI.view.frame
-                    isFirstVideo = false
-                }
-                let customViewController = CustomOverlayViewController()
-                let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
-                customView.frame = videoSize
-                customView.delegate = self
-                mediaUI.sourceType = .camera
-                mediaUI.showsCameraControls = false
-                mediaUI.cameraOverlayView = customView
-                mediaUI.mediaTypes = [kUTTypeMovie as String]
-                mediaUI.allowsEditing = true
-                mediaUI.delegate = self
-                self.present(mediaUI, animated: true, completion: {self.mediaUI.cameraOverlayView = customView})
-                print("end of video")
-            } else {
-                print("camera is not available")
+            if (isFirstVideo == true) {
+                videoSize = mediaUI.view.frame
+                isFirstVideo = false
             }
+            let customViewController = CustomOverlayViewController()
+            let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
+            customView.frame = videoSize
+            customView.delegate = self
+            mediaUI.sourceType = .camera
+            mediaUI.showsCameraControls = false
+            mediaUI.cameraOverlayView = customView
+            mediaUI.mediaTypes = [kUTTypeMovie as String]
+            mediaUI.allowsEditing = true
+            mediaUI.delegate = self
+            self.present(mediaUI, animated: true, completion: {self.mediaUI.cameraOverlayView = customView})
+            print("end of video")
+        } else {
+            print("camera is not available")
+        }
     }
     
     // TODO: [AZ] do we need a reset button?
@@ -196,40 +202,51 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     // MARK : Graphing functions
     
     @objc func segment(_ sender: UITapGestureRecognizer) {
-            let highlighted_label = UIView()
-            highlighted_label.isHidden = false
-            highlighted_label.backgroundColor = UIColor.blue
-            highlighted_label.alpha = 0.5
-
-            chtChart.addSubview(highlighted_label)
-            chtChart.backgroundColor = UIColor.clear
+        let highlighted_label = UIView()
+        highlighted_label.isHidden = false
+        highlighted_label.backgroundColor = UIColor.blue
+        highlighted_label.alpha = 0.5
         
-            let held_val = sender.location(in: chtChart)
-            var held_val_graph: CGPoint = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
-            let highlight = Highlight(x: Double(held_val_graph.x), dataSetIndex: Int(held_val_graph.x), stackIndex: Int(held_val_graph.x))
-            chtChart.highlightValue(highlight)
-            if (Double(held_val_graph.x) <= chtChart.lowestVisibleX){
-                print("left side")
-                chtChart.moveViewToX(chtChart.lowestVisibleX-0.5)
-            } else if (Double(held_val_graph.x) >= chtChart.highestVisibleX){
-                print("right side")
-                chtChart.moveViewToX(chtChart.lowestVisibleX+0.5)
-            }
+        chtChart.addSubview(highlighted_label)
+        chtChart.backgroundColor = UIColor.clear
         
-            if(sender.state == UIGestureRecognizerState.began){
-                held_val_graph = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
-                startingValue = Double(held_val_graph.x)
-                print("start \(startingValue)")
-            } else if(sender.state == UIGestureRecognizerState.changed){
-                //highlighted_label.isHidden = false
-                held_val_graph = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
-                updatedValue = Double(held_val_graph.x)
-                highlighted_label.center.x = CGFloat(updatedValue - startingValue)
-                highlighted_label.frame.size.height = chtChart.frame.size.height
-                print("update \(updatedValue)")
-            } else if(sender.state == UIGestureRecognizerState.ended){
-                print("S-\(startingValue) && E- \(updatedValue)")
-            }
+        let held_val = sender.location(in: chtChart)
+        var held_val_graph: CGPoint = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
+        let highlight = Highlight(x: Double(held_val_graph.x), dataSetIndex: Int(held_val_graph.x), stackIndex: Int(held_val_graph.x))
+        chtChart.highlightValue(highlight)
+        if (Double(held_val_graph.x) <= chtChart.lowestVisibleX){
+            print("left side")
+            chtChart.moveViewToX(chtChart.lowestVisibleX-0.5)
+        } else if (Double(held_val_graph.x) >= chtChart.highestVisibleX){
+            print("right side")
+            chtChart.moveViewToX(chtChart.lowestVisibleX+0.5)
+        }
+        
+        if(sender.state == UIGestureRecognizerState.began){
+            held_val_graph = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
+            startingValue = Double(held_val_graph.x)
+            self.xColors[Int(self.startingValue)] = UIColor.purple
+            self.yColors[Int(self.startingValue)] = UIColor.purple
+            self.zColors[Int(self.startingValue)] = UIColor.purple
+            self.line1.setColors(self.xColors, alpha: 1)
+            self.line2.setColors(self.yColors, alpha: 1)
+            self.line3.setColors(self.zColors, alpha: 1)
+            print("start \(startingValue)")
+        } else if(sender.state == UIGestureRecognizerState.changed){
+            //highlighted_label.isHidden = false
+            held_val_graph = self.chtChart.valueForTouchPoint(point: held_val, axis: .right)
+            updatedValue = Double(held_val_graph.x)
+            self.xColors[Int(self.updatedValue)] = UIColor.purple
+            self.yColors[Int(self.updatedValue)] = UIColor.purple
+            self.zColors[Int(self.updatedValue)] = UIColor.purple
+            self.line1.setColors(self.xColors, alpha: 1)
+            self.line2.setColors(self.yColors, alpha: 1)
+            self.line3.setColors(self.zColors, alpha: 1)
+            highlighted_label.center.x = CGFloat(updatedValue - startingValue)
+            highlighted_label.frame.size.height = chtChart.frame.size.height
+            print("update \(updatedValue)")
+        } else if(sender.state == UIGestureRecognizerState.ended){
+            print("S-\(startingValue) && E- \(updatedValue)")
         }
 
 
@@ -238,29 +255,35 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         var XChartEntry  = [ChartDataEntry]()
         var YChartEntry = [ChartDataEntry]()
         var ZChartEntry = [ChartDataEntry]()
-
+        
         for i in 0..<self.accelerationObjects.count {
             let x_value = ChartDataEntry(x: Double(i), y: accelerationObjects[i].0)
             let y_value = ChartDataEntry(x: Double(i), y: accelerationObjects[i].1)
             let z_value = ChartDataEntry(x: Double(i), y: accelerationObjects[i].2)
+            let blue = UIColor.blue
+            let red = UIColor.red
+            let green = UIColor.green
+            xColors.append(blue)
+            yColors.append(red)
+            zColors.append(green)
             XChartEntry.append(x_value)
             YChartEntry.append(y_value)
             ZChartEntry.append(z_value)
         }
         
         // make sure lets ok here
-        let line1 = LineChartDataSet(values: XChartEntry, label: "X values")
+        line1 = LineChartDataSet(values: XChartEntry, label: "X values")
         line1.highlightEnabled = true
         line1.drawCirclesEnabled = false
         line1.colors = [NSUIColor.blue]
         line1.drawValuesEnabled = false
         
-        let line2 = LineChartDataSet(values: YChartEntry, label: "Y values")
+        line2 = LineChartDataSet(values: YChartEntry, label: "Y values")
         line2.drawValuesEnabled = false
         line2.drawCirclesEnabled = false
         line2.colors = [NSUIColor.red]
         
-        let line3 = LineChartDataSet(values: ZChartEntry, label: "Z values")
+        line3 = LineChartDataSet(values: ZChartEntry, label: "Z values")
         line3.drawValuesEnabled = false
         line3.drawCirclesEnabled = false
         line3.colors = [NSUIColor.green]
@@ -281,7 +304,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         selectedTimestamp = entry.x/10
         let rounded_time = Double(round(selectedTimestamp))
         UserDefaults.standard.set(rounded_time, forKey: "timestamp_selected")
-    } 
+    }
     
     func ending_menu() {
         smallScreen.view.frame = CGRect (x:0, y:50, width:UIScreen.main.bounds.width, height:UIScreen.main.bounds.height/2-50)
@@ -317,7 +340,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
                             } else {
                                 self.middleTime = current_time_seconds
                                 self.chtChart.moveViewToX(rangeMin)
-                                self.chtChart.setVisibleXRangeMaximum(rangeMax-rangeMin+1)
+                                self.chtChart.setVisibleXRangeMaximum(21)
                                 self.Arrow.center = CGPoint(x: self.chtChart.center.x, y: self.Arrow.center.y)
                                 self.chtChart.bringSubview(toFront: self.Arrow)
                             }
@@ -363,5 +386,3 @@ extension UIImagePickerController
         return .all
     }
 }
-
-
