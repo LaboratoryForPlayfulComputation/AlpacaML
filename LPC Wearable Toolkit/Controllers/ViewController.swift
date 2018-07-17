@@ -79,7 +79,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     // MARK : Bluetooth
     
     @IBAction func bluetooth(_ sender: UIButton) {
-        microbit.deviceName = "BBC micro:bit [gepev]"
+        microbit.deviceName = "BBC micro:bit [zoget]"
         if (isConnectedToDevice == false) {
             print(self.isConnectedToDevice)
             updated.text = "Hello"
@@ -248,6 +248,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
         } else if(sender.state == UIGestureRecognizerState.ended){
             print("S-\(startingValue) && E- \(updatedValue)")
         }
+    }
 
 
     func updateGraph(){
