@@ -79,7 +79,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     // MARK : Bluetooth
     
     @IBAction func bluetooth(_ sender: UIButton) {
-        microbit.deviceName = "BBC micro:bit [gepev]"
+        microbit.deviceName = "BBC micro:bit [zoget]"
         if (isConnectedToDevice == false) {
             print(self.isConnectedToDevice)
             updated.text = "Hello"
@@ -142,7 +142,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     @objc func readAndSaveAccelerationData() {
         do {
             let acceleration = try self.microbit.getAccelerometerDataFromMicrobit()
-            self.accelerationStore.save(x: acceleration.0,y: acceleration.1,z: acceleration.2, timestamp: Int(NSDate().timeIntervalSinceNow),sport: self.Name, id: 1)
+            self.accelerationStore.save(x: acceleration.0,y: acceleration.1,z: acceleration.2, timestamp: NSDate().timeIntervalSinceReferenceDate,sport: self.Name, id: 1)
             self.accelerationObjects.append(acceleration)
         } catch {
             print("No data available from microbit: \(error)")
@@ -249,11 +249,8 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
             print("S-\(startingValue) && E- \(updatedValue)")
         }
     }
-    // Make this batch?
-    /* Ok, the way Varun is doing it is really bad. He's asynchronously appending stuff to the arrays, and updating the graphs using the arrays. We need to not do that.
-     
-     Varun - lol you right
-     */
+
+
     func updateGraph(){
         
         var XChartEntry  = [ChartDataEntry]()
@@ -370,6 +367,10 @@ extension MicrobitUIController: UIImagePickerControllerDelegate {
         self.view.addSubview(smallScreen.view)
         smallScreen.didMove(toParentViewController: self)
         updateGraph()
+        let fetchResult = accelerationStore.fetch(sport: Name)
+        print("There are this many records in the database \(fetchResult.count)")
+        let numberOne = fetchResult[fetchResult.count - 10]
+        print("It looks like this: id \(numberOne.id), sport \(String(describing: numberOne.sport)), timestamp \(numberOne.timestamp), x \(numberOne.xAcceleration), y \(numberOne.yAcceleration), z \(numberOne.zAcceleration)")
         ending_menu()
     }
 }
