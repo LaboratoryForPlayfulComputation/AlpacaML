@@ -69,12 +69,8 @@ class CoreDataAcceleration {
         return accelerations
     }
 
-
-
-    
-
     //
-    func save(x: Double, y: Double, z: Double, timestamp: Int, sport: String, id: Int) {
+    func save(x: Double, y: Double, z: Double, timestamp: Double, sport: String, id: Int) {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
