@@ -26,8 +26,10 @@
 	<string>$(PRODUCT_NAME) camera use</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) microphone use</string>
+	<key>NSPhotoLibraryAddUsageDescription </key>
+	<string>Need To access photo library for iOS11 and Later</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string> $(PRODUCT_NAME) photo use</string>
+	<string>use photo library</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Main</string>
 	<key>UIMainStoryboardFile</key>

@@ -15,6 +15,7 @@ public protocol CustomOverlayDelegate{
 }
 
 public class CustomOverlayView: UIView {
+   
     @IBOutlet weak var time: UILabel!
     var seconds:Int = 0
     var minutes:Int = 0
