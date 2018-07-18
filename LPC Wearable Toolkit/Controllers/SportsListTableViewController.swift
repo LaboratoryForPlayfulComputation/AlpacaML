@@ -46,8 +46,9 @@ class SportsListTableViewController: UITableViewController {
  
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sport = sports.objectAtIndex(i: indexPath.row)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SportCell", for: indexPath)
         cell.textLabel?.text = sport.value(forKeyPath: "name") as? String
+        cell.detailTextLabel?.text = sport.value(forKeyPath: "notes") as? String
         return cell
     }
     

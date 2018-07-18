@@ -15,6 +15,7 @@ class Sports {
     var managedSports: [NSManagedObject] = []
     
     init() {
+        //self.deleteAllData(entity: "Sport")
         managedSports = fetchAll()
     }
     
@@ -59,12 +60,34 @@ class Sports {
         let sport = NSManagedObject(entity: entity, insertInto: managedContext)
         
         sport.setValue(name, forKeyPath: "name")
+        sport.setValue(sportDescription, forKey: "notes")
         
         do {
             try managedContext.save()
             managedSports.append(sport)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func deleteAllData(entity: String)
+    {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do
+        {
+            let results = try managedContext.fetch(fetchRequest)
+            for managedObject in results
+            {
+                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+                managedContext.delete(managedObjectData)
+            }
+        } catch let error as NSError {
+            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
         }
     }
 }
