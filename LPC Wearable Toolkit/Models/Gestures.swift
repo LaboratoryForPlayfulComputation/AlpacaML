@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import UIKit
 
-class CoreDataGesture {
+class Gestures {
     
     func fetch(sport: String, gesture: String) -> [Gesture] {
         var gestures: [Gesture] = []

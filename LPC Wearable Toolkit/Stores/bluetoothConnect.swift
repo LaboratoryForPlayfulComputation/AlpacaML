@@ -133,7 +133,7 @@ public class Microbit: NSObject,CBCentralManagerDelegate,CBPeripheralDelegate {
     let AccelerometerPeriodCharacteristicUUID = CBUUID(string:"E95DFB24-251D-470A-A062-FA1922DFA9A8")
     var accelerometerPeriodCharacteristic:CBCharacteristic?
     
-    var accelerationStore = CoreDataAcceleration()
+    var accelerationStore = Accelerations()
     
     // MARK: Initialization of class instance
     

@@ -59,7 +59,7 @@ class MicrobitUIController: UIViewController, MicrobitDelegate, UITextFieldDeleg
     var gestureStartTime = 0
     var dragged = false
     
-    var accelerationStore = CoreDataAcceleration()
+    var accelerationStore = Accelerations()
     
     // MARK: View Functions
     

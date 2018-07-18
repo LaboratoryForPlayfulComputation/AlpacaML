@@ -1,15 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="51o-l9-FuN">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Sports-->
+        <scene sceneID="7Jh-v3-9fN">
+            <objects>
+                <tableViewController id="WIP-BE-XCh" customClass="SportsListTableViewController" customModule="LPC_Wearable_Toolkit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="NtW-Ye-f6x">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="4Z9-Yf-m7S">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4Z9-Yf-m7S" id="QAb-wV-HOd">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="WIP-BE-XCh" id="XXh-3h-Uhi"/>
+                            <outlet property="delegate" destination="WIP-BE-XCh" id="96C-Yc-cWa"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Sports" id="FIR-Ny-5f8">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="VRf-Wr-coB">
+                            <connections>
+                                <segue destination="ENb-Cv-n0b" kind="presentation" id="Paz-K0-fdj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="sportsTableView" destination="NtW-Ye-f6x" id="w2f-kK-mUK"/>
+                        <outlet property="tableView" destination="NtW-Ye-f6x" id="Mjk-fO-0lp"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JRq-ON-ily" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="382.5" y="106.69014084507042"/>
+        </scene>
+        <!--Sport Detail View Controller-->
+        <scene sceneID="GO9-SG-PcS">
+            <objects>
+                <viewController id="ENb-Cv-n0b" customClass="SportDetailViewController" customModule="LPC_Wearable_Toolkit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ucE-05-KNr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QjO-Wk-0DQ">
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Add Sport" id="cqI-au-xBB">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="UFm-7j-sMi">
+                                            <connections>
+                                                <segue destination="fob-ky-UaH" kind="unwind" identifier="" unwindAction="cancelToSportsListTableViewController:" id="ZtM-cy-oSy"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="DY1-BU-uYt">
+                                            <connections>
+                                                <action selector="done:" destination="ENb-Cv-n0b" id="WII-j1-x0G"/>
+                                                <segue destination="fob-ky-UaH" kind="unwind" identifier="saveSportDetail" unwindAction="saveSportDetail:" id="OnD-97-rwu"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Sport name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mzv-eD-llM">
+                                <rect key="frame" x="66" y="112" width="189" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="line" placeholder="Description..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Piy-Ki-eo0">
+                                <rect key="frame" x="66" y="175" width="189" height="109"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="qfa-DM-M2P"/>
+                    </view>
+                    <connections>
+                        <outlet property="sportDescriptionTextField" destination="Piy-Ki-eo0" id="rc4-IE-3Q0"/>
+                        <outlet property="sportNameTextField" destination="Mzv-eD-llM" id="g4W-L8-GQ2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Oh-Fq-dBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="fob-ky-UaH" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1256.25" y="106.69014084507042"/>
+        </scene>
         <!--MicrobitUI Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -193,18 +290,10 @@
                                 <exclude reference="jZA-WS-o6u"/>
                                 <exclude reference="jl7-u2-hgA"/>
                                 <exclude reference="uXE-F5-oYd"/>
-                                <exclude reference="B5p-jj-KzH"/>
-                                <exclude reference="DSu-AO-Whe"/>
                                 <exclude reference="gst-Ti-rEj"/>
                                 <exclude reference="nbs-I8-OYp"/>
-                                <exclude reference="20O-Qu-QdM"/>
-                                <exclude reference="82M-GS-Pxp"/>
-                                <exclude reference="FnO-LR-W77"/>
-                                <exclude reference="JnH-Lr-2hg"/>
-                                <exclude reference="abu-dv-yWe"/>
-                                <exclude reference="fcc-fB-V8g"/>
-                                <exclude reference="wVL-va-8ok"/>
-                                <exclude reference="xYx-6H-08h"/>
+                                <exclude reference="B5p-jj-KzH"/>
+                                <exclude reference="DSu-AO-Whe"/>
                                 <exclude reference="0Dz-5o-qoI"/>
                                 <exclude reference="2Bh-I0-Kyz"/>
                                 <exclude reference="2YH-NU-dVC"/>
@@ -228,6 +317,14 @@
                                 <exclude reference="fuT-jG-MIy"/>
                                 <exclude reference="ktL-ih-Neg"/>
                                 <exclude reference="n3C-56-YAz"/>
+                                <exclude reference="4zn-zy-vuC"/>
+                                <exclude reference="JUX-6j-y8Q"/>
+                                <exclude reference="TFn-cU-Kim"/>
+                                <exclude reference="Uoi-Cc-ITh"/>
+                                <exclude reference="ZGa-Mu-kEM"/>
+                                <exclude reference="dyX-Tb-M4Y"/>
+                                <exclude reference="gPQ-z2-u6j"/>
+                                <exclude reference="vdg-Z8-OED"/>
                                 <exclude reference="0ed-xK-Aoa"/>
                                 <exclude reference="L76-rR-8K7"/>
                                 <exclude reference="PCw-zD-wgs"/>
@@ -240,14 +337,14 @@
                                 <exclude reference="tze-4n-DZB"/>
                                 <exclude reference="uK2-e6-xUC"/>
                                 <exclude reference="zGU-Hq-yxm"/>
-                                <exclude reference="4zn-zy-vuC"/>
-                                <exclude reference="JUX-6j-y8Q"/>
-                                <exclude reference="TFn-cU-Kim"/>
-                                <exclude reference="Uoi-Cc-ITh"/>
-                                <exclude reference="ZGa-Mu-kEM"/>
-                                <exclude reference="dyX-Tb-M4Y"/>
-                                <exclude reference="gPQ-z2-u6j"/>
-                                <exclude reference="vdg-Z8-OED"/>
+                                <exclude reference="20O-Qu-QdM"/>
+                                <exclude reference="82M-GS-Pxp"/>
+                                <exclude reference="FnO-LR-W77"/>
+                                <exclude reference="JnH-Lr-2hg"/>
+                                <exclude reference="abu-dv-yWe"/>
+                                <exclude reference="fcc-fB-V8g"/>
+                                <exclude reference="wVL-va-8ok"/>
+                                <exclude reference="xYx-6H-08h"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact">
@@ -259,25 +356,15 @@
                                 <exclude reference="jZA-WS-o6u"/>
                                 <include reference="jl7-u2-hgA"/>
                                 <exclude reference="uXE-F5-oYd"/>
-                                <include reference="B5p-jj-KzH"/>
-                                <include reference="DSu-AO-Whe"/>
-                                <exclude reference="L8b-pD-bbF"/>
-                                <exclude reference="r5s-I0-mUO"/>
                                 <exclude reference="Fe6-uU-Fy8"/>
                                 <include reference="gst-Ti-rEj"/>
                                 <exclude reference="kAF-9N-9Ld"/>
                                 <exclude reference="lB5-y1-or1"/>
                                 <include reference="nbs-I8-OYp"/>
-                                <exclude reference="20O-Qu-QdM"/>
-                                <exclude reference="82M-GS-Pxp"/>
-                                <include reference="FnO-LR-W77"/>
-                                <exclude reference="JnH-Lr-2hg"/>
-                                <exclude reference="abu-dv-yWe"/>
-                                <exclude reference="fDn-zq-n1t"/>
-                                <exclude reference="fcc-fB-V8g"/>
-                                <exclude reference="sz2-Wc-BrG"/>
-                                <exclude reference="wVL-va-8ok"/>
-                                <exclude reference="xYx-6H-08h"/>
+                                <include reference="B5p-jj-KzH"/>
+                                <include reference="DSu-AO-Whe"/>
+                                <exclude reference="L8b-pD-bbF"/>
+                                <exclude reference="r5s-I0-mUO"/>
                                 <exclude reference="0Dz-5o-qoI"/>
                                 <exclude reference="2Bh-I0-Kyz"/>
                                 <exclude reference="2YH-NU-dVC"/>
@@ -302,6 +389,16 @@
                                 <exclude reference="fuT-jG-MIy"/>
                                 <exclude reference="ktL-ih-Neg"/>
                                 <include reference="n3C-56-YAz"/>
+                                <include reference="4zn-zy-vuC"/>
+                                <exclude reference="8ni-vF-MyX"/>
+                                <exclude reference="JUX-6j-y8Q"/>
+                                <exclude reference="RVL-6X-Vae"/>
+                                <exclude reference="TFn-cU-Kim"/>
+                                <exclude reference="Uoi-Cc-ITh"/>
+                                <include reference="ZGa-Mu-kEM"/>
+                                <exclude reference="dyX-Tb-M4Y"/>
+                                <exclude reference="gPQ-z2-u6j"/>
+                                <exclude reference="vdg-Z8-OED"/>
                                 <exclude reference="0ed-xK-Aoa"/>
                                 <exclude reference="L76-rR-8K7"/>
                                 <exclude reference="LSE-P1-Wo6"/>
@@ -315,16 +412,16 @@
                                 <exclude reference="tTO-Kg-gkD"/>
                                 <include reference="tze-4n-DZB"/>
                                 <exclude reference="zGU-Hq-yxm"/>
-                                <include reference="4zn-zy-vuC"/>
-                                <exclude reference="8ni-vF-MyX"/>
-                                <exclude reference="JUX-6j-y8Q"/>
-                                <exclude reference="RVL-6X-Vae"/>
-                                <exclude reference="TFn-cU-Kim"/>
-                                <exclude reference="Uoi-Cc-ITh"/>
-                                <include reference="ZGa-Mu-kEM"/>
-                                <exclude reference="dyX-Tb-M4Y"/>
-                                <exclude reference="gPQ-z2-u6j"/>
-                                <exclude reference="vdg-Z8-OED"/>
+                                <exclude reference="20O-Qu-QdM"/>
+                                <exclude reference="82M-GS-Pxp"/>
+                                <include reference="FnO-LR-W77"/>
+                                <exclude reference="JnH-Lr-2hg"/>
+                                <exclude reference="abu-dv-yWe"/>
+                                <exclude reference="fDn-zq-n1t"/>
+                                <exclude reference="fcc-fB-V8g"/>
+                                <exclude reference="sz2-Wc-BrG"/>
+                                <exclude reference="wVL-va-8ok"/>
+                                <exclude reference="xYx-6H-08h"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -349,7 +446,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="54.375" y="-19.014084507042252"/>
+            <point key="canvasLocation" x="2186" y="-418"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="EGp-lq-a4H">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="51o-l9-FuN" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="dSB-cL-cZf">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="WIP-BE-XCh" kind="relationship" relationship="rootViewController" id="2Vs-MB-doI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U4y-o8-abm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-615" y="106.69014084507042"/>
         </scene>
     </scenes>
     <resources>

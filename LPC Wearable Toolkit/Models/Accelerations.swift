@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class CoreDataAcceleration {
+class Accelerations {
     
     func fetch(sport: String, start_ts: Int64, stop_ts: Int64) -> [Acceleration] {
         var accelerations: [Acceleration] = []
