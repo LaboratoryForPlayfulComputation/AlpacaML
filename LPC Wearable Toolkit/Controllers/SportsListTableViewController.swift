@@ -52,6 +52,15 @@ class SportsListTableViewController: UITableViewController {
         return cell
     }
     
+    /*override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedSport = sports.objectAtIndex(i: indexPath.row)
+        
+        let destinationViewController = ()
+        destinationViewController.sport = selectedSport
+        
+        destinationViewController.shouldPerformSegue(withIdentifier: "SportSelectedSegue", sender: self)
+    }*/
+
 }
 
 extension SportsListTableViewController {

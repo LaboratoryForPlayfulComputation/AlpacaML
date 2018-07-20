@@ -21,12 +21,13 @@ public class CustomOverlayView: UIView {
     var minutes:Int = 0
     var pressed = false
     var seconds_string:String = ""
-    var video_timer = Timer()
+    
     @objc var current_time:Int = 0
     var delegate:CustomOverlayDelegate! = nil
+    
     @IBAction func shootButton(sender: UIButton){
+        var video_timer = Timer()
         delegate.didShoot(overlayView: self)
-        print("press")
         if (pressed == false){
             time.text = "0:00"
             video_timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(CustomOverlayView.video_time), userInfo: nil, repeats: true)
@@ -40,22 +41,18 @@ public class CustomOverlayView: UIView {
     @IBAction func cancelButton(_ sender: UIButton) {
         delegate.didCancel(overlayView: self)
     }
-    @objc func video_time()
-    {
+    
+    @objc func video_time() {
         current_time = current_time + 1
-        if (current_time>=60){
+        if (current_time>=60) {
             minutes = current_time/60
             seconds = current_time%60
-        }
-        else{
+        } else {
             seconds = current_time
         }
-        if (seconds<10)
-        {
+        if (seconds<10) {
             seconds_string = "0\(seconds)"
-        }
-        else
-        {
+        } else {
             seconds_string = "\(seconds)"
         }
         time.text = "\(minutes):"+seconds_string
