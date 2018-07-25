@@ -1,8 +1,8 @@
 //
-//  Sport.swift
+//  Videos.swift
 //  LPC Wearable Toolkit
 //
-//  Created by Abigail Zimmermann-Niefield on 7/18/18.
+//  Created by Abigail Zimmermann-Niefield on 7/20/18.
 //  Copyright © 2018 Varun Narayanswamy LPC. All rights reserved.
 //
 
@@ -10,13 +10,34 @@ import Foundation
 import CoreData
 import UIKit
 
-class Sports {
+class Videos {
     
-    var managedSports: [NSManagedObject] = []
+    var managedVideos: [NSManagedObject] = []
     
-    init() {
-        self.deleteAllData(entity: "Sport")
-        managedSports = fetchAll()
+    func fetch(sport: String) -> [Video] {
+        var videos: [Video] = []
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return []
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Video")
+        
+        let sportPredicate = NSPredicate(format: "sport = %@", sport)
+        fetchRequest.predicate = sportPredicate
+        
+        //3
+        do {
+            videos = try managedContext.fetch(fetchRequest) as? [Video] ?? []
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        return videos
     }
     
     func fetchAll() -> [NSManagedObject] {
@@ -42,29 +63,21 @@ class Sports {
         return fetchedSports
     }
     
-    func count() -> Int {
-        return managedSports.count
-    }
-    
-    func objectAtIndex(i: Int) -> NSManagedObject {
-        return managedSports[i]
-    }
-    
-    func save(name: String, sportDescription: String) {
+    func save(name: String, url: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Sport", in: managedContext)!
-        let sport = NSManagedObject(entity: entity, insertInto: managedContext)
-        
-        sport.setValue(name, forKeyPath: "name")
-        sport.setValue(sportDescription, forKey: "notes")
+        let entity = NSEntityDescription.entity(forEntityName: "Video", in: managedContext)!
+        let video = NSManagedObject(entity: entity, insertInto: managedContext)
+        video.setValue(1, forKeyPath: "id")
+        video.setValue(name, forKeyPath: "sport")
+        video.setValue(url, forKey: "url")
         
         do {
             try managedContext.save()
-            managedSports.append(sport)
+            managedVideos.append(video)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }

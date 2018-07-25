@@ -21,12 +21,12 @@ public class CustomOverlayView: UIView {
     var minutes:Int = 0
     var pressed = false
     var seconds_string:String = ""
+    var video_timer = Timer()
     
     @objc var current_time:Int = 0
     var delegate:CustomOverlayDelegate! = nil
     
     @IBAction func shootButton(sender: UIButton){
-        var video_timer = Timer()
         delegate.didShoot(overlayView: self)
         if (pressed == false){
             time.text = "0:00"

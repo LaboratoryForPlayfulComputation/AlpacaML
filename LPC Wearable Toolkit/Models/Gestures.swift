@@ -36,7 +36,7 @@ class Gestures {
     }
     
 
-    func save(id: Int64,tempGesture: String, tempRating: String,sport: String, start_ts: Int64, stop_ts: Int64 ) {
+    func save(id: Int64, gesture: String, rating: String,sport: String, start_ts: Double, stop_ts: Double ) {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -58,8 +58,8 @@ class Gestures {
         // 3
         
         acceleration_.setValue(id, forKeyPath: "accelerationID")
-        acceleration_.setValue(tempGesture, forKeyPath: "gesture")
-        acceleration_.setValue(tempRating, forKeyPath: "rating")
+        acceleration_.setValue(gesture, forKeyPath: "gesture")
+        acceleration_.setValue(rating, forKeyPath: "rating")
         acceleration_.setValue(sport, forKey: "sport")
         acceleration_.setValue(start_ts, forKey: "start_ts")
         acceleration_.setValue(stop_ts, forKey: "stop_ts")
@@ -72,5 +72,26 @@ class Gestures {
         }
     }
     
-    
+    func fetchAll() -> [NSManagedObject] {
+        var fetchedGestures: [NSManagedObject] = []
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return []
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Gesture")
+        
+        //3
+        do {
+            fetchedGestures = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        return fetchedGestures
+    }
 }

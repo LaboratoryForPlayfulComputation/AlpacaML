@@ -10,6 +10,39 @@ import CoreData
 
 class Accelerations {
     
+    var managedAccelerations: [Acceleration] = []
+    
+    init() {
+        managedAccelerations = fetchAll()
+    }
+    
+    func count() -> Int {
+        return managedAccelerations.count
+    }
+    
+    func fetchAll() -> [Acceleration] {
+        var fetchedAccelerations: [Acceleration] = []
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return []
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Acceleration")
+        
+        //3
+        do {
+            fetchedAccelerations = try managedContext.fetch(fetchRequest) as? [Acceleration] ?? []
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        return fetchedAccelerations
+    }
+    
     func fetch(sport: String, start_ts: Int64, stop_ts: Int64) -> [Acceleration] {
         var accelerations: [Acceleration] = []
             guard let appDelegate =
@@ -106,7 +139,26 @@ class Accelerations {
         }
     }
     
-    
+    func deleteAllData(entity: String)
+    {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do
+        {
+            let results = try managedContext.fetch(fetchRequest)
+            for managedObject in results
+            {
+                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+                managedContext.delete(managedObjectData)
+            }
+        } catch let error as NSError {
+            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
+        }
+    }
 }
 
 

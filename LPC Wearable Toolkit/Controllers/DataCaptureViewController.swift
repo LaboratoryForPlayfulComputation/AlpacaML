@@ -33,12 +33,16 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
     var recording = false
     var accelerationObjects:[(Double,Double,Double)] = []
     var accelerationStore = Accelerations()
-
+    var videoStore = Videos()
+    var timer = Timer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         centralManager = CBCentralManager(delegate: self, queue: nil)
         self.microbitPicker.delegate = self
         self.microbitPicker.dataSource = self
+        self.accelerationStore.deleteAllData(entity: "Acceleration")
+        self.videoStore.deleteAllData(entity: "Video")
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,10 +67,14 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         // Connect to microbit
         print("Row selected")
-        microbit = devicesFound[row]
-        microbit.delegate = self
-        centralManager.stopScan()
-        centralManager.connect(microbit)
+        if devicesFound.count > 0 {
+            microbit = devicesFound[row]
+            microbit.delegate = self
+            centralManager.stopScan()
+            centralManager.connect(microbit)
+        } else {
+            connectionLabel.text = "No micro:bits present"
+        }
     }
     
     // MARK: Video
@@ -109,6 +117,7 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
                 self.present(alertController, animated: true, completion: nil)
             }
         })
+            videoStore.save(name: "Sportsball", url: url.absoluteString!)
         }
         picker.dismiss(animated: true, completion: nil)
     }
@@ -123,7 +132,6 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
     }
     
     func didShoot(overlayView: CustomOverlayView) {
-        var timer = Timer()
         if (recording != true) {
             timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.readAndSaveAccelerationData), userInfo: nil, repeats: true)
             videoCaptureController.startVideoCapture()
@@ -142,6 +150,7 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
             let acceleration = try self.getAccelerometerDataFromMicrobit()
             print(acceleration)
             self.accelerationStore.save(x: acceleration.0,y: acceleration.1,z: acceleration.2, timestamp: NSDate().timeIntervalSinceReferenceDate,sport: "Sportball", id: 1)
+            print(self.accelerationStore.fetch(sport: "Sportball").count)
             self.accelerationObjects.append(acceleration)
         } catch {
             print("No data available from microbit: \(error)")
@@ -149,7 +158,7 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
     }
 
     // MARK: Bluetooth - Central Manager functions
-    
+    // https://www.raywenderlich.com/177848/core-bluetooth-tutorial-for-ios-heart-rate-monitor
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         // maybe we can do something to the label here idk.
         switch central.state {
