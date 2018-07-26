@@ -234,7 +234,7 @@
                                     <navigationItem title="Test" id="l8s-QO-Wi9"/>
                                 </items>
                             </navigationBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Good" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0iy-tX-i1l">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ready, set, go!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0iy-tX-i1l">
                                 <rect key="frame" x="16" y="459" width="288" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="JYL-O5-tnC"/>

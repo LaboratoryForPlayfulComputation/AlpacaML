@@ -181,7 +181,7 @@ class ClassificationViewController: UIViewController, CBCentralManagerDelegate, 
                 }
                 newAccelerations.append((Double(accelerometerData.x), Double(accelerometerData.y), Double(accelerometerData.z)))
                 accelerationStore.save(x: Double(accelerometerData.x), y: Double(accelerometerData.y), z: Double(accelerometerData.z), timestamp: NSDate().timeIntervalSinceReferenceDate, sport: "TestSport", id: 1)
-                print("Number stored: \(accelerationStore.fetch(sport: "TestSport").count)")
+                
                 updateChart()
                 
                 if newAccelerations.count > chunkSize {
@@ -192,53 +192,61 @@ class ClassificationViewController: UIViewController, CBCentralManagerDelegate, 
     }
     
     func classifyChunk() {
-        let maxIndex = newAccelerations.count - 1
-        let test = newAccelerations[(maxIndex-chunkSize)..<maxIndex]
-        let classification = dtw.classify(test: Array(test))
-        classificationLabel.text = classification
+        DispatchQueue.global(qos: .userInitiated).async {
+            let maxIndex = self.newAccelerations.count - 1
+            let test = self.newAccelerations[(maxIndex-self.chunkSize)..<maxIndex]
+            let classification = self.dtw.classify(test: Array(test))
+            DispatchQueue.main.async {
+                self.classificationLabel.text = classification
+            }
+        }
         // make it also talk
     }
     
     // MARK - Chart functions
     
     private func updateChart() {
-        xAccelerations = [ChartDataEntry]()
-        yAccelerations = [ChartDataEntry]()
-        zAccelerations = [ChartDataEntry]()
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.xAccelerations = [ChartDataEntry]()
+            self.yAccelerations = [ChartDataEntry]()
+            self.zAccelerations = [ChartDataEntry]()
         
-        for i in 0..<newAccelerations.count {
-            xAccelerations.append(ChartDataEntry(x: Double(i), y: newAccelerations[i].0))
-            yAccelerations.append(ChartDataEntry(x: Double(i), y: newAccelerations[i].1))
-            zAccelerations.append(ChartDataEntry(x: Double(i), y: newAccelerations[i].2))
+            for i in 0..<self.newAccelerations.count {
+               self.xAccelerations.append(ChartDataEntry(x: Double(i), y: self.newAccelerations[i].0))
+                self.yAccelerations.append(ChartDataEntry(x: Double(i), y: self.newAccelerations[i].1))
+                self.zAccelerations.append(ChartDataEntry(x: Double(i), y: self.newAccelerations[i].2))
+            }
+        
+            let xline = LineChartDataSet(values: self.xAccelerations, label: "X Values")
+            xline.drawCirclesEnabled = false
+            xline.colors = [NSUIColor.black]
+            xline.drawValuesEnabled = false
+        
+            let yline = LineChartDataSet(values: self.yAccelerations, label: "Y Values")
+            yline.drawValuesEnabled = false
+            yline.drawCirclesEnabled = false
+            yline.colors = [NSUIColor.blue]
+        
+            let zline = LineChartDataSet(values: self.zAccelerations, label: "Z Values")
+            zline.drawValuesEnabled = false
+            zline.drawCirclesEnabled = false
+            zline.colors = [NSUIColor.cyan]
+        
+            let data = LineChartData()
+            data.addDataSet(xline)
+            data.addDataSet(yline)
+            data.addDataSet(zline)
+            DispatchQueue.main.async {
+                self.lineChart.data = data
+                self.lineChart.setVisibleXRangeMaximum(50)
+                self.lineChart.chartDescription?.text = "Acceleration"
+        
+                self.lineChart.data?.notifyDataChanged()
+                self.lineChart.notifyDataSetChanged()
+        
+                self.lineChart.moveViewToX(Double(self.newAccelerations.count - 25))
+            }
         }
-        
-        let xline = LineChartDataSet(values: xAccelerations, label: "X Values")
-        xline.drawCirclesEnabled = false
-        xline.colors = [NSUIColor.black]
-        xline.drawValuesEnabled = false
-        
-        let yline = LineChartDataSet(values: yAccelerations, label: "Y Values")
-        yline.drawValuesEnabled = false
-        yline.drawCirclesEnabled = false
-        yline.colors = [NSUIColor.blue]
-        
-        let zline = LineChartDataSet(values: zAccelerations, label: "Z Values")
-        zline.drawValuesEnabled = false
-        zline.drawCirclesEnabled = false
-        zline.colors = [NSUIColor.cyan]
-        
-        let data = LineChartData()
-        data.addDataSet(xline)
-        data.addDataSet(yline)
-        data.addDataSet(zline)
-        lineChart.data = data
-        lineChart.setVisibleXRangeMaximum(50)
-        lineChart.chartDescription?.text = "Acceleration"
-        
-        lineChart.data?.notifyDataChanged()
-        lineChart.notifyDataSetChanged()
-        
-        lineChart.moveViewToX(Double(newAccelerations.count - 25))
     }
     
     // MARK - Gesture recognition code
