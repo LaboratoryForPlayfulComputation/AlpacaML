@@ -36,6 +36,8 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
     var videoStore = Videos()
     var timer = Timer()
     
+    let ACCELEROMETER_PERIOD = 60.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         centralManager = CBCentralManager(delegate: self, queue: nil)
@@ -91,7 +93,7 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
                 videoCaptureController.showsCameraControls = false
                 videoCaptureController.mediaTypes = [kUTTypeMovie as String]
                 videoCaptureController.delegate = self
-                videoCaptureController.videoMaximumDuration = 10.0
+                videoCaptureController.videoMaximumDuration = 600.0
             
                 videoCaptureController.cameraOverlayView = customView
                 present(videoCaptureController, animated: true, completion: {self.videoCaptureController.cameraOverlayView = customView})
@@ -120,6 +122,7 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
             videoStore.save(name: "Sportsball", url: url.absoluteString!)
         }
         picker.dismiss(animated: true, completion: nil)
+        centralManager.cancelPeripheralConnection(microbit)
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -133,7 +136,7 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
     
     func didShoot(overlayView: CustomOverlayView) {
         if (recording != true) {
-            timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.readAndSaveAccelerationData), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: 1.0/ACCELEROMETER_PERIOD, target: self, selector: #selector(self.readAndSaveAccelerationData), userInfo: nil, repeats: true)
             videoCaptureController.startVideoCapture()
             recording = true
         } else {
@@ -141,7 +144,6 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
             timer.invalidate()
             recording = false
             videoCaptureController.dismiss(animated: true, completion: nil)
-            //Arrow.isHidden = false
         }
     }
     
@@ -149,8 +151,7 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
         do {
             let acceleration = try self.getAccelerometerDataFromMicrobit()
             print(acceleration)
-            self.accelerationStore.save(x: acceleration.0,y: acceleration.1,z: acceleration.2, timestamp: NSDate().timeIntervalSinceReferenceDate,sport: "Sportball", id: 1)
-            print(self.accelerationStore.fetch(sport: "Sportball").count)
+            self.accelerationStore.save(x: acceleration.0,y: acceleration.1,z: acceleration.2, timestamp: NSDate().timeIntervalSinceReferenceDate,sport: "Sportsball", id: 1)
             self.accelerationObjects.append(acceleration)
         } catch {
             print("No data available from microbit: \(error)")
@@ -251,6 +252,7 @@ class DataCaptureViewController: UIViewController, UINavigationControllerDelegat
         }
         return (Double(accelerometerData.x),Double(accelerometerData.y),Double(accelerometerData.z))
     }
+
 }
 enum BluetoothConnectError: Error {
     case NoValueForCharacteristic

@@ -27,11 +27,14 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     let smallScreen = AVPlayerViewController()
     var timeObserverToken: Any?
     var levelObserverToken: Any?
-    let ACCELEROMETER_PERIOD = 10.0
+    let ACCELEROMETER_PERIOD = 60.0
     
     var xAccelerationLine = LineChartDataSet()
     var yAccelerationLine = LineChartDataSet()
     var zAccelerationLine = LineChartDataSet()
+    var xColors: [UIColor]!
+    var yColors: [UIColor]!
+    var zColors: [UIColor]!
     var pointsSelected:[Double] = []
     var totalGesturesSelected = 0
     
@@ -43,11 +46,12 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     // Make a user settings variable for sports, or allow user to put it in, or pass it around.
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        gestureStore.deleteAllData(entity: "Gesture")
         self.lineChart.delegate = self
         let accels = accelerationStore.managedAccelerations // make sure these are ordered by timestamp. This is implemented, but need to verify.
         for accel in accels {
             accelerationObjects.append((accel.xAcceleration, accel.yAcceleration, accel.zAcceleration))
+            print("TS: \(accel.timestamp)")
         }
         
         let recognizer = UILongPressGestureRecognizer(target: self, action:#selector(handleLongPress(recognizer:)))
@@ -74,13 +78,11 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     
     @IBAction func classifyGestureGood(_ sender: UIButton) {
         totalGesturesSelected = totalGesturesSelected + 1
-        gestureStore.save(id: Int64(totalGesturesSelected), gesture: "Gesture", rating: "Good", sport: "Sportball", start_ts: pointsSelected[0], stop_ts: pointsSelected[1])
+        gestureStore.save(id: Int64(totalGesturesSelected), gesture: "Gesture", rating: "Good", sport: "Sportsball", start_ts: pointsSelected[0], stop_ts: pointsSelected[1])
         // change color of highlighted portion to green
         let start = Int(round(pointsSelected[0]))
         let stop = Int(round(pointsSelected[1]))
-        doHighlight(dataSet: xAccelerationLine, color: UIColor.green, start: start, stop: stop)
-        doHighlight(dataSet: yAccelerationLine, color: UIColor.green, start: start, stop: stop)
-        doHighlight(dataSet: zAccelerationLine, color: UIColor.green, start: start, stop: stop)
+        doHighlight(color: UIColor.green, start: start, stop: stop)
         
         pointsSelected = []
         goodButton.isEnabled = false
@@ -90,12 +92,10 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     
     @IBAction func classifyGestureBad(_ sender: UIButton) {
         totalGesturesSelected = totalGesturesSelected + 1
-        gestureStore.save(id: Int64(totalGesturesSelected), gesture: "Gesture", rating: "Bad", sport: "Sportball", start_ts: pointsSelected[0], stop_ts: pointsSelected[1])
+        gestureStore.save(id: Int64(totalGesturesSelected), gesture: "Gesture", rating: "Bad", sport: "Sportsball", start_ts: pointsSelected[0], stop_ts: pointsSelected[1])
         let start = Int(round(pointsSelected[0]))
         let stop = Int(round(pointsSelected[1]))
-        doHighlight(dataSet: xAccelerationLine, color: UIColor.red, start: start, stop: stop)
-        doHighlight(dataSet: yAccelerationLine, color: UIColor.red, start: start, stop: stop)
-        doHighlight(dataSet: zAccelerationLine, color: UIColor.red, start: start, stop: stop)
+        doHighlight(color: UIColor.red, start: start, stop: stop)
         
         pointsSelected = []
         goodButton.isEnabled = false
@@ -158,6 +158,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         xAccelerationLine.highlightEnabled = true
         xAccelerationLine.drawCirclesEnabled = false
         xAccelerationLine.colors = [NSUIColor.black]
+        xColors = [UIColor] (repeating: NSUIColor.black, count: accelerationObjects.count)
         xAccelerationLine.drawValuesEnabled = false
         xAccelerationLine.setDrawHighlightIndicators(true)
         xAccelerationLine.drawHorizontalHighlightIndicatorEnabled = false
@@ -168,18 +169,20 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         yAccelerationLine.drawValuesEnabled = false
         yAccelerationLine.drawCirclesEnabled = false
         yAccelerationLine.colors = [NSUIColor.blue]
+        yColors = [UIColor] (repeating: NSUIColor.blue, count: accelerationObjects.count)
         
         zAccelerationLine = LineChartDataSet(values: ZChartEntry, label: "Z values")
         zAccelerationLine.drawValuesEnabled = false
         zAccelerationLine.drawCirclesEnabled = false
         zAccelerationLine.colors = [NSUIColor.cyan]
+        zColors = [UIColor] (repeating: NSUIColor.cyan, count: accelerationObjects.count)
 
         let data = LineChartData()
         data.addDataSet(xAccelerationLine)
         data.addDataSet(yAccelerationLine)
         data.addDataSet(zAccelerationLine)
         lineChart.data = data
-        lineChart.setVisibleXRangeMaximum(20)
+        lineChart.setVisibleXRangeMaximum(2*ACCELEROMETER_PERIOD)
         lineChart.chartDescription?.text = "Acceleration"
     }
     
@@ -197,10 +200,10 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     }
     
     func setChartValues(seconds: Double) {
-        let chartIndex = Double(round(seconds*10))
+        let chartIndex = Double(round(seconds*ACCELEROMETER_PERIOD))
         if Int(chartIndex) < accelerationObjects.count {
             lineChart.highlightValue(x: chartIndex, y: accelerationObjects[Int(chartIndex)].0 , dataSetIndex: 0, callDelegate: false)
-            lineChart.moveViewToX(max(0, chartIndex - 10))
+            lineChart.moveViewToX(max(0, chartIndex - ACCELEROMETER_PERIOD))
         }
     }
     
@@ -210,35 +213,34 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     @objc func handleLongPress(recognizer: UILongPressGestureRecognizer) {
         let screenCoordinates = recognizer.location(in: lineChart)
         let chartValue: CGPoint = self.lineChart.valueForTouchPoint(point: screenCoordinates, axis: .right)
+        print("Chart value: \(chartValue)")
         pointsSelected.append(Double(chartValue.x))
-        
         if pointsSelected.count > 2 {
             pointsSelected.remove(at: 1)
         }
         if pointsSelected.count == 2 {
+            pointsSelected.sort()
             goodButton.isEnabled = true
             badButton.isEnabled = true
             let start = Int(round(pointsSelected[0]))
             let stop = Int(round(pointsSelected[1]))
-            doHighlight(dataSet: xAccelerationLine, color: UIColor.magenta, start: start, stop: stop)
-            doHighlight(dataSet: yAccelerationLine, color: UIColor.magenta, start: start, stop: stop)
-            doHighlight(dataSet: zAccelerationLine, color: UIColor.magenta, start: start, stop: stop)
+            doHighlight(color: UIColor.magenta, start: start, stop: stop)
         } else {
             let start = Int(round(pointsSelected[0]))
             let stop = Int(round(pointsSelected[0])) + 5
-            doHighlight(dataSet: xAccelerationLine, color: UIColor.magenta, start: start, stop: stop)
-            doHighlight(dataSet: yAccelerationLine, color: UIColor.magenta, start: start, stop: stop)
-            doHighlight(dataSet: zAccelerationLine, color: UIColor.magenta, start: start, stop: stop)
+            doHighlight(color: UIColor.magenta, start: start, stop: stop)
         }
     }
     
-    // This code only highlights the latest gesture FYI
-    func doHighlight(dataSet: LineChartDataSet, color: UIColor, start: Int, stop: Int) {
-        var newColors = [UIColor] (repeating: dataSet.colors[0], count: dataSet.entryCount)
-        for i in start...stop { // doesn't account for all versions of messing up
-            newColors[i] = color
+    func doHighlight(color: UIColor, start: Int, stop: Int) {
+        for i in start...stop {
+            xColors[i] = color
+            yColors[i] = color
+            zColors[i] = color
         }
-        dataSet.setColors(newColors, alpha: 1)
+        xAccelerationLine.setColors(xColors, alpha: 1)
+        yAccelerationLine.setColors(yColors, alpha: 1)
+        zAccelerationLine.setColors(zColors, alpha: 1)
         lineChart.data?.notifyDataChanged()
         lineChart.notifyDataSetChanged()
     }

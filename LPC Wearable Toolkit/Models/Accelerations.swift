@@ -11,13 +11,19 @@ import CoreData
 class Accelerations {
     
     var managedAccelerations: [Acceleration] = []
+    var minTimestamp:Double!
     
     init() {
         managedAccelerations = fetchAll()
+        minTimestamp = managedAccelerations.min(by: {acc1, acc2 in acc1.timestamp < acc2.timestamp})?.timestamp
     }
     
     func count() -> Int {
         return managedAccelerations.count
+    }
+    
+    func getMinTimestamp() -> Double {
+        return minTimestamp
     }
     
     func fetchAll() -> [Acceleration] {
@@ -43,7 +49,7 @@ class Accelerations {
         return fetchedAccelerations
     }
     
-    func fetch(sport: String, start_ts: Int64, stop_ts: Int64) -> [Acceleration] {
+    func fetch(sport: String, start_ts: Double, stop_ts: Double) -> [Acceleration] {
         var accelerations: [Acceleration] = []
             guard let appDelegate =
                 UIApplication.shared.delegate as? AppDelegate else {
@@ -57,7 +63,7 @@ class Accelerations {
             let fetchRequest =
                 NSFetchRequest<NSManagedObject>(entityName: "Acceleration")
         
-            let sportPredicate = NSPredicate(format: "sport = %@ && ( timestamp >= %@ && timestamp <= %@)", sport, start_ts, stop_ts)
+            let sportPredicate = NSPredicate(format: "sport = %@ && ( timestamp >= \(start_ts) && timestamp <= \(stop_ts))", sport) // This is apparently not safe
             fetchRequest.predicate = sportPredicate
         
             let sort = NSSortDescriptor(key: #keyPath(Acceleration.timestamp), ascending: true)
