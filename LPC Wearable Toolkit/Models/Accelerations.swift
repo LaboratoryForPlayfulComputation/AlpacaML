@@ -8,9 +8,48 @@
 import UIKit
 import CoreData
 
-class CoreDataAcceleration {
+class Accelerations {
     
-    func fetch(sport: String, start_ts: Int64, stop_ts: Int64) -> [Acceleration] {
+    var managedAccelerations: [Acceleration] = []
+    var minTimestamp:Double!
+    
+    init() {
+        managedAccelerations = fetchAll()
+        minTimestamp = managedAccelerations.min(by: {acc1, acc2 in acc1.timestamp < acc2.timestamp})?.timestamp
+    }
+    
+    func count() -> Int {
+        return managedAccelerations.count
+    }
+    
+    func getMinTimestamp() -> Double {
+        return minTimestamp
+    }
+    
+    func fetchAll() -> [Acceleration] {
+        var fetchedAccelerations: [Acceleration] = []
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return []
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Acceleration")
+        
+        //3
+        do {
+            fetchedAccelerations = try managedContext.fetch(fetchRequest) as? [Acceleration] ?? []
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        return fetchedAccelerations
+    }
+    
+    func fetch(sport: String, start_ts: Double, stop_ts: Double) -> [Acceleration] {
         var accelerations: [Acceleration] = []
             guard let appDelegate =
                 UIApplication.shared.delegate as? AppDelegate else {
@@ -24,7 +63,7 @@ class CoreDataAcceleration {
             let fetchRequest =
                 NSFetchRequest<NSManagedObject>(entityName: "Acceleration")
         
-            let sportPredicate = NSPredicate(format: "sport = %@ && ( timestamp >= %@ && timestamp <= %@)", sport, start_ts, stop_ts)
+            let sportPredicate = NSPredicate(format: "sport = %@ && ( timestamp >= \(start_ts) && timestamp <= \(stop_ts))", sport) // This is apparently not safe
             fetchRequest.predicate = sportPredicate
         
             let sort = NSSortDescriptor(key: #keyPath(Acceleration.timestamp), ascending: true)
@@ -106,7 +145,26 @@ class CoreDataAcceleration {
         }
     }
     
-    
+    func deleteAllData(entity: String)
+    {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do
+        {
+            let results = try managedContext.fetch(fetchRequest)
+            for managedObject in results
+            {
+                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+                managedContext.delete(managedObjectData)
+            }
+        } catch let error as NSError {
+            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
+        }
+    }
 }
 
 
