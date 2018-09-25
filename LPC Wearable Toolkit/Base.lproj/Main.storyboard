@@ -195,7 +195,11 @@
                         <viewLayoutGuide key="safeArea" id="SOL-Ec-Ioe"/>
                     </view>
                     <navigationItem key="navigationItem" title="Test" id="KsQ-c4-SxP">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="0yr-MG-e9m"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="0yr-MG-e9m">
+                            <connections>
+                                <segue destination="4cC-4g-sLJ" kind="unwind" unwindAction="cancelToSportSummaryViewController:" id="aNi-eC-fCC"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="classificationLabel" destination="gyS-Ge-Mgv" id="qMk-79-zrr"/>
@@ -203,6 +207,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DJH-ve-bhx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="4cC-4g-sLJ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4170" y="-390.84507042253523"/>
         </scene>

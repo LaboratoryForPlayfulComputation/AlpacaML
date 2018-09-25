@@ -69,6 +69,10 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
                     self.classificationLabel.text = ""
                 } else {
                     self.classificationLabel.text = classification
+                    let speechText = classification.split(separator: " ")[0].lowercased()
+                    let utterance = AVSpeechUtterance(string: speechText)
+                    let synthesizer = AVSpeechSynthesizer()
+                    synthesizer.speak(utterance)
                 }
             }
         }
