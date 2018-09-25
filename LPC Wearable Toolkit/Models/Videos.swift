@@ -14,6 +14,10 @@ class Videos {
     
     var managedVideos: [NSManagedObject] = []
     
+    func countAll() -> Int {
+        return fetchAll().count
+    }
+    
     func fetch(sport: String) -> [Video] {
         var videos: [Video] = []
         guard let appDelegate =
@@ -52,7 +56,7 @@ class Videos {
         
         //2
         let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Sport")
+            NSFetchRequest<NSManagedObject>(entityName: "Video")
         
         //3
         do {

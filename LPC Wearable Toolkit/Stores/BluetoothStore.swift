@@ -10,6 +10,9 @@ import Foundation
 import CoreBluetooth
 
 class BluetoothStore: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+    
+    static let shared = BluetoothStore()
+    
     // ACCELEROMETER SERVICE
     let AccelerometerServiceUUID = CBUUID(string:"E95D0753-251D-470A-A062-FA1922DFA9A8")
     // Notify,Read
@@ -22,16 +25,16 @@ class BluetoothStore: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     var centralManager: CBCentralManager!
     var devicesFound:[CBPeripheral] = []
     var microbit: CBPeripheral!
+    // this should update or something
     var centralManagerState = ""
     var connectionState = "Not Connected"
+    var accelerationBuffer: [(Double, Double, Double)] = []
+    
+    let ACCELEROMETER_PERIOD = 60.0
     
     override init() {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
-    }
-    
-    func getCentralManagerState() -> String {
-        return centralManagerState
     }
     
     func getConnectionState() -> String {
@@ -61,8 +64,9 @@ class BluetoothStore: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
             centralManagerState = "Powered On"
             centralManager.scanForPeripherals(withServices: nil,options: [CBCentralManagerScanOptionAllowDuplicatesKey:false])
         }
+        NotificationCenter.default.post(name: BluetoothNotification.didUpdateState.notification, object: nil)
     }
-
+    
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print(peripheral)
         
@@ -73,15 +77,17 @@ class BluetoothStore: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
             }
         }
         print(devicesFound.count)
-        // !!!!!!! microbitPicker.reloadAllComponents()
+        NotificationCenter.default.post(name: BluetoothNotification.didDiscoverPeripheral.notification, object: nil)
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        connectionState = "Connected to \(microbit.name ?? "")"
+        connectionState = "\(microbit.name ?? "")"
         peripheral.discoverServices([AccelerometerServiceUUID])
+        NotificationCenter.default.post(name: BluetoothNotification.didConnectToPeripheral.notification, object: nil)
     }
     
     // MARK : Bluetooth - Peripheral functions
+    // we'll probably want to let the user know this happened
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         for s in peripheral.services! {
             let service = s as CBService
@@ -89,6 +95,7 @@ class BluetoothStore: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
             peripheral.discoverCharacteristics(nil, for: service)
             connectionState = "Discovered services"
         }
+        NotificationCenter.default.post(name: BluetoothNotification.didDiscoverServices.notification, object: nil)
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
@@ -107,6 +114,29 @@ class BluetoothStore: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
             }
         }
         connectionState = "Discovered characteristics"
+        NotificationCenter.default.post(name: BluetoothNotification.didDiscoverCharacteristics.notification, object: nil)
+    }
+    // https://jayeshkawli.ghost.io/pass-data-with-ios-notifications-swift-3-0/
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        if characteristic.uuid == AccelerometerDataCharacteristicUUID {
+            struct AccelerometerData {
+                let x: Int16
+                let y: Int16
+                let z: Int16
+            }
+            let dataBytes = characteristic.value!
+            let accelerometerData = dataBytes.withUnsafeBytes {(int16Ptr: UnsafePointer<Int16>)->AccelerometerData in
+                AccelerometerData(x: Int16(littleEndian: int16Ptr[0]),
+                                  y: Int16(littleEndian: int16Ptr[1]),
+                                  z: Int16(littleEndian: int16Ptr[2]))
+            }
+            accelerationBuffer.append((Double(accelerometerData.x), Double(accelerometerData.y), Double(accelerometerData.z)))
+            if accelerationBuffer.count > 5 {
+                NotificationCenter.default.post(name: BluetoothNotification.didUpdateValueFor.notification, object: nil, userInfo: ["acceleration":accelerationBuffer])
+                accelerationBuffer = []
+            }
+            
+        }
     }
     
     func getAccelerometerDataFromMicrobit() throws -> (Double,Double,Double) {
@@ -123,17 +153,60 @@ class BluetoothStore: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
                               y: Int16(littleEndian: int16Ptr[1]),
                               z: Int16(littleEndian: int16Ptr[2]))
         }
+        print("Point: \(accelerometerData.x), \(accelerometerData.y), \(accelerometerData.z)")
         return (Double(accelerometerData.x),Double(accelerometerData.y),Double(accelerometerData.z))
     }
-
-    func connectToMicrobitAtRow(row: Int) {
+    
+    func connectToMicrobitAtRow(row: Int) -> Bool {
         if devicesFound.count > 0 {
             microbit = devicesFound[row]
             microbit.delegate = self
             centralManager.stopScan()
             centralManager.connect(microbit)
+            NotificationCenter.default.post(name: BluetoothNotification.didConnectToPeripheral.notification, object: nil)
+            return true
         } else {
-            connectionState = "No micro:bits present"
+            return false
         }
+    }
+    
+    func connectToMicrobitWithName(name: String) {
+        if devicesFound.count > 0 {
+            for device in devicesFound {
+                if device.name == name {
+                    microbit = device
+                    microbit.delegate = self
+                    centralManager.stopScan()
+                    centralManager.connect(microbit)
+                    NotificationCenter.default.post(name: BluetoothNotification.didConnectToPeripheral.notification, object: nil)
+                }
+            }
+        }
+    }
+    
+    func getCentralManagerState() -> String {
+        return centralManagerState
+    }
+    
+    func isMicrobitConnected() -> Bool {
+        return microbit.state == CBPeripheralState.connected
+    }
+    
+}
+
+enum BluetoothConnectError: Error {
+    case NoValueForCharacteristic
+    case NoCharacteristicForService
+}
+enum BluetoothNotification: String {
+    case didDiscoverPeripheral = "didDiscoverPeripheral"
+    case didConnectToPeripheral = "didConnectToPeripheral"
+    case didUpdateState = "didUpdateState"
+    case didDiscoverServices = "didDiscoverServices"
+    case didDiscoverCharacteristics = "didDiscoverCharacteristics"
+    case didUpdateValueFor = "didUpdateValueFor"
+    
+    var notification : Notification.Name {
+        return Notification.Name(rawValue: self.rawValue)
     }
 }

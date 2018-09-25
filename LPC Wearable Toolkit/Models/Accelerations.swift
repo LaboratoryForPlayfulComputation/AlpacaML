@@ -12,18 +12,24 @@ class Accelerations {
     
     var managedAccelerations: [Acceleration] = []
     var minTimestamp:Double!
+    var maxTimestamp:Double!
     
     init() {
         managedAccelerations = fetchAll()
         minTimestamp = managedAccelerations.min(by: {acc1, acc2 in acc1.timestamp < acc2.timestamp})?.timestamp
+        maxTimestamp = managedAccelerations.max(by: {acc1, acc2 in acc1.timestamp < acc2.timestamp})?.timestamp
     }
     
-    func count() -> Int {
-        return managedAccelerations.count
+    func countAll() -> Int {
+        return fetchAll().count
     }
     
     func getMinTimestamp() -> Double {
         return minTimestamp
+    }
+    
+    func getMaxTimestamp() -> Double {
+        return maxTimestamp
     }
     
     func fetchAll() -> [Acceleration] {
@@ -51,33 +57,33 @@ class Accelerations {
     
     func fetch(sport: String, start_ts: Double, stop_ts: Double) -> [Acceleration] {
         var accelerations: [Acceleration] = []
-            guard let appDelegate =
-                UIApplication.shared.delegate as? AppDelegate else {
-                    return []
-            }
-            
-            let managedContext =
-                appDelegate.persistentContainer.viewContext
-            
-            //2
-            let fetchRequest =
-                NSFetchRequest<NSManagedObject>(entityName: "Acceleration")
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return []
+        }
         
-            let sportPredicate = NSPredicate(format: "sport = %@ && ( timestamp >= \(start_ts) && timestamp <= \(stop_ts))", sport) // This is apparently not safe
-            fetchRequest.predicate = sportPredicate
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
         
-            let sort = NSSortDescriptor(key: #keyPath(Acceleration.timestamp), ascending: true)
-            fetchRequest.sortDescriptors = [sort]
-            
-            //3
-            do {
-                accelerations = try managedContext.fetch(fetchRequest) as? [Acceleration] ?? []
-            } catch let error as NSError {
-                print("Could not fetch. \(error), \(error.userInfo)")
-            }
+        //2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Acceleration")
+        
+        let sportPredicate = NSPredicate(format: "sport = %@ && ( timestamp >= \(start_ts) && timestamp <= \(stop_ts))", sport) // This is apparently not safe
+        fetchRequest.predicate = sportPredicate
+        
+        let sort = NSSortDescriptor(key: #keyPath(Acceleration.timestamp), ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+        
+        //3
+        do {
+            accelerations = try managedContext.fetch(fetchRequest) as? [Acceleration] ?? []
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
         return accelerations
     }
-   
+    
     func fetch(sport: String) -> [Acceleration] {
         var accelerations: [Acceleration] = []
         //1
@@ -107,7 +113,7 @@ class Accelerations {
         }
         return accelerations
     }
-
+    
     //
     func save(x: Double, y: Double, z: Double, timestamp: Double, sport: String, id: Int) {
         
@@ -126,7 +132,7 @@ class Accelerations {
                                        in: managedContext)!
         
         let acceleration_ = NSManagedObject(entity: entity,
-                                     insertInto: managedContext)
+                                            insertInto: managedContext)
         
         // 3
         

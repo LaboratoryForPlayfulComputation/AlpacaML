@@ -9,7 +9,7 @@
 import UIKit
 
 // TODO: Need to add constraints for screens.
-class SportDetailViewController: UIViewController {
+class AddSportViewController: UIViewController {
 
     @IBOutlet weak var sportNameTextField: UITextField!
     @IBOutlet weak var sportDescriptionTextField: UITextField!
@@ -26,23 +26,7 @@ class SportDetailViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
-    
-  /*  // MARK: - Navigation
-    @IBAction func done(segue: UIStoryboardSegue) {
-        let sportDetailVC = segue.source as! SportDetailViewController
-        var newSport = sportDetailVC.name
-        
-        //cars.append(newCar) // save here instead
-        performSegue(withIdentifier: "doneSegue", sender: self)
-    }
-    
-    @IBAction func cancel(segue: UIStoryboardSegue) {
-        dismiss(animated: true, completion: nil)
-    }
-    */
-    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     // https://stackoverflow.com/questions/46561545/xcode-9-0-bug-cant-drag-drop-to-exit-icon
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

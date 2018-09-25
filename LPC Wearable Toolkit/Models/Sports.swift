@@ -15,7 +15,6 @@ class Sports {
     var managedSports: [NSManagedObject] = []
     
     init() {
-        self.deleteAllData(entity: "Sport")
         managedSports = fetchAll()
     }
     

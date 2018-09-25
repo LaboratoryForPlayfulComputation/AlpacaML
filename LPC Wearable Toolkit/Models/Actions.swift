@@ -1,8 +1,8 @@
 //
-//  CoreDataGesture.swift
+//  Actions.swift
 //  LPC Wearable Toolkit
 //
-//  Created by Bridget Murphy on 7/12/18.
+//  Created by Development on 9/12/18.
 //  Copyright © 2018 Varun Narayanswamy LPC. All rights reserved.
 //
 
@@ -10,10 +10,16 @@ import Foundation
 import CoreData
 import UIKit
 
-class Gestures {
+class Actions {
+    var managedActions: [Action] = []
     
-    func fetch(sport: String, gesture: String) -> [Gesture] {
-        var gestures: [Gesture] = []
+    // potentially don't need
+    init() {
+        managedActions = fetchAll()
+    }
+    
+    func fetch(sport: String, name: String) -> [Action] {
+        var actions: [Action] = []
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return []
@@ -24,19 +30,19 @@ class Gestures {
         
         //2
         let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Gesture")
-
+            NSFetchRequest<NSManagedObject>(entityName: "Action")
+        
         //3
         do {
-            gestures = try managedContext.fetch(fetchRequest) as? [Gesture] ?? []
+            actions = try managedContext.fetch(fetchRequest) as? [Action] ?? []
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-        return gestures
+        return actions
     }
     
-
-    func save(id: Int64, gesture: String, rating: String,sport: String, start_ts: Double, stop_ts: Double ) {
+    
+    func save(name: String, sport: String ) {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -49,7 +55,7 @@ class Gestures {
         
         // 2
         let entity =
-            NSEntityDescription.entity(forEntityName: "Gesture",
+            NSEntityDescription.entity(forEntityName: "Action",
                                        in: managedContext)!
         
         let acceleration_ = NSManagedObject(entity: entity,
@@ -57,12 +63,8 @@ class Gestures {
         
         // 3
         
-        acceleration_.setValue(id, forKeyPath: "accelerationID")
-        acceleration_.setValue(gesture, forKeyPath: "gesture")
-        acceleration_.setValue(rating, forKeyPath: "rating")
+        acceleration_.setValue(name, forKeyPath: "name")
         acceleration_.setValue(sport, forKey: "sport")
-        acceleration_.setValue(start_ts, forKey: "start_ts")
-        acceleration_.setValue(stop_ts, forKey: "stop_ts")
         
         // 4
         do {
@@ -70,10 +72,11 @@ class Gestures {
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+        managedActions = fetchAll()
     }
     
-    func fetchAll() -> [NSManagedObject] {
-        var fetchedGestures: [NSManagedObject] = []
+    func fetchAll() -> [Action] {
+        var fetchedActions: [Action] = []
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return []
@@ -84,15 +87,15 @@ class Gestures {
         
         //2
         let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Gesture")
+            NSFetchRequest<NSManagedObject>(entityName: "Action")
         
         //3
         do {
-            fetchedGestures = try managedContext.fetch(fetchRequest)
+            fetchedActions = try managedContext.fetch(fetchRequest) as? [Action] ?? []
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-        return fetchedGestures
+        return fetchedActions
     }
     
     func deleteAllData(entity: String) {

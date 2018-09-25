@@ -9,7 +9,21 @@
         <attribute name="zAcceleration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="video" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Video" inverseName="accelerations" inverseEntity="Video" syncable="YES"/>
     </entity>
-    <entity name="Gesture" representedClassName="Gesture" syncable="YES" codeGenerationType="class">
+    <entity name="Action" representedClassName="Action" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sport" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MLData" representedClassName="MLData" syncable="YES" codeGenerationType="class">
+        <attribute name="enoughData" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="modelAlgoritm" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Peripheral" representedClassName="Peripheral" syncable="YES" codeGenerationType="class">
+        <attribute name="accelerationAvailable" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="available" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lastConnected" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Segment" representedClassName="Segment" syncable="YES" codeGenerationType="class">
         <attribute name="accelerationID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="gesture" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="rating" optional="YES" attributeType="String" syncable="YES"/>
@@ -18,14 +32,10 @@
         <attribute name="stop_ts" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="parent_sport" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sport" inverseName="gestures" inverseEntity="Sport" syncable="YES"/>
     </entity>
-    <entity name="MLData" representedClassName="MLData" syncable="YES" codeGenerationType="class">
-        <attribute name="enoughData" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="modelAlgoritm" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
     <entity name="Sport" representedClassName="Sport" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="gestures" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Gesture" inverseName="parent_sport" inverseEntity="Gesture" syncable="YES"/>
+        <relationship name="gestures" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Segment" inverseName="parent_sport" inverseEntity="Segment" syncable="YES"/>
         <relationship name="videos" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Video" inverseName="parentSport" inverseEntity="Video" syncable="YES"/>
     </entity>
     <entity name="Video" representedClassName="Video" syncable="YES" codeGenerationType="class">
@@ -37,9 +47,11 @@
     </entity>
     <elements>
         <element name="Acceleration" positionX="-63" positionY="-18" width="128" height="150"/>
-        <element name="Gesture" positionX="-54" positionY="36" width="128" height="150"/>
+        <element name="Segment" positionX="-54" positionY="36" width="128" height="150"/>
         <element name="MLData" positionX="-36" positionY="54" width="128" height="75"/>
         <element name="Sport" positionX="-45" positionY="54" width="128" height="105"/>
         <element name="Video" positionX="-36" positionY="63" width="128" height="120"/>
+        <element name="Action" positionX="-45" positionY="72" width="128" height="75"/>
+        <element name="Peripheral" positionX="-36" positionY="81" width="128" height="105"/>
     </elements>
 </model>
