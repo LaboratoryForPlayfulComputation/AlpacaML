@@ -35,7 +35,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
         print(sport.name ?? "none")
         self.title = sport.name
         prepareSummary()
-        managedActions = actionStore.fetchAll()
+        managedActions = actionStore.fetch(sport: sport.name!)
         trainButton.isEnabled = false
         testButton.isEnabled = false
     }
@@ -55,7 +55,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
             let textField = alert?.textFields![0]
             print("Alert storing \(textField?.text ?? "(none)"), \(self.sport.name!)")
             self.actionStore.save(name: (textField?.text!)!, sport: self.sport.name!)
-            self.managedActions = self.actionStore.fetchAll()
+            self.managedActions = self.actionStore.fetch(sport: self.sport.name!)
             print("Count of actions: \(self.managedActions.count)")
             self.actionPicker.reloadAllComponents()
         }))
@@ -107,11 +107,11 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
     func prepareSummary() {
         self.summaryLabel.text? = ""
         self.summaryLabel.text?.append("Description: \(sport.notes ?? "(none)")\n")
-        numberVideos = videoStore.countAll()
+        numberVideos = videoStore.countAll(sport: sport.name!)
         self.summaryLabel.text?.append("Videos: \(numberVideos)\n")
-        numberSegments = segmentStore.countAll()
+        numberSegments = segmentStore.countAll(sport: sport.name!)
         self.summaryLabel.text?.append("Training segments: \(numberSegments)\n")
-        accelerationPoints = accelerationStore.countAll()
+        accelerationPoints = accelerationStore.countAll(sport: sport.name!)
         self.summaryLabel.text?.append("Total Acceleration Data Points: \(accelerationPoints)\n")
     }
 }

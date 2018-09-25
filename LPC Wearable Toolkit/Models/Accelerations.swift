@@ -20,8 +20,8 @@ class Accelerations {
         maxTimestamp = managedAccelerations.max(by: {acc1, acc2 in acc1.timestamp < acc2.timestamp})?.timestamp
     }
     
-    func countAll() -> Int {
-        return fetchAll().count
+    func countAll(sport: String) -> Int {
+        return fetch(sport: sport).count
     }
     
     func getMinTimestamp() -> Double {

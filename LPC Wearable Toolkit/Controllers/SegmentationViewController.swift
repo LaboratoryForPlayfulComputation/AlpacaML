@@ -17,6 +17,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     @IBOutlet weak var lineChart: LineChartView!
     @IBOutlet weak var goodButton: UIButton!
     @IBOutlet weak var badButton: UIButton!
+    @IBOutlet weak var noneButton: UIButton!
     @IBOutlet weak var videoStatusLabel: UILabel!
     
     var videoCaptureController: UIImagePickerController!
@@ -70,7 +71,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         stopObservers()
     }
  
-    @IBAction func classifyGestureGood(_ sender: UIButton) {
+    @IBAction func labelSegmentGood(_ sender: UIButton) {
         totalGesturesSelected = totalGesturesSelected + 1
         gestureStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "Good", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1])
         // change color of highlighted portion to green
@@ -81,10 +82,25 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         pointsSelected = []
         goodButton.isEnabled = false
         badButton.isEnabled = false
+        noneButton.isEnabled = false
         print("How many gestures in database: \(gestureStore.fetchAll().count)")
     }
     
-    @IBAction func classifyGestureBad(_ sender: UIButton) {
+    @IBAction func labelSegmentNone(_ sender: UIButton) {
+        totalGesturesSelected = totalGesturesSelected + 1
+        gestureStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "None", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1])
+        let start = Int(round(pointsSelected[0]))
+        let stop = Int(round(pointsSelected[1]))
+        doHighlight(color: UIColor.brown, start: start, stop: stop)
+        
+        pointsSelected = []
+        goodButton.isEnabled = false
+        badButton.isEnabled = false
+        noneButton.isEnabled = false
+        print("How many gestures in database: \(gestureStore.fetchAll().count)")
+    }
+    
+    @IBAction func labelSegmentBad(_ sender: UIButton) {
         totalGesturesSelected = totalGesturesSelected + 1
         gestureStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "Bad", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1])
         let start = Int(round(pointsSelected[0]))
@@ -94,6 +110,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         pointsSelected = []
         goodButton.isEnabled = false
         badButton.isEnabled = false
+        noneButton.isEnabled = false
         print("How many gestures in database: \(gestureStore.fetchAll().count)")
     }
     
@@ -321,6 +338,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             pointsSelected.sort()
             goodButton.isEnabled = true
             badButton.isEnabled = true
+            noneButton.isEnabled = true
             let start = Int(round(pointsSelected[0]))
             let stop = Int(round(pointsSelected[1]))
             doHighlight(color: UIColor.magenta, start: start, stop: stop)
