@@ -18,7 +18,7 @@ class Actions {
         managedActions = fetchAll()
     }
     
-    func fetch(sport: String, name: String) -> [Action] {
+    func fetch(sport: String) -> [Action] {
         var actions: [Action] = []
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -31,6 +31,9 @@ class Actions {
         //2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Action")
+        
+        let actionPredicate = NSPredicate(format: "sport = %@", sport)
+        fetchRequest.predicate = actionPredicate
         
         //3
         do {

@@ -224,9 +224,9 @@
                                     <constraint firstAttribute="height" constant="45" id="Le6-yL-qm7"/>
                                     <constraint firstAttribute="width" constant="50" id="d1a-H7-mnf"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="Thumbs Up"/>
+                                <state key="normal" title="Good" image="Thumbs Up"/>
                                 <connections>
-                                    <action selector="classifyGestureGood:" destination="flV-Oe-7sc" eventType="touchUpInside" id="kra-qF-0gb"/>
+                                    <action selector="labelSegmentGood:" destination="flV-Oe-7sc" eventType="touchUpInside" id="kra-qF-0gb"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4i4-K0-Pb5">
@@ -237,7 +237,7 @@
                                 </constraints>
                                 <state key="normal" title="Button" image="Thumbs Down"/>
                                 <connections>
-                                    <action selector="classifyGestureBad:" destination="flV-Oe-7sc" eventType="touchUpInside" id="3RI-yd-xjo"/>
+                                    <action selector="labelSegmentBad:" destination="flV-Oe-7sc" eventType="touchUpInside" id="3RI-yd-xjo"/>
                                 </connections>
                             </button>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aWK-iR-azN">
@@ -252,6 +252,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d6F-EQ-lfV">
+                                <rect key="frame" x="120.5" y="519" width="79" height="33"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                <state key="normal" title="No action"/>
+                                <connections>
+                                    <action selector="labelSegmentNone:" destination="flV-Oe-7sc" eventType="touchUpInside" id="FtG-ad-B8P"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -262,12 +270,14 @@
                             <constraint firstItem="4i4-K0-Pb5" firstAttribute="top" secondItem="AM0-6s-Abu" secondAttribute="bottom" constant="8" id="GM7-Fb-CZh"/>
                             <constraint firstItem="TIC-Rw-5ZH" firstAttribute="top" secondItem="AM0-6s-Abu" secondAttribute="bottom" constant="8" id="Jxg-iV-N4O"/>
                             <constraint firstItem="AM0-6s-Abu" firstAttribute="centerX" secondItem="nBa-Rk-Rb2" secondAttribute="centerX" id="PcH-Va-6so"/>
+                            <constraint firstItem="rIm-0f-Syg" firstAttribute="bottom" secondItem="d6F-EQ-lfV" secondAttribute="bottom" constant="16" id="WRn-q3-3gs"/>
                             <constraint firstItem="aWK-iR-azN" firstAttribute="bottom" secondItem="rIm-0f-Syg" secondAttribute="top" id="Yba-jH-fYS"/>
                             <constraint firstItem="AM0-6s-Abu" firstAttribute="top" secondItem="I4g-vV-VWU" secondAttribute="bottom" constant="61" id="e7m-i3-Fya"/>
                             <constraint firstItem="rIm-0f-Syg" firstAttribute="trailing" secondItem="AM0-6s-Abu" secondAttribute="trailing" constant="16" id="euK-Yv-vgu"/>
                             <constraint firstItem="TIC-Rw-5ZH" firstAttribute="leading" secondItem="rIm-0f-Syg" secondAttribute="leading" constant="16" id="gzf-zY-vww"/>
                             <constraint firstItem="I4g-vV-VWU" firstAttribute="centerX" secondItem="aWK-iR-azN" secondAttribute="centerX" id="hro-QV-8QF"/>
                             <constraint firstItem="rIm-0f-Syg" firstAttribute="trailing" secondItem="4i4-K0-Pb5" secondAttribute="trailing" constant="16" id="mD0-JS-cqO"/>
+                            <constraint firstItem="d6F-EQ-lfV" firstAttribute="centerX" secondItem="nBa-Rk-Rb2" secondAttribute="centerX" id="rNn-BM-2DV"/>
                             <constraint firstItem="aWK-iR-azN" firstAttribute="leading" secondItem="nBa-Rk-Rb2" secondAttribute="leading" id="wS8-eC-Nea"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rIm-0f-Syg"/>
@@ -288,6 +298,7 @@
                         <outlet property="badButton" destination="4i4-K0-Pb5" id="Wvw-6q-Soo"/>
                         <outlet property="goodButton" destination="TIC-Rw-5ZH" id="mpg-0w-UWi"/>
                         <outlet property="lineChart" destination="AM0-6s-Abu" id="wVi-2s-Wyj"/>
+                        <outlet property="noneButton" destination="d6F-EQ-lfV" id="hSa-BI-R0t"/>
                         <outlet property="videoStatusLabel" destination="I4g-vV-VWU" id="pbL-3H-F5M"/>
                     </connections>
                 </viewController>
@@ -545,7 +556,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="eBj-cE-d48" kind="presentation" id="3Tq-VM-0K1"/>
+                                    <segue destination="eBj-cE-d48" kind="presentation" identifier="train" id="3Tq-VM-0K1"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wSB-dz-hNo">
@@ -559,7 +570,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="bQD-wm-39A" kind="presentation" id="GXm-hd-9fQ"/>
+                                    <segue destination="bQD-wm-39A" kind="presentation" identifier="test" id="GXm-hd-9fQ"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Yc-b5-O2A">

@@ -36,9 +36,8 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
         self.lineChart.delegate = self
         self.segmentList = segmentStore.fetch(sport: sport, gesture: action)
         let min_ts = accelerationStore.getMinTimestamp()
-        let max_ts = accelerationStore.getMaxTimestamp()
+
         for segment in segmentList {
-            // This is off
             let adjustedStart = segment.start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts
             let adjustedStop = segment.stop_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts
             let accelerations = self.accelerationStore.fetch(sport: sport, start_ts: adjustedStart, stop_ts: adjustedStop)
@@ -66,7 +65,11 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
             let test = self.newAccelerations[(maxIndex-self.chunkSize)..<maxIndex]
             let classification = self.dtw.classify(test: Array(test))
             DispatchQueue.main.async {
-                self.classificationLabel.text = classification
+                if classification.starts(with: "None") {
+                    self.classificationLabel.text = ""
+                } else {
+                    self.classificationLabel.text = classification
+                }
             }
         }
         // make it also talk
