@@ -9,6 +9,7 @@
 import UIKit
 import Charts
 import CoreBluetooth
+import AVFoundation
 
 class ClassificationViewController: UIViewController, ChartViewDelegate {
     
@@ -36,7 +37,6 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
         self.lineChart.delegate = self
         self.segmentList = segmentStore.fetch(sport: sport, gesture: action)
         let min_ts = accelerationStore.getMinTimestamp()
-        let max_ts = accelerationStore.getMaxTimestamp()
         for segment in segmentList {
             // This is off
             let adjustedStart = segment.start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts
