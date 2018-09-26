@@ -14,8 +14,8 @@ class Videos {
     
     var managedVideos: [NSManagedObject] = []
     
-    func countAll() -> Int {
-        return fetchAll().count
+    func countAll(sport: String) -> Int {
+        return fetch(sport: sport).count
     }
     
     func fetch(sport: String) -> [Video] {
@@ -41,11 +41,12 @@ class Videos {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+        //let test = fetchAll()[0].sport
         return videos
     }
     
-    func fetchAll() -> [NSManagedObject] {
-        var fetchedSports: [NSManagedObject] = []
+    func fetchAll() -> [Video] {
+        var fetchedSports: [Video] = []
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return []
@@ -60,7 +61,7 @@ class Videos {
         
         //3
         do {
-            fetchedSports = try managedContext.fetch(fetchRequest)
+            fetchedSports = try managedContext.fetch(fetchRequest) as? [Video] ?? []
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
