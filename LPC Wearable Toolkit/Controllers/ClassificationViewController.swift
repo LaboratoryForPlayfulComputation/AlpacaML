@@ -9,6 +9,7 @@
 import UIKit
 import Charts
 import CoreBluetooth
+import AVFoundation
 
 class ClassificationViewController: UIViewController, ChartViewDelegate {
     
@@ -47,8 +48,6 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
         chunkSize = Int(self.getMaxSegmentLength())
         NotificationCenter.default.addObserver(self, selector: #selector(onDidUpdateValueFor(_:)), name: BluetoothNotification.didUpdateValueFor.notification, object: nil)
     }
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
