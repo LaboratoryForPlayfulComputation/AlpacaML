@@ -24,7 +24,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     var videoStore = Videos()
     var accelerationStore = Accelerations()
     var accelerationObjects: [(Double, Double, Double)] = []
-    var gestureStore = Segments()
+    var segmentStore = Segments()
     var recording = false
     var timer = Timer()
     
@@ -73,7 +73,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
  
     @IBAction func labelSegmentGood(_ sender: UIButton) {
         totalGesturesSelected = totalGesturesSelected + 1
-        gestureStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "Good", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1])
+        segmentStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "Good", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1], inTrainingSet: true)
         // change color of highlighted portion to green
         let start = Int(round(pointsSelected[0]))
         let stop = Int(round(pointsSelected[1]))
@@ -83,12 +83,12 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         goodButton.isEnabled = false
         badButton.isEnabled = false
         noneButton.isEnabled = false
-        print("How many gestures in database: \(gestureStore.fetchAll().count)")
+        print("How many gestures in database: \(segmentStore.fetchAll().count)")
     }
     
     @IBAction func labelSegmentNone(_ sender: UIButton) {
         totalGesturesSelected = totalGesturesSelected + 1
-        gestureStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "None", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1])
+        segmentStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "None", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1], inTrainingSet: true)
         let start = Int(round(pointsSelected[0]))
         let stop = Int(round(pointsSelected[1]))
         doHighlight(color: UIColor.brown, start: start, stop: stop)
@@ -97,12 +97,12 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         goodButton.isEnabled = false
         badButton.isEnabled = false
         noneButton.isEnabled = false
-        print("How many gestures in database: \(gestureStore.fetchAll().count)")
+        print("How many gestures in database: \(segmentStore.fetchAll().count)")
     }
     
     @IBAction func labelSegmentBad(_ sender: UIButton) {
         totalGesturesSelected = totalGesturesSelected + 1
-        gestureStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "Bad", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1])
+        segmentStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "Bad", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1], inTrainingSet: true)
         let start = Int(round(pointsSelected[0]))
         let stop = Int(round(pointsSelected[1]))
         doHighlight(color: UIColor.red, start: start, stop: stop)
@@ -111,7 +111,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         goodButton.isEnabled = false
         badButton.isEnabled = false
         noneButton.isEnabled = false
-        print("How many gestures in database: \(gestureStore.fetchAll().count)")
+        print("How many gestures in database: \(segmentStore.fetchAll().count)")
     }
     
     
@@ -119,7 +119,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     
     func prepareToPlay() {
         // get url
-        let urlString = videoStore.fetch(sport: sport)[0].url
+        let urlString = videoStore.fetch(sport: sport)[0].url // GIRL
         print(urlString ?? "No URL")
         let url = URL(string: urlString!)
         asset = AVAsset(url: url!)
@@ -235,6 +235,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             let acceleration = try BluetoothStore.shared.getAccelerometerDataFromMicrobit()
             print(acceleration)
             self.accelerationStore.save(x: acceleration.0,y: acceleration.1,z: acceleration.2, timestamp: NSDate().timeIntervalSinceReferenceDate,sport: sport, id: 1)
+            
             self.accelerationObjects.append(acceleration)
         } catch {
             print("No data available from microbit: \(error)")
@@ -245,7 +246,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     
     func prepareGraph() {
         self.lineChart.delegate = self
-        let accels = accelerationStore.managedAccelerations // make sure these are ordered by timestamp. This is implemented, but need to verify.
+        let accels = accelerationStore.fetch(sport: sport) // make sure these are ordered by timestamp. This is implemented, but need to verify.
         for accel in accels {
             accelerationObjects.append((accel.xAcceleration, accel.yAcceleration, accel.zAcceleration))
             print("TS: \(accel.timestamp)")

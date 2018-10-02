@@ -76,6 +76,13 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
             print("Sport name: \(sport.name ?? "no value provided")")
             destinationViewController.sport = self.sport.name!
             destinationViewController.action = self.selectedAction.name!
+        } else if (segue.identifier == "review") {
+            // you didn't connect the segment yet
+            let navigationViewController = segue.destination as! UINavigationController
+            let destinationViewController = navigationViewController.viewControllers[0] as! SegmentReviewViewController
+            print("Sport name: \(sport.name ?? "no value provided")")
+            destinationViewController.sport = self.sport.name!
+            destinationViewController.action = self.selectedAction.name!
         }
     }
     
