@@ -68,24 +68,25 @@ class Videos {
         return fetchedSports
     }
     
-    func save(name: String, url: String) {
+    func save(name: String, url: String, accelerations: [Acceleration]) -> Video {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
+            return Video()
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Video", in: managedContext)!
-        let video = NSManagedObject(entity: entity, insertInto: managedContext)
+        let video = Video(entity: entity, insertInto: managedContext)
         video.setValue(1, forKeyPath: "id")
         video.setValue(name, forKeyPath: "sport")
         video.setValue(url, forKey: "url")
-        
+        video.accelerations = NSSet(array: accelerations)
         do {
             try managedContext.save()
             managedVideos.append(video)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+        return video
     }
     
     func deleteAllData(entity: String)

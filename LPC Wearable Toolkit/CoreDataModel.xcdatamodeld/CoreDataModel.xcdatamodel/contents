@@ -12,6 +12,7 @@
     <entity name="Action" representedClassName="Action" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sport" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="parentSport" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sport" inverseName="actions" inverseEntity="Sport" syncable="YES"/>
     </entity>
     <entity name="Peripheral" representedClassName="Peripheral" syncable="YES" codeGenerationType="class">
         <attribute name="accelerationAvailable" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -32,23 +33,23 @@
     <entity name="Sport" representedClassName="Sport" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="actions" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Action" syncable="YES"/>
-        <relationship name="videos" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Video" inverseName="parentSport" inverseEntity="Video" syncable="YES"/>
+        <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Action" inverseName="parentSport" inverseEntity="Action" syncable="YES"/>
+        <relationship name="videos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Video" inverseName="parentSport" inverseEntity="Video" syncable="YES"/>
     </entity>
     <entity name="Video" representedClassName="Video" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sport" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="accelerations" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Acceleration" inverseName="video" inverseEntity="Acceleration" syncable="YES"/>
+        <relationship name="accelerations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Acceleration" inverseName="video" inverseEntity="Acceleration" syncable="YES"/>
         <relationship name="parentSport" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sport" inverseName="videos" inverseEntity="Sport" syncable="YES"/>
-        <relationship name="segments" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Segment" inverseName="video" inverseEntity="Segment" syncable="YES"/>
+        <relationship name="segments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Segment" inverseName="video" inverseEntity="Segment" syncable="YES"/>
     </entity>
     <elements>
         <element name="Acceleration" positionX="153" positionY="180" width="128" height="150"/>
-        <element name="Action" positionX="-452" positionY="-216" width="128" height="73"/>
+        <element name="Action" positionX="-452" positionY="-216" width="128" height="88"/>
         <element name="Peripheral" positionX="196" positionY="-162" width="128" height="105"/>
         <element name="Segment" positionX="-297" positionY="171" width="128" height="163"/>
         <element name="Sport" positionX="-218" positionY="-229" width="128" height="103"/>
-        <element name="Video" positionX="-65" positionY="-57" width="128" height="133"/>
+        <element name="Video" positionX="-65" positionY="-57" width="128" height="135"/>
     </elements>
 </model>

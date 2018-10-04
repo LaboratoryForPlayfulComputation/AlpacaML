@@ -78,7 +78,7 @@ class Segments {
         return segments
     }
     
-    func save(id: Int64, gesture: String, rating: String,sport: String, start_ts: Double, stop_ts: Double, inTrainingSet: Bool ) {
+    func save(id: Int64, gesture: String, rating: String,sport: String, start_ts: Double, stop_ts: Double, inTrainingSet: Bool, video: Video ) {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -94,18 +94,20 @@ class Segments {
             NSEntityDescription.entity(forEntityName: "Segment",
                                        in: managedContext)!
         
-        let segment_ = NSManagedObject(entity: entity,
+        let segment = Segment(entity: entity,
                                             insertInto: managedContext)
         
         // 3
         
-        segment_.setValue(id, forKeyPath: "accelerationID")
-        segment_.setValue(gesture, forKeyPath: "gesture")
-        segment_.setValue(rating, forKeyPath: "rating")
-        segment_.setValue(sport, forKey: "sport")
-        segment_.setValue(start_ts, forKey: "start_ts")
-        segment_.setValue(stop_ts, forKey: "stop_ts")
-        segment_.setValue(inTrainingSet, forKey: "inTrainingSet")
+        segment.setValue(id, forKeyPath: "accelerationID")
+        segment.setValue(gesture, forKeyPath: "gesture")
+        segment.setValue(rating, forKeyPath: "rating")
+        segment.setValue(sport, forKey: "sport")
+        segment.setValue(start_ts, forKey: "start_ts")
+        segment.setValue(stop_ts, forKey: "stop_ts")
+        segment.setValue(inTrainingSet, forKey: "inTrainingSet")
+        
+        segment.video = video
         
         // 4
         do {

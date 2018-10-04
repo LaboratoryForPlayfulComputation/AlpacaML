@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class HomeScreenViewController: UIViewController {
     
@@ -21,7 +22,28 @@ class HomeScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         enterButton.isEnabled = false
+        // request status: https://stackoverflow.com/questions/39893918/xcode-8-swift-3-phphotolibrary-requestauthorization-crashing
+        let status = PHPhotoLibrary.authorizationStatus()
         
+        switch status {
+        case .authorized:
+            print("authorized")
+        case .denied:
+            print("denied") // it is denied
+        case .notDetermined:
+            print("notDetermined")
+            PHPhotoLibrary.requestAuthorization({(status) -> Void in
+                switch status {
+                case .authorized:
+                        print("Authorized!")
+                case .denied, .restricted:
+                        print("Denied or Restricted")
+                case .notDetermined: break
+                }
+            })
+        case .restricted:
+            print("restricted")
+        }
         microbitStore = Peripherals()
         lastUsedMicrobitName = microbitStore.fetchLastConnected()
         print("lastUsedMicrobitName: \(lastUsedMicrobitName)")
