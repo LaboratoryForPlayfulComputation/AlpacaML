@@ -15,6 +15,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var actionPicker: UIPickerView!
     @IBOutlet weak var trainButton: UIButton!
     @IBOutlet weak var testButton: UIButton!
+    @IBOutlet weak var reviewButton: UIButton!
     
     var numberVideos = 0
     var numberSegments = 0
@@ -38,6 +39,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
         managedActions = actionStore.fetch(sport: sport.name!)
         trainButton.isEnabled = false
         testButton.isEnabled = false
+        reviewButton.isEnabled = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -54,9 +56,10 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0]
             print("Alert storing \(textField?.text ?? "(none)"), \(self.sport.name!)")
-            self.actionStore.save(name: (textField?.text!)!, sport: self.sport.name!)
+            self.actionStore.save(name: (textField?.text!)!, sport: self.sport)
             self.managedActions = self.actionStore.fetch(sport: self.sport.name!)
             print("Count of actions: \(self.managedActions.count)")
+            print("parent: \(self.managedActions[0].parentSport?.name ?? "")")
             self.actionPicker.reloadAllComponents()
         }))
         
@@ -73,6 +76,13 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
         } else if (segue.identifier == "test") {
             let navigationViewController = segue.destination as! UINavigationController
             let destinationViewController = navigationViewController.viewControllers[0] as! ClassificationViewController
+            print("Sport name: \(sport.name ?? "no value provided")")
+            destinationViewController.sport = self.sport.name!
+            destinationViewController.action = self.selectedAction.name!
+        } else if (segue.identifier == "review") {
+            // you didn't connect the segment yet
+            let navigationViewController = segue.destination as! UINavigationController
+            let destinationViewController = navigationViewController.viewControllers[0] as! SegmentReviewViewController
             print("Sport name: \(sport.name ?? "no value provided")")
             destinationViewController.sport = self.sport.name!
             destinationViewController.action = self.selectedAction.name!
@@ -101,6 +111,8 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
         if (numberSegments > 0) && (accelerationPoints > 0) {
             testButton.isEnabled = true
             testButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
+            reviewButton.isEnabled = true
+            reviewButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
         }
     }
     

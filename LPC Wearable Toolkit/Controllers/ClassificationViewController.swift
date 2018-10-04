@@ -35,7 +35,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
         super.viewDidLoad()
         self.title = "Test \(sport)"
         self.lineChart.delegate = self
-        self.segmentList = segmentStore.fetch(sport: sport, gesture: action)
+        self.segmentList = segmentStore.fetch(sport: sport, gesture: action, trainingSet: true)
         let min_ts = accelerationStore.getMinTimestamp()
         for segment in segmentList {
             let adjustedStart = segment.start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts
@@ -47,8 +47,6 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
         chunkSize = Int(self.getMaxSegmentLength())
         NotificationCenter.default.addObserver(self, selector: #selector(onDidUpdateValueFor(_:)), name: BluetoothNotification.didUpdateValueFor.notification, object: nil)
     }
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -145,8 +143,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
     // MARK - Gesture recognition code
     
     func getMaxSegmentLength() -> Double {
-        let gestures = segmentStore.fetch(sport: "Sportsball", gesture: "Gesture")
-        let longest = gestures.max(by: {g1, g2 in (g1.stop_ts - g1.start_ts) < (g2.stop_ts - g2.start_ts)} )
+        let longest = segmentList.max(by: {g1, g2 in (g1.stop_ts - g1.start_ts) < (g2.stop_ts - g2.start_ts)} )
         print("Start: \(String(describing: longest?.start_ts)), Stop: \(String(describing: longest?.stop_ts))")
         return (longest?.stop_ts)! - (longest?.start_ts)!
     }
