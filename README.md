@@ -15,10 +15,17 @@ The wearable toolkit is an all purpose wearable that can be used with a variety 
 # Setting up for following runs
 1. Navigate to the application on your phone<p>
   
+# Setting up the MicroBit
+1. Navigate to https://microbit.org/code/<p>
+2. Click Let's Code<p>
+3. Create a program that looks something like this<p>
+![Imgur](https://i.imgur.com/VBDEQI6.png)<p>
+4. Download the file to your MicroBit
+
 # Connecting to MicroBit
 1. Click on Connect to a new MicroBit<p>
 2. Choose your MicroBit from the drag down menu<p>
-3. Your MicroBit will display a happy face when you have connected<p>
+3. Your MicroBit will display a diamond when you have connected<p>
 4. Now Get Started should turn green-click on it<p>
 
 # Setting up New Sports and Actions
