@@ -18,7 +18,9 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     @IBOutlet weak var goodButton: UIButton!
     @IBOutlet weak var badButton: UIButton!
     @IBOutlet weak var noneButton: UIButton!
-    @IBOutlet weak var videoStatusLabel: UILabel!
+    @IBOutlet weak var videoButton: UIButton!
+    @IBOutlet weak var libraryButton: UIButton!
+    @IBOutlet weak var importButton: UIButton!
     
     var videoCaptureController: UIImagePickerController!
     var videoStore = Videos()
@@ -57,7 +59,6 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     // Make a user settings variable for sports, or allow user to put it in, or pass it around.
     override func viewDidLoad() {
         super.viewDidLoad()
-        videoStatusLabel.text = "Touch camera icon to record video"
         self.title = "Train \(sport)"
     }
     
@@ -70,6 +71,15 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         super.viewWillDisappear(animated)
         // maybe an issue for current setup?
         stopObservers()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "library" ) {
+            let navigationViewController = segue.destination as! UINavigationController
+            let destinationViewController = navigationViewController.viewControllers[0] as! LibraryCollectionViewController
+            print("Selected sport: \(sport)")
+            destinationViewController.sport = sport
+        }
     }
  
     @IBAction func labelSegmentGood(_ sender: UIButton) {
@@ -152,7 +162,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         }
     }
     
-    @IBAction func captureData(_ sender: UIBarButtonItem) {
+    @IBAction func captureData(_ sender: UIButton) {
         if !BluetoothStore.shared.isMicrobitConnected() {
             // do popover
         }
@@ -207,7 +217,9 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
 
             // [AZ] NOTE: We are using finalURL here, but I saw some stuff on stack overflow that suggested this url might change. not sure if true.
             
-            videoStatusLabel.text = ""
+            videoButton.isHidden = true
+            libraryButton.isHidden = true
+            importButton.isHidden = true
             
             prepareGraph()
             prepareToPlay(urlString: url.absoluteString!)
@@ -369,5 +381,20 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         zAccelerationLine.setColors(zColors, alpha: 1)
         lineChart.data?.notifyDataChanged()
         lineChart.notifyDataSetChanged()
+    }
+
+}
+
+extension SegmentationViewController {
+    @IBAction func cancelToSegmentationViewController(_ segue: UIStoryboardSegue) {
+        
+    }
+    
+    @IBAction func finishPickingVideo(_ segue: UIStoryboardSegue) {
+        guard let libraryCollectionViewController = segue.source as? LibraryCollectionViewController,
+            let chosenVideo = libraryCollectionViewController.chosenVideo else {
+                return
+        }
+        // TODO: play video
     }
 }
