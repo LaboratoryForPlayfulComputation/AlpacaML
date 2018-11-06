@@ -395,6 +395,17 @@ extension SegmentationViewController {
             let chosenVideo = libraryCollectionViewController.chosenVideo else {
                 return
         }
-        // TODO: play video
+        videoButton.isHidden = true
+        libraryButton.isHidden = true
+        importButton.isHidden = true
+        self.savedVideo = chosenVideo
+        prepareGraph()
+        prepareToPlay(urlString: chosenVideo.url! )
+        accelerationObjects = chosenVideo.accelerations?.allObjects as! [Acceleration] // is this right
+        accelerationObjects.sort(by: {(a1, a2) in
+            a1.timestamp < a2.timestamp
+        })
+        updateGraph()
+        startObservers()
     }
 }
