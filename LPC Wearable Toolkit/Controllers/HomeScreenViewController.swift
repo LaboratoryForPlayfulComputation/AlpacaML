@@ -14,8 +14,10 @@ class HomeScreenViewController: UIViewController {
     var microbitStore: Peripherals!
     var lastUsedMicrobitName: String!
     
+    
     @IBOutlet weak var microbitNameLabel: UILabel!
     @IBOutlet weak var enterButton: UIButton!
+    
     
     var connectedToLastMicrobit = false
     
@@ -54,6 +56,22 @@ class HomeScreenViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func deleteFromCoredata(_ sender: Any) {
+        let alert = UIAlertController(title: "Wait!", message: "Are you sure you want to clear all data?", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Yes, delete", style: .destructive, handler: { [weak alert] (_) in
+            self.microbitStore.deleteAllData(entity: "Acceleration")
+            self.microbitStore.deleteAllData(entity: "Segment")
+            self.microbitStore.deleteAllData(entity: "Sport")
+            self.microbitStore.deleteAllData(entity: "Video")
+            self.microbitStore.deleteAllData(entity: "Action")
+        }))
+        
+        alert.addAction(UIAlertAction(title: "No, go back", style: .default, handler: nil))
+
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func onDidDiscoverPeripheral(_ notification: Notification) {
