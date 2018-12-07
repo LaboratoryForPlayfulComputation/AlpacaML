@@ -310,6 +310,7 @@
                                     <navigationItem title="Label Actions" id="CZ7-9B-6pK"/>
                                 </items>
                             </navigationBar>
+
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d6F-EQ-lfV">
                                 <rect key="frame" x="120.5" y="519" width="79" height="33"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
@@ -570,6 +571,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dv-kJ-G3x">
+                                <rect key="frame" x="0.0" y="10" width="90" height="30"/>
+                                <state key="normal" title="Clear all data">
+                                    <color key="titleColor" red="0.79859640860000003" green="0.53451445750000004" blue="0.88702234459999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteFromCoredata:" destination="5OY-Nm-cmy" eventType="touchUpInside" id="Wdq-bj-MPV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -577,6 +587,7 @@
                             <constraint firstItem="V8i-5a-RqL" firstAttribute="centerX" secondItem="XCv-7u-4hx" secondAttribute="centerX" id="3PP-Ec-ePR"/>
                             <constraint firstItem="Xcz-1v-7HB" firstAttribute="centerX" secondItem="Utu-sY-NbB" secondAttribute="centerX" id="5Eg-vD-Ahr"/>
                             <constraint firstItem="lv4-ib-Fgt" firstAttribute="top" secondItem="Xcz-1v-7HB" secondAttribute="bottom" constant="8" symbolic="YES" id="Lkb-n2-1GT"/>
+                            <constraint firstItem="3dv-kJ-G3x" firstAttribute="leading" secondItem="vkf-RR-Iq9" secondAttribute="leading" id="Lyb-be-p1k"/>
                             <constraint firstItem="LJX-qm-03w" firstAttribute="centerX" secondItem="vkf-RR-Iq9" secondAttribute="centerX" id="UMk-Zj-t44"/>
                             <constraint firstItem="vkf-RR-Iq9" firstAttribute="top" secondItem="LJX-qm-03w" secondAttribute="bottom" constant="73" id="YQ0-dJ-qyY"/>
                             <constraint firstItem="V8i-5a-RqL" firstAttribute="centerX" secondItem="Utu-sY-NbB" secondAttribute="centerX" id="e8v-Nr-UsC"/>
@@ -584,6 +595,7 @@
                             <constraint firstItem="Xcz-1v-7HB" firstAttribute="top" secondItem="V8i-5a-RqL" secondAttribute="bottom" constant="58" id="ieE-KZ-qpJ"/>
                             <constraint firstItem="Ech-4C-mgf" firstAttribute="trailing" secondItem="Xcz-1v-7HB" secondAttribute="trailing" constant="35" id="mz1-Oz-oh8"/>
                             <constraint firstItem="lv4-ib-Fgt" firstAttribute="leading" secondItem="Utu-sY-NbB" secondAttribute="leadingMargin" id="oe9-Fm-Vwn"/>
+                            <constraint firstItem="XCv-7u-4hx" firstAttribute="top" secondItem="3dv-kJ-G3x" secondAttribute="bottom" constant="1" id="r2t-n3-DaA"/>
                             <constraint firstItem="XCv-7u-4hx" firstAttribute="top" secondItem="Ech-4C-mgf" secondAttribute="top" constant="21" id="slH-BG-h26"/>
                             <constraint firstItem="vkf-RR-Iq9" firstAttribute="bottom" secondItem="Ech-4C-mgf" secondAttribute="bottom" id="tDE-HA-voz"/>
                             <constraint firstItem="V8i-5a-RqL" firstAttribute="top" secondItem="XCv-7u-4hx" secondAttribute="bottom" constant="8" symbolic="YES" id="u4b-Oc-GGB"/>
