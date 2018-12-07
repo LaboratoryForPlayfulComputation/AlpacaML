@@ -30,6 +30,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
     var sport = ""
     var action = ""
     let dtw = DTW()
+    var previousClassification: String = "None"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,14 +64,16 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
             let test = self.newAccelerations[(maxIndex-self.chunkSize)..<maxIndex]
             let classification = self.dtw.classify(test: Array(test))
             DispatchQueue.main.async {
-                if classification.starts(with: "None") {
+                if classification.starts(with: "None") || (classification == self.previousClassification) {
                     self.classificationLabel.text = ""
+                    self.previousClassification = classification
                 } else {
                     self.classificationLabel.text = classification
                     let speechText = classification.split(separator: " ")[0].lowercased()
                     let utterance = AVSpeechUtterance(string: speechText)
                     let synthesizer = AVSpeechSynthesizer()
                     synthesizer.speak(utterance)
+                    self.previousClassification = classification
                 }
             }
         }

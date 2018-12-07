@@ -60,6 +60,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Train \(sport)"
+        self.importButton.isEnabled = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -337,7 +338,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     }
     
     func setChartValues(seconds: Double) {
-        let chartIndex = Double(round(seconds*BluetoothStore.shared.ACCELEROMETER_PERIOD))
+        let chartIndex = Double(round(seconds*BluetoothStore.shared.ACCELEROMETER_PERIOD)) + 30
         if Int(chartIndex) < accelerationObjects.count {
             lineChart.highlightValue(x: chartIndex, y: accelerationObjects[Int(chartIndex)].xAcceleration , dataSetIndex: 0, callDelegate: false)
             lineChart.moveViewToX(max(0, chartIndex - BluetoothStore.shared.ACCELEROMETER_PERIOD))

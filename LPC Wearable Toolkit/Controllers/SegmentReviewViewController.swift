@@ -134,6 +134,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         smallScreen.removeFromParentViewController()
         segments = []
         segmentsTableView.reloadData()
+        self.doneButton.isEnabled = false
     }
     
     // MARK: UITableView stuff
