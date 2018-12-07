@@ -29,6 +29,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     var segmentStore = Segments()
     var recording = false
     var timer = Timer()
+    var trackedData: TrackedData = TrackedData()
     
     var asset: AVAsset!
     var player: AVPlayer!
@@ -61,6 +62,9 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         super.viewDidLoad()
         self.title = "Train \(sport)"
         self.importButton.isEnabled = false
+        self.goodButton.isEnabled = false
+        self.badButton.isEnabled = false
+        self.noneButton.isEnabled = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -96,6 +100,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         badButton.isEnabled = false
         noneButton.isEnabled = false
         print("How many gestures in database: \(segmentStore.fetchAll().count)")
+        trackedData.save(button: "Label Segment Good", contextName: "Segmentation", metadata1: "\(start)", metadata2: "\(stop)", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     @IBAction func labelSegmentNone(_ sender: UIButton) {
@@ -110,6 +115,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         badButton.isEnabled = false
         noneButton.isEnabled = false
         print("How many gestures in database: \(segmentStore.fetchAll().count)")
+        trackedData.save(button: "Label Segment None", contextName: "Segmentation", metadata1: "\(start)", metadata2: "\(stop)", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     @IBAction func labelSegmentBad(_ sender: UIButton) {
@@ -124,6 +130,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         badButton.isEnabled = false
         noneButton.isEnabled = false
         print("How many gestures in database: \(segmentStore.fetchAll().count)")
+        trackedData.save(button: "Label Segment Bad", contextName: "Segmentation", metadata1: "\(start)", metadata2: "\(stop)", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     
@@ -184,6 +191,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         } else {
             print("Camera is not available")
         }
+        trackedData.save(button: "Data Capture", contextName: "Segmentation", metadata1: sport, metadata2: action, ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     // tutorial: https://stackoverflow.com/questions/29482738/swift-save-video-from-nsurl-to-user-camera-roll
@@ -335,6 +343,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             let time = CMTime(value: CMTimeValue(selectedTimestamp), timescale: 1)
             self.player.seek(to: time)
         }
+        trackedData.save(button: "Chart Value Selected", contextName: "Segmentation", metadata1: "\(selectedTimestamp)", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     func setChartValues(seconds: Double) {
@@ -388,7 +397,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
 
 extension SegmentationViewController {
     @IBAction func cancelToSegmentationViewController(_ segue: UIStoryboardSegue) {
-        
+
     }
     
     @IBAction func finishPickingVideo(_ segue: UIStoryboardSegue) {
@@ -399,6 +408,9 @@ extension SegmentationViewController {
         videoButton.isHidden = true
         libraryButton.isHidden = true
         importButton.isHidden = true
+        self.goodButton.isEnabled = true
+        self.badButton.isEnabled = true
+        self.noneButton.isEnabled = true
         self.savedVideo = chosenVideo
         prepareGraph()
         prepareToPlay(urlString: chosenVideo.url! )

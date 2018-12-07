@@ -16,6 +16,7 @@ class LibraryCollectionViewController: UICollectionViewController {
     let videoStore = Videos()
     var sport: String! = nil
     var images:[(UIImage, Video)]!
+    var trackedData: TrackedData = TrackedData()
     
     var chosenVideo:Video!
 
@@ -79,6 +80,7 @@ class LibraryCollectionViewController: UICollectionViewController {
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.layer.borderWidth = 3.0
         cell?.layer.borderColor = UIColor.blue.cgColor
+        trackedData.save(button: "Selected collection item", contextName: "LibraryCollection", metadata1: chosenVideo.sport ?? "", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

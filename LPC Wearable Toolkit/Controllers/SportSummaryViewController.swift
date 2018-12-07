@@ -16,6 +16,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var trainButton: UIButton!
     @IBOutlet weak var testButton: UIButton!
     @IBOutlet weak var reviewButton: UIButton!
+    var trackedData: TrackedData = TrackedData()
     
     var numberVideos = 0
     var numberSegments = 0
@@ -64,6 +65,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
         }))
         
         self.present(alert, animated: true, completion: nil)
+        trackedData.save(button: "Add action", contextName: "SportSummary", metadata1: "", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -73,12 +75,14 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
             print("Sport name: \(sport.name ?? "no value provided")")
             destinationViewController.sport = self.sport.name!
             destinationViewController.action = self.selectedAction.name!
+            self.trackedData.save(button: "Train", contextName: "SportSummary", metadata1: self.sport.name!, metadata2: self.selectedAction.name!, ts: NSDate().timeIntervalSinceReferenceDate)
         } else if (segue.identifier == "test") {
             let navigationViewController = segue.destination as! UINavigationController
             let destinationViewController = navigationViewController.viewControllers[0] as! ClassificationViewController
             print("Sport name: \(sport.name ?? "no value provided")")
             destinationViewController.sport = self.sport.name!
             destinationViewController.action = self.selectedAction.name!
+            self.trackedData.save(button: "Test", contextName: "SportSummary", metadata1: self.sport.name!, metadata2: self.selectedAction.name!, ts: NSDate().timeIntervalSinceReferenceDate)
         } else if (segue.identifier == "review") {
             // you didn't connect the segment yet
             let navigationViewController = segue.destination as! UINavigationController
@@ -86,6 +90,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
             print("Sport name: \(sport.name ?? "no value provided")")
             destinationViewController.sport = self.sport.name!
             destinationViewController.action = self.selectedAction.name!
+            self.trackedData.save(button: "Review", contextName: "SportSummary", metadata1: self.sport.name!, metadata2: self.selectedAction.name!, ts: NSDate().timeIntervalSinceReferenceDate)
         }
     }
     
@@ -114,6 +119,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
             reviewButton.isEnabled = true
             reviewButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
         }
+        trackedData.save(button: "Selected Action", contextName: "SportSummary", metadata1: selectedAction.name ?? "", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     func prepareSummary() {

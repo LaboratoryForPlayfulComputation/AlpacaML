@@ -15,6 +15,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
     
     @IBOutlet weak var lineChart: LineChartView!
     @IBOutlet weak var classificationLabel: UILabel!
+    var trackedData: TrackedData = TrackedData()
     
     var accelerationStore = Accelerations()
     var segmentStore = Segments()
@@ -56,6 +57,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
 
     @IBAction func toggleDataCapture(_ sender: UIButton) {
         isCapturing = !isCapturing
+        trackedData.save(button: "ToggleDataCapture", contextName: "Classification", metadata1: "\(isCapturing)", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     func classifyChunk() {
