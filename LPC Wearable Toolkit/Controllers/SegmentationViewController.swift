@@ -214,7 +214,8 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
                         print("Old URL: \(url.absoluteString ?? "")")
                         print("New URL: \(newObj.url.absoluteString)")
                         finalURL = newObj.url.absoluteString
-                        self.savedVideo = self.videoStore.save(name: self.sport, url: finalURL, accelerations: self.accelerationObjects)
+                        let acc = self.accelerationObjects
+                        self.savedVideo = self.videoStore.save(name: self.sport, url: finalURL, accelerations: acc)
                     })
                 } else if error != nil {
                     let alertController = UIAlertController(title: "Your video was not saved", message: error.unsafelyUnwrapped.localizedDescription, preferredStyle: .alert)
