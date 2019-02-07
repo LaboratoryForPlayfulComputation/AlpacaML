@@ -15,6 +15,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
     
     @IBOutlet weak var lineChart: LineChartView!
     @IBOutlet weak var classificationLabel: UILabel!
+    var trackedData: TrackedData = TrackedData()
     
     var accelerationStore = Accelerations()
     var segmentStore = Segments()
@@ -30,16 +31,20 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
     var sport = ""
     var action = ""
     let dtw = DTW()
+    var previousClassification: String = "None"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Test \(sport)"
         self.lineChart.delegate = self
         self.segmentList = segmentStore.fetch(sport: sport, gesture: action, trainingSet: true)
+        // Group by video and then do the min_ts work for each video for each segment.
         let min_ts = accelerationStore.getMinTimestamp()
         for segment in segmentList {
-            let adjustedStart = segment.start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts
-            let adjustedStop = segment.stop_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts
+            let video = segment.video
+            let min_ts = video?.min_ts
+            let adjustedStart = segment.start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts!
+            let adjustedStop = segment.stop_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts!
             let accelerations = self.accelerationStore.fetch(sport: sport, start_ts: adjustedStart, stop_ts: adjustedStop)
             let accelerationAsDoubles = accelerations.map({acc in return (acc.xAcceleration, acc.yAcceleration, acc.zAcceleration)})
             dtw.addToTrainingSet(label: segment.rating!, data: accelerationAsDoubles)
@@ -55,6 +60,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
 
     @IBAction func toggleDataCapture(_ sender: UIButton) {
         isCapturing = !isCapturing
+        trackedData.save(button: "ToggleDataCapture", contextName: "Classification", metadata1: "\(isCapturing)", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     func classifyChunk() {
@@ -63,14 +69,16 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
             let test = self.newAccelerations[(maxIndex-self.chunkSize)..<maxIndex]
             let classification = self.dtw.classify(test: Array(test))
             DispatchQueue.main.async {
-                if classification.starts(with: "None") {
+                if classification.starts(with: "None") || (classification == self.previousClassification) {
                     self.classificationLabel.text = ""
+                    self.previousClassification = classification
                 } else {
                     self.classificationLabel.text = classification
                     let speechText = classification.split(separator: " ")[0].lowercased()
                     let utterance = AVSpeechUtterance(string: speechText)
                     let synthesizer = AVSpeechSynthesizer()
                     synthesizer.speak(utterance)
+                    self.previousClassification = classification
                 }
             }
         }

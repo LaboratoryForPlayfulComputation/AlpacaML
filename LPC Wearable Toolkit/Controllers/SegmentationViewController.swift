@@ -18,7 +18,9 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     @IBOutlet weak var goodButton: UIButton!
     @IBOutlet weak var badButton: UIButton!
     @IBOutlet weak var noneButton: UIButton!
-    @IBOutlet weak var videoStatusLabel: UILabel!
+    @IBOutlet weak var videoButton: UIButton!
+    @IBOutlet weak var libraryButton: UIButton!
+    @IBOutlet weak var importButton: UIButton!
     
     var videoCaptureController: UIImagePickerController!
     var videoStore = Videos()
@@ -27,6 +29,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     var segmentStore = Segments()
     var recording = false
     var timer = Timer()
+    var trackedData: TrackedData = TrackedData()
     
     var asset: AVAsset!
     var player: AVPlayer!
@@ -57,8 +60,11 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     // Make a user settings variable for sports, or allow user to put it in, or pass it around.
     override func viewDidLoad() {
         super.viewDidLoad()
-        videoStatusLabel.text = "Touch camera icon to record video"
         self.title = "Train \(sport)"
+        self.importButton.isEnabled = false
+        self.goodButton.isEnabled = false
+        self.badButton.isEnabled = false
+        self.noneButton.isEnabled = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -70,6 +76,15 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         super.viewWillDisappear(animated)
         // maybe an issue for current setup?
         stopObservers()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "library" ) {
+            let navigationViewController = segue.destination as! UINavigationController
+            let destinationViewController = navigationViewController.viewControllers[0] as! LibraryCollectionViewController
+            print("Selected sport: \(sport)")
+            destinationViewController.sport = sport
+        }
     }
  
     @IBAction func labelSegmentGood(_ sender: UIButton) {
@@ -85,6 +100,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         badButton.isEnabled = false
         noneButton.isEnabled = false
         print("How many gestures in database: \(segmentStore.fetchAll().count)")
+        trackedData.save(button: "Label Segment Good", contextName: "Segmentation", metadata1: "\(start)", metadata2: "\(stop)", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     @IBAction func labelSegmentNone(_ sender: UIButton) {
@@ -99,6 +115,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         badButton.isEnabled = false
         noneButton.isEnabled = false
         print("How many gestures in database: \(segmentStore.fetchAll().count)")
+        trackedData.save(button: "Label Segment None", contextName: "Segmentation", metadata1: "\(start)", metadata2: "\(stop)", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     @IBAction func labelSegmentBad(_ sender: UIButton) {
@@ -113,6 +130,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         badButton.isEnabled = false
         noneButton.isEnabled = false
         print("How many gestures in database: \(segmentStore.fetchAll().count)")
+        trackedData.save(button: "Label Segment Bad", contextName: "Segmentation", metadata1: "\(start)", metadata2: "\(stop)", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     
@@ -152,7 +170,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         }
     }
     
-    @IBAction func captureData(_ sender: UIBarButtonItem) {
+    @IBAction func captureData(_ sender: UIButton) {
         if !BluetoothStore.shared.isMicrobitConnected() {
             // do popover
         }
@@ -173,6 +191,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         } else {
             print("Camera is not available")
         }
+        trackedData.save(button: "Data Capture", contextName: "Segmentation", metadata1: sport, metadata2: action, ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     // tutorial: https://stackoverflow.com/questions/29482738/swift-save-video-from-nsurl-to-user-camera-roll
@@ -195,7 +214,9 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
                         print("Old URL: \(url.absoluteString ?? "")")
                         print("New URL: \(newObj.url.absoluteString)")
                         finalURL = newObj.url.absoluteString
-                        self.savedVideo = self.videoStore.save(name: self.sport, url: finalURL, accelerations: self.accelerationObjects)
+                        let acc = self.accelerationObjects
+                        //let min_ts = acc
+                        self.savedVideo = self.videoStore.save(name: self.sport, url: finalURL, accelerations: acc)
                     })
                 } else if error != nil {
                     let alertController = UIAlertController(title: "Your video was not saved", message: error.unsafelyUnwrapped.localizedDescription, preferredStyle: .alert)
@@ -207,7 +228,9 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
 
             // [AZ] NOTE: We are using finalURL here, but I saw some stuff on stack overflow that suggested this url might change. not sure if true.
             
-            videoStatusLabel.text = ""
+            videoButton.isHidden = true
+            libraryButton.isHidden = true
+            importButton.isHidden = true
             
             prepareGraph()
             prepareToPlay(urlString: url.absoluteString!)
@@ -322,6 +345,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             let time = CMTime(value: CMTimeValue(selectedTimestamp), timescale: 1)
             self.player.seek(to: time)
         }
+        trackedData.save(button: "Chart Value Selected", contextName: "Segmentation", metadata1: "\(selectedTimestamp)", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     func setChartValues(seconds: Double) {
@@ -369,5 +393,34 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         zAccelerationLine.setColors(zColors, alpha: 1)
         lineChart.data?.notifyDataChanged()
         lineChart.notifyDataSetChanged()
+    }
+
+}
+
+extension SegmentationViewController {
+    @IBAction func cancelToSegmentationViewController(_ segue: UIStoryboardSegue) {
+
+    }
+    
+    @IBAction func finishPickingVideo(_ segue: UIStoryboardSegue) {
+        guard let libraryCollectionViewController = segue.source as? LibraryCollectionViewController,
+            let chosenVideo = libraryCollectionViewController.chosenVideo else {
+                return
+        }
+        videoButton.isHidden = true
+        libraryButton.isHidden = true
+        importButton.isHidden = true
+        self.goodButton.isEnabled = true
+        self.badButton.isEnabled = true
+        self.noneButton.isEnabled = true
+        self.savedVideo = chosenVideo
+        prepareGraph()
+        prepareToPlay(urlString: chosenVideo.url! )
+        accelerationObjects = chosenVideo.accelerations?.allObjects as! [Acceleration] // is this right
+        accelerationObjects.sort(by: {(a1, a2) in
+            a1.timestamp < a2.timestamp
+        })
+        updateGraph()
+        startObservers()
     }
 }

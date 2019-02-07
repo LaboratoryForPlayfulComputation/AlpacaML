@@ -13,7 +13,7 @@ class AddSportViewController: UIViewController {
 
     @IBOutlet weak var sportNameTextField: UITextField!
     @IBOutlet weak var sportDescriptionTextField: UITextField!
-    
+    var trackedData: TrackedData = TrackedData()
     var sport: (String,String)?
     
     override func viewDidLoad() {
