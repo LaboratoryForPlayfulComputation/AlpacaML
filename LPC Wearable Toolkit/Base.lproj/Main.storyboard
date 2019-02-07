@@ -310,7 +310,6 @@
                                     <navigationItem title="Label Actions" id="CZ7-9B-6pK"/>
                                 </items>
                             </navigationBar>
-
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d6F-EQ-lfV">
                                 <rect key="frame" x="120.5" y="519" width="79" height="33"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
@@ -637,8 +636,8 @@
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vo7-Dt-T6a">
                                 <rect key="frame" x="0.0" y="114" width="320" height="216"/>
                             </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sml-mb-aQ0">
-                                <rect key="frame" x="8" y="337" width="304" height="159"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sml-mb-aQ0">
+                                <rect key="frame" x="0.0" y="338" width="312" height="158"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="159" id="dIP-fn-zQD"/>
                                 </constraints>
@@ -674,12 +673,6 @@
                                     <segue destination="bQD-wm-39A" kind="presentation" identifier="test" id="GXm-hd-9fQ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Yc-b5-O2A">
-                                <rect key="frame" x="12" y="311" width="69" height="18"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jRE-OH-Xz7">
                                 <rect key="frame" x="123" y="527" width="74" height="33"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -694,6 +687,12 @@
                                     <segue destination="sqH-oD-eDU" kind="presentation" identifier="review" id="vVK-qZ-wgg"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Yc-b5-O2A">
+                                <rect key="frame" x="17" y="312" width="69" height="18"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -957,9 +956,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Thumbs Down" width="614" height="560"/>
-        <image name="Thumbs Up" width="658" height="590"/>
-        <image name="Video" width="74" height="58"/>
+        <image name="Thumbs Down" width="307" height="280"/>
+        <image name="Thumbs Up" width="329" height="295"/>
+        <image name="Video" width="37" height="29"/>
         <image name="importexport" width="512" height="512"/>
         <image name="library" width="601" height="476"/>
     </resources>

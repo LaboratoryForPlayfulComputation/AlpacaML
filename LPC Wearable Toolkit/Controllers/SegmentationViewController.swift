@@ -215,6 +215,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
                         print("New URL: \(newObj.url.absoluteString)")
                         finalURL = newObj.url.absoluteString
                         let acc = self.accelerationObjects
+                        //let min_ts = acc
                         self.savedVideo = self.videoStore.save(name: self.sport, url: finalURL, accelerations: acc)
                     })
                 } else if error != nil {
@@ -348,7 +349,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     }
     
     func setChartValues(seconds: Double) {
-        let chartIndex = Double(round(seconds*BluetoothStore.shared.ACCELEROMETER_PERIOD)) + 30
+        let chartIndex = Double(round(seconds*BluetoothStore.shared.ACCELEROMETER_PERIOD))
         if Int(chartIndex) < accelerationObjects.count {
             lineChart.highlightValue(x: chartIndex, y: accelerationObjects[Int(chartIndex)].xAcceleration , dataSetIndex: 0, callDelegate: false)
             lineChart.moveViewToX(max(0, chartIndex - BluetoothStore.shared.ACCELEROMETER_PERIOD))

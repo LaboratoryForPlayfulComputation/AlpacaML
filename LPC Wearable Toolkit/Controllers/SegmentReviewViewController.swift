@@ -112,7 +112,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         self.addChildViewController(smallScreen)
         self.view.addSubview(smallScreen.view)
         smallScreen.didMove(toParentViewController: self)
-        smallScreen.view.frame = CGRect (x:0, y:50, width:UIScreen.main.bounds.width, height:UIScreen.main.bounds.height/2-50)
+        smallScreen.view.frame = CGRect (x:0, y:50, width:UIScreen.main.bounds.width, height:UIScreen.main.bounds.height/2) // -50
         doneButton.isEnabled = true
     }
     

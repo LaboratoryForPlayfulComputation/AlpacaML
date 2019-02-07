@@ -45,6 +45,7 @@
     </entity>
     <entity name="Video" representedClassName="Video" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="min_ts" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sport" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="accelerations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Acceleration" inverseName="video" inverseEntity="Acceleration" syncable="YES"/>
@@ -57,7 +58,7 @@
         <element name="Peripheral" positionX="196" positionY="-162" width="128" height="105"/>
         <element name="Segment" positionX="-297" positionY="171" width="128" height="163"/>
         <element name="Sport" positionX="-218" positionY="-229" width="128" height="103"/>
-        <element name="Video" positionX="-65" positionY="-57" width="128" height="135"/>
         <element name="Tracker" positionX="-243" positionY="-81" width="128" height="120"/>
+        <element name="Video" positionX="-65" positionY="-57" width="128" height="150"/>
     </elements>
 </model>

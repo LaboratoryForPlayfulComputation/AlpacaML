@@ -38,10 +38,13 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
         self.title = "Test \(sport)"
         self.lineChart.delegate = self
         self.segmentList = segmentStore.fetch(sport: sport, gesture: action, trainingSet: true)
+        // Group by video and then do the min_ts work for each video for each segment.
         let min_ts = accelerationStore.getMinTimestamp()
         for segment in segmentList {
-            let adjustedStart = segment.start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts
-            let adjustedStop = segment.stop_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts
+            let video = segment.video
+            let min_ts = video?.min_ts
+            let adjustedStart = segment.start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts!
+            let adjustedStop = segment.stop_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts!
             let accelerations = self.accelerationStore.fetch(sport: sport, start_ts: adjustedStart, stop_ts: adjustedStop)
             let accelerationAsDoubles = accelerations.map({acc in return (acc.xAcceleration, acc.yAcceleration, acc.zAcceleration)})
             dtw.addToTrainingSet(label: segment.rating!, data: accelerationAsDoubles)
