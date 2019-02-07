@@ -14,6 +14,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
 
     let collectionCellReuseIdentifier = "VideoCell"
     let tableCellReuseIdentifier = "SegmentCell"
+    var trackedData: TrackedData = TrackedData()
     
     let videoStore = Videos()
     var sport: String!
@@ -111,7 +112,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         self.addChildViewController(smallScreen)
         self.view.addSubview(smallScreen.view)
         smallScreen.didMove(toParentViewController: self)
-        smallScreen.view.frame = CGRect (x:0, y:50, width:UIScreen.main.bounds.width, height:UIScreen.main.bounds.height/2-50)
+        smallScreen.view.frame = CGRect (x:0, y:50, width:UIScreen.main.bounds.width, height:UIScreen.main.bounds.height/2) // -50
         doneButton.isEnabled = true
     }
     
@@ -134,6 +135,8 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         smallScreen.removeFromParentViewController()
         segments = []
         segmentsTableView.reloadData()
+        self.doneButton.isEnabled = false
+        trackedData.save(button: "Done reviewing for video", contextName: "SegmentReview", metadata1: sport, metadata2: action, ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     // MARK: UITableView stuff
@@ -163,6 +166,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         let segment = segments[indexPath.row]
         segment.inTrainingSet = !segment.inTrainingSet
         segmentsTableView.reloadData()
+        trackedData.save(button: "Selected table row", contextName: "SegmentReview", metadata1: segment.rating ?? "", metadata2: "\(segment.inTrainingSet)", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     @objc func handleLongPress(recognizer: UILongPressGestureRecognizer) {
