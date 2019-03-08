@@ -18,18 +18,15 @@ class LibraryCollectionViewController: UICollectionViewController {
     var images:[(UIImage, Video)]!
     var trackedData: TrackedData = TrackedData()
     
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet weak var cancelButton: UINavigationItem!
+    
     var chosenVideo:Video!
+    var selected = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        doneButton.isEnabled = false
         let videos = videoStore.fetch(sport: sport)
         print("Number of videos: \(videos.count)")
         images = videos.map({v -> (UIImage, Video) in
@@ -76,11 +73,21 @@ class LibraryCollectionViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        chosenVideo = images[indexPath.item].1
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.layer.borderWidth = 3.0
-        cell?.layer.borderColor = UIColor.blue.cgColor
-        trackedData.save(button: "Selected collection item", contextName: "LibraryCollection", metadata1: chosenVideo.sport ?? "", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
+        if (selected) {
+            chosenVideo = nil
+            let cell = collectionView.cellForItem(at: indexPath)
+            cell?.layer.borderWidth = 0.0
+            selected = false
+            doneButton.isEnabled = false
+        } else {
+            chosenVideo = images[indexPath.item].1
+            let cell = collectionView.cellForItem(at: indexPath)
+            cell?.layer.borderWidth = 3.0
+            cell?.layer.borderColor = UIColor.blue.cgColor
+            selected = true
+            doneButton.isEnabled = true
+        }
+        
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

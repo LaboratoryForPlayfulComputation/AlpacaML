@@ -29,17 +29,19 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
     var isRecording = false
     var chunkSize = 0
     var sport = ""
-    var action = ""
+    var action:Action!
+    var actionName:String!
     let dtw = DTW()
     var previousClassification: String = "None"
+    var categories:Array<String>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Test \(sport)"
         self.lineChart.delegate = self
-        self.segmentList = segmentStore.fetch(sport: sport, gesture: action, trainingSet: true)
-        // Group by video and then do the min_ts work for each video for each segment.
-        let min_ts = accelerationStore.getMinTimestamp()
+        self.actionName = action.name
+        self.segmentList = segmentStore.fetch(sport: sport, action: actionName, trainingSet: true)
+        categories = action.categories
         for segment in segmentList {
             let video = segment.video
             let min_ts = video?.min_ts
@@ -60,7 +62,13 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
 
     @IBAction func toggleDataCapture(_ sender: UIButton) {
         isCapturing = !isCapturing
-        trackedData.save(button: "ToggleDataCapture", contextName: "Classification", metadata1: "\(isCapturing)", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
+        if (isCapturing) {
+            sender.setTitle("Stop", for: .normal)
+            sender.backgroundColor = UIColor(red: 255/255.0, green: 123/255.0, blue: 51/255.0, alpha: 1.0)
+        } else {
+            sender.setTitle("Go", for: .normal)
+            sender.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
+        }
     }
     
     func classifyChunk() {
@@ -74,7 +82,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
                     self.previousClassification = classification
                 } else {
                     self.classificationLabel.text = classification
-                    let speechText = classification.split(separator: " ")[0].lowercased()
+                    let speechText = classification.split(separator: "|")[0].lowercased()
                     let utterance = AVSpeechUtterance(string: speechText)
                     let synthesizer = AVSpeechSynthesizer()
                     synthesizer.speak(utterance)
@@ -137,9 +145,9 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
                 if let accelerations = userInfo["acceleration"] as? [(Double, Double, Double)] {
                     newAccelerations.append(contentsOf: accelerations)
                     // TODO: what do we want to save from here?
-                    //accelerationStore.save(x: acceleration.0, y: acceleration.1, z: acceleration.2, timestamp: NSDate().timeIntervalSinceReferenceDate, sport: sport, id: 1)
+                    //accelerationStore.save(x: acceleration.0, y: acceleration.1, z: acceleration.2, timestamp: NSDate().timeIntervalSinceReferenceDate, sport: sport,  id: 1)
                     updateChart()
-                    
+                    print("hi its me")
                     if newAccelerations.count > chunkSize {
                         classifyChunk()
                     }
