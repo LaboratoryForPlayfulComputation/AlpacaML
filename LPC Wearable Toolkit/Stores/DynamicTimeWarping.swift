@@ -38,7 +38,7 @@ class DTW {
         }
         // will need some sort of threshold- what is no gesture detected?
         // should user set threshold? should user have to go through Varun's learning moment?
-        return classification + " " + String(minDistance)
+        return classification + "|" + String(minDistance)
     }
     
     func distance(d1: (Double,Double,Double), d2: (Double,Double,Double)) -> Double {
