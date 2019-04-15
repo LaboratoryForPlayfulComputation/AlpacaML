@@ -30,7 +30,7 @@ class DefineCategoriesViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     @IBAction func useDefaultCategories(_ sender: Any) {
-        categories = ["Good", "Bad", "None"]
+        categories = ["Good", "Bad", "None of the above"]
         categoryTableView.reloadData()
     }
     

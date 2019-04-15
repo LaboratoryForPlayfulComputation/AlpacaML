@@ -87,6 +87,8 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         stopObservers()
     }
     
+    // need to do something in here for handling sensor disconnected
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "library" ) {
             let navigationViewController = segue.destination as! UINavigationController
@@ -156,10 +158,12 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     
     @IBAction func assignCategoryToSegment(_ sender: Any) {
         totalActionsSelected = totalActionsSelected + 1
-        segmentStore.save(id: Int64(totalActionsSelected), action: actionName, rating: selectedCategory, sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1], inTrainingSet: true, video: savedVideo)
+        pointsSelected.sort()
+        let last = pointsSelected.count - 1
+        segmentStore.save(id: Int64(totalActionsSelected), action: actionName, rating: selectedCategory, sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[last], inTrainingSet: true, video: savedVideo)
         
         let start = Int(round(pointsSelected[0]))
-        let stop = Int(round(pointsSelected[1]))
+        let stop = Int(round(pointsSelected[last]))
         doHighlight(color: UIColor.green, start: start, stop: stop) // should fix this to hover and it'll tell you what you did? or something.
         pointsSelected = []
         assignCategoryButton.isEnabled = false
@@ -169,9 +173,11 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     
     @IBAction func captureData(_ sender: UIButton) {
         if !BluetoothStore.shared.isMicrobitConnected() {
-            // do popover
-        }
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let alert = UIAlertController(title: "Bluetooth disconnected", message: "AlpacaML detects that your sensor is no longer connected. Please quit the app to reconnect.", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else if UIImagePickerController.isSourceTypeAvailable(.camera) {
             videoCaptureController = UIImagePickerController()
             let customViewController = CustomOverlayViewController()
             let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
@@ -245,7 +251,9 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         videoCaptureController.cameraOverlayView?.removeFromSuperview()
         videoCaptureController.stopVideoCapture()
         // fails on cancel
-        timer.invalidate()
+        if (timer != nil) {
+            timer.invalidate()
+        }
         videoCaptureController.dismiss(animated: true, completion: nil)
     }
     
@@ -364,22 +372,24 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         let screenCoordinates = recognizer.location(in: lineChart)
         let chartValue: CGPoint = self.lineChart.valueForTouchPoint(point: screenCoordinates, axis: .right)
         print("Chart value: \(chartValue)")
+        print("Recognizer state: \(recognizer.state)")
+        // check if chart value null
         pointsSelected.append(Double(chartValue.x))
-        if pointsSelected.count > 2 {
-            pointsSelected.remove(at: 1)
-        }
-        if pointsSelected.count == 2 {
-            pointsSelected.sort()
-            // TODO: enable button
-            let start = Int(round(pointsSelected[0]))
-            let stop = Int(round(pointsSelected[1]))
+        let currentPoint = Int(floor(chartValue.x))
+        xColors[currentPoint] = UIColor.magenta
+        yColors[currentPoint] = UIColor.magenta
+        zColors[currentPoint] = UIColor.magenta
+        
+        xAccelerationLine.setColors(xColors, alpha: 1)
+        yAccelerationLine.setColors(yColors, alpha: 1)
+        zAccelerationLine.setColors(zColors, alpha: 1)
+        lineChart.data?.notifyDataChanged()
+        lineChart.notifyDataSetChanged()
+        AudioServicesPlayAlertSound(SystemSoundID(1105))
+        if(recognizer.state == .ended) {
+            let start = Int(floor(pointsSelected.min() ?? 0))
+            let stop = Int(floor(pointsSelected.max() ?? 0))
             doHighlight(color: UIColor.magenta, start: start, stop: stop)
-            AudioServicesPlayAlertSound(SystemSoundID(1105))
-        } else {
-            let start = Int(round(pointsSelected[0]))
-            let stop = Int(round(pointsSelected[0])) + 5
-            doHighlight(color: UIColor.magenta, start: start, stop: stop)
-            AudioServicesPlayAlertSound(SystemSoundID(1105))
         }
     }
     

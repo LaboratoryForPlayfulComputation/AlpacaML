@@ -81,6 +81,7 @@ class Videos {
         video.setValue(name, forKeyPath: "sport")
         video.setValue(url, forKey: "url")
         video.setValue(min_ts, forKey: "min_ts")
+
         video.accelerations = NSSet(array: accelerations)
         do {
             try managedContext.save()

@@ -63,14 +63,22 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
     @IBAction func toggleDataCapture(_ sender: UIButton) {
         isCapturing = !isCapturing
         if (isCapturing) {
-            sender.setTitle("Stop", for: .normal)
-            sender.backgroundColor = UIColor(red: 255/255.0, green: 123/255.0, blue: 51/255.0, alpha: 1.0)
+            if !BluetoothStore.shared.isMicrobitConnected() {
+                let alert = UIAlertController(title: "Bluetooth disconnected", message: "AlpacaML detects that your sensor is no longer connected. Please quit the app to reconnect.", preferredStyle: .alert)
+            
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                sender.setTitle("Stop", for: .normal)
+                sender.backgroundColor = UIColor(red: 255/255.0, green: 123/255.0, blue: 51/255.0, alpha: 1.0)
+            }
         } else {
             sender.setTitle("Go", for: .normal)
             sender.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
         }
     }
     
+    // skip max length until next identification, add threshold?
     func classifyChunk() {
         DispatchQueue.global(qos: .userInitiated).async {
             let maxIndex = self.newAccelerations.count - 1

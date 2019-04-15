@@ -86,6 +86,11 @@ class BluetoothStore: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         NotificationCenter.default.post(name: BluetoothNotification.didConnectToPeripheral.notification, object: nil)
     }
     
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        connectionState = "Not Connected"
+        NotificationCenter.default.post(name: BluetoothNotification.didDisconnectFromPeripheral.notification, object: nil)
+    }
+    
     // MARK : Bluetooth - Peripheral functions
     // we'll probably want to let the user know this happened
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -201,6 +206,7 @@ enum BluetoothConnectError: Error {
 enum BluetoothNotification: String {
     case didDiscoverPeripheral = "didDiscoverPeripheral"
     case didConnectToPeripheral = "didConnectToPeripheral"
+    case didDisconnectFromPeripheral = "didDisconnectFromPeripheral"
     case didUpdateState = "didUpdateState"
     case didDiscoverServices = "didDiscoverServices"
     case didDiscoverCharacteristics = "didDiscoverCharacteristics"

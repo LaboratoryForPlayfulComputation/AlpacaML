@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Sports-->
+        <!--Projects-->
         <scene sceneID="7Jh-v3-9fN">
             <objects>
                 <tableViewController id="WIP-BE-XCh" customClass="SportsListTableViewController" customModule="LPC_Wearable_Toolkit" customModuleProvider="target" sceneMemberID="viewController">
@@ -52,7 +52,7 @@
                             <outlet property="delegate" destination="WIP-BE-XCh" id="96C-Yc-cWa"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Sports" id="FIR-Ny-5f8">
+                    <navigationItem key="navigationItem" title="Projects" id="FIR-Ny-5f8">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="VRf-Wr-coB">
                             <connections>
                                 <segue destination="ENb-Cv-n0b" kind="presentation" id="Paz-K0-fdj"/>
@@ -79,7 +79,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QjO-Wk-0DQ">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                                 <items>
-                                    <navigationItem title="Add Sport" id="cqI-au-xBB">
+                                    <navigationItem title="Add Project" id="cqI-au-xBB">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="UFm-7j-sMi">
                                             <connections>
                                                 <segue destination="fob-ky-UaH" kind="unwind" unwindAction="cancelToSportsListTableViewController:" id="yMb-02-sdb"/>
@@ -553,7 +553,7 @@
                                     <segue destination="OZG-qV-CE5" kind="presentation" id="JBa-Df-dG8"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get ready to improve your athletic abilities! Connect to your sensor, and press 'Enter' to get started." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8i-5a-RqL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get ready to explore your own movements! Connect to your sensor, and press 'Enter' to get started." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8i-5a-RqL">
                                 <rect key="frame" x="16" y="85" width="288" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="JNV-gi-M7p"/>
@@ -605,7 +605,7 @@
             </objects>
             <point key="canvasLocation" x="-1623.75" y="106.69014084507042"/>
         </scene>
-        <!--Sport-->
+        <!--Project-->
         <scene sceneID="BbF-mH-pJ5">
             <objects>
                 <viewController id="44z-zV-wuf" customClass="SportSummaryViewController" customModule="LPC_Wearable_Toolkit" customModuleProvider="target" sceneMemberID="viewController">
@@ -727,7 +727,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="k1S-r3-JyM"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Sport" id="d9n-Kx-zgp">
+                    <navigationItem key="navigationItem" title="Project" id="d9n-Kx-zgp">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="6dm-iw-SGN">
                             <connections>
                                 <segue destination="vXz-E8-nWs" kind="unwind" unwindAction="cancelToSportsListTableViewController:" id="e4I-Ke-5Zy"/>
@@ -775,8 +775,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Default Categories: Good, Bad, None" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhP-SS-1o6">
-                                <rect key="frame" x="19" y="480" width="282" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Default Classes: Good, Bad, None" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhP-SS-1o6">
+                                <rect key="frame" x="30.5" y="480" width="259" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -799,8 +799,8 @@
                                 </prototypes>
                                 <sections/>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter a category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JUa-gA-w8R">
-                                <rect key="frame" x="16" y="93" width="126" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter a class" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JUa-gA-w8R">
+                                <rect key="frame" x="16" y="93" width="97" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
