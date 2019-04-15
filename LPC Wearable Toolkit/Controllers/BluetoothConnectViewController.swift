@@ -14,7 +14,6 @@ class BluetoothConnectViewController: UIViewController, UIPickerViewDelegate, UI
     @IBOutlet weak var bluetoothStatus: UILabel!
     @IBOutlet weak var microbitNameLabel: UILabel!
     @IBOutlet weak var doneButton: UIBarButtonItem!
-    var trackedData: TrackedData = TrackedData()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,14 +49,12 @@ class BluetoothConnectViewController: UIViewController, UIPickerViewDelegate, UI
             if connected {
                 microbitNameLabel.text = microbitName
                 doneButton.isEnabled = true
-                trackedData.save(button: "Selected new microbit", contextName: "BluetoothConnect", metadata1: microbitName ?? "", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
                 /*if(microbitName != lastUsedMicrobitName) { // actually want to check if it's not in the entire list
                  microbitStore.save(name: microbitName!, last_connected: NSDate().timeIntervalSince1970, connected: true, has_accelerometer: true)
                  }*/
             } else {
                 // Set label to no microbits found
                 microbitNameLabel.text = "No micro:bits present"
-                trackedData.save(button: "No micro:bits present", contextName: "BluetoothConnect", metadata1: "", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
             }
         }
     }

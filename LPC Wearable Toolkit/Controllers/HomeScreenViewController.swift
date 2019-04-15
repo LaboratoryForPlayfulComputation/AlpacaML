@@ -13,7 +13,6 @@ class HomeScreenViewController: UIViewController {
     
     var microbitStore: Peripherals!
     var lastUsedMicrobitName: String!
-    var trackedData: TrackedData = TrackedData()
     
     
     @IBOutlet weak var microbitNameLabel: UILabel!
@@ -78,7 +77,6 @@ class HomeScreenViewController: UIViewController {
     @objc func onDidDiscoverPeripheral(_ notification: Notification) {
         print("Devices found: \(BluetoothStore.shared.devicesFound.count)")
         BluetoothStore.shared.connectToMicrobitWithName(name: lastUsedMicrobitName)
-        trackedData.save(button: "Microbit Discover", contextName: "HomeScreen", metadata1: lastUsedMicrobitName, metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     @objc func onDidConnectToPeripheral(_ notification: Notification) {
@@ -86,7 +84,6 @@ class HomeScreenViewController: UIViewController {
         microbitNameLabel.text = lastUsedMicrobitName
         enterButton.isEnabled = true
         enterButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
-        trackedData.save(button: "Microbit Connect", contextName: "HomeScreen", metadata1: lastUsedMicrobitName, metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
 }
 
@@ -105,7 +102,6 @@ extension HomeScreenViewController {
             print("Saved microbit \(connectedMicrobit?.name ?? "None") to CoreData")
         }
         microbitNameLabel.text = connectedMicrobit?.name
-        self.trackedData.save(button: "Microbit Saved", contextName: "HomeScreen", metadata1: (connectedMicrobit?.name)!, metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
 }

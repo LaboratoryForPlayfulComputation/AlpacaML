@@ -61,7 +61,6 @@ class SportsListTableViewController: UITableViewController {
             self.selectedSport = self.sports.objectAtIndex(i: indexPath.row) as! Sport
             print(self.selectedSport.name ?? "None retrieved")
             self.performSegue(withIdentifier: "summary", sender: self)
-            self.trackedData.save(button: "Table Cell", contextName: "SportsListTableVC", metadata1: self.selectedSport.name!, metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
         }
     }
     

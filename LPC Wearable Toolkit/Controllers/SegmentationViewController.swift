@@ -30,7 +30,6 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     var segmentStore = Segments()
     var recording = false
     var timer:Timer!
-    var trackedData: TrackedData = TrackedData()
     
     var asset: AVAsset!
     var player: AVPlayer!
@@ -193,7 +192,6 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         } else {
             print("Camera is not available")
         }
-        trackedData.save(button: "Data Capture", contextName: "Segmentation", metadata1: sport, metadata2: action.name ?? "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     // tutorial: https://stackoverflow.com/questions/29482738/swift-save-video-from-nsurl-to-user-camera-roll
@@ -352,7 +350,6 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             print("time: \(time.seconds)")
             self.player.seek(to: time)
         }
-        trackedData.save(button: "Chart Value Selected", contextName: "Segmentation", metadata1: "\(selectedTimestamp)", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     func setChartValues(seconds: Double) {
