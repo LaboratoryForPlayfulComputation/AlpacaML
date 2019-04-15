@@ -45,7 +45,7 @@ class Actions {
     }
     
     
-    func save(name: String, sport: String ) {
+    func save(name: String, sport: Sport ) {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -56,18 +56,21 @@ class Actions {
         let managedContext =
             appDelegate.persistentContainer.viewContext
         
-        // 2
+        // 2 K figure out if there's a better way to do this.
         let entity =
             NSEntityDescription.entity(forEntityName: "Action",
                                        in: managedContext)!
         
-        let acceleration_ = NSManagedObject(entity: entity,
-                                            insertInto: managedContext)
-        
+        //let action_ = NSManagedObject(entity: entity, insertInto: managedContext)
         // 3
+        let action = Action(entity: entity, insertInto: managedContext)
+        action.name = name
+        action.sport = sport.name
+        //action_.setValue(name, forKeyPath: "name")
+        //action_.setValue(sport.name, forKey: "sport")
         
-        acceleration_.setValue(name, forKeyPath: "name")
-        acceleration_.setValue(sport, forKey: "sport")
+        //let action = action_ as! Action
+        action.parentSport = sport
         
         // 4
         do {

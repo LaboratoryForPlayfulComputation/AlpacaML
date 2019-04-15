@@ -21,14 +21,14 @@ public class CustomOverlayView: UIView {
     var minutes:Int = 0
     var pressed = false
     var seconds_string:String = ""
-    var video_timer = Timer()
+    var video_timer:Timer!
     
     @objc var current_time:Int = 0
     var delegate:CustomOverlayDelegate! = nil
     
     @IBAction func shootButton(sender: UIButton){
         delegate.didShoot(overlayView: self)
-        if (pressed == false){
+        if (pressed == false ){
             time.text = "0:00"
             video_timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(CustomOverlayView.video_time), userInfo: nil, repeats: true)
             pressed = true

@@ -24,10 +24,12 @@ class Accelerations {
         return fetch(sport: sport).count
     }
     
+    // TODO: Deprecated
     func getMinTimestamp() -> Double {
         return minTimestamp
     }
     
+    // TODO: Deprecated
     func getMaxTimestamp() -> Double {
         return maxTimestamp
     }
@@ -115,11 +117,11 @@ class Accelerations {
     }
     
     //
-    func save(x: Double, y: Double, z: Double, timestamp: Double, sport: String, id: Int) {
+    func save(x: Double, y: Double, z: Double, timestamp: Double, sport: String) -> Acceleration? {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
-                return
+                return nil
         }
         
         // 1
@@ -131,17 +133,15 @@ class Accelerations {
             NSEntityDescription.entity(forEntityName: "Acceleration",
                                        in: managedContext)!
         
-        let acceleration_ = NSManagedObject(entity: entity,
-                                            insertInto: managedContext)
+        let acceleration = Acceleration(entity: entity, insertInto: managedContext)
         
         // 3
         
-        acceleration_.setValue(x, forKeyPath: "xAcceleration")
-        acceleration_.setValue(y, forKeyPath: "yAcceleration")
-        acceleration_.setValue(z, forKeyPath: "zAcceleration")
-        acceleration_.setValue(sport, forKey: "sport")
-        acceleration_.setValue(timestamp, forKey: "timestamp")
-        acceleration_.setValue(id, forKey: "id")
+        acceleration.setValue(x, forKeyPath: "xAcceleration")
+        acceleration.setValue(y, forKeyPath: "yAcceleration")
+        acceleration.setValue(z, forKeyPath: "zAcceleration")
+        acceleration.setValue(sport, forKey: "sport")
+        acceleration.setValue(timestamp, forKey: "timestamp")
         
         // 4
         do {
@@ -149,6 +149,7 @@ class Accelerations {
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+        return acceleration
     }
     
     func deleteAllData(entity: String)

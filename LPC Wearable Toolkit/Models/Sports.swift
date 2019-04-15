@@ -56,10 +56,10 @@ class Sports {
         
         let managedContext = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Sport", in: managedContext)!
-        let sport = NSManagedObject(entity: entity, insertInto: managedContext)
+        let sport = Sport(entity: entity, insertInto: managedContext)
         
-        sport.setValue(name, forKeyPath: "name")
-        sport.setValue(sportDescription, forKey: "notes")
+        sport.name = name
+        sport.notes = sportDescription
         
         do {
             try managedContext.save()

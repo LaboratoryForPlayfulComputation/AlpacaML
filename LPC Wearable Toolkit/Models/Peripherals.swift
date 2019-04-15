@@ -55,12 +55,12 @@ class Peripherals {
         
         let entity = NSEntityDescription.entity(forEntityName: "Peripheral", in: managedContext)!
         
-        let peripheral_ = NSManagedObject(entity: entity, insertInto: managedContext)
+        let peripheral = Peripheral(entity: entity, insertInto: managedContext)
         
-        peripheral_.setValue(name, forKeyPath: "name")
-        peripheral_.setValue(last_connected, forKeyPath: "lastConnected")
-        peripheral_.setValue(connected, forKeyPath: "available")
-        peripheral_.setValue(has_accelerometer, forKey: "accelerationAvailable")
+        peripheral.setValue(name, forKeyPath: "name")
+        peripheral.setValue(last_connected, forKeyPath: "lastConnected")
+        peripheral.setValue(connected, forKeyPath: "available")
+        peripheral.setValue(has_accelerometer, forKey: "accelerationAvailable")
         
         do {
             try managedContext.save()
@@ -68,5 +68,25 @@ class Peripherals {
             print("Could not save. \(error), \(error.userInfo)")
         }
         managedPeripherals = fetchAll()
+    }
+    
+    func deleteAllData(entity: String) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do
+        {
+            let results = try managedContext.fetch(fetchRequest)
+            for managedObject in results
+            {
+                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+                managedContext.delete(managedObjectData)
+            }
+        } catch let error as NSError {
+            print("Delete all data in \(entity) error : \(error) \(error.userInfo)")
+        }
     }
 }
