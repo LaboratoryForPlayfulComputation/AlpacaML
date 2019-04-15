@@ -16,7 +16,6 @@ class LibraryCollectionViewController: UICollectionViewController {
     let videoStore = Videos()
     var sport: String! = nil
     var images:[(UIImage, Video)]!
-    var trackedData: TrackedData = TrackedData()
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var cancelButton: UINavigationItem!

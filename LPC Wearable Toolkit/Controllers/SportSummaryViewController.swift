@@ -18,8 +18,6 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var reviewButton: UIButton!
     @IBOutlet weak var categoriesButton: UIButton!
     
-    var trackedData: TrackedData = TrackedData()
-    
     var numberVideos = 0
     var numberSegments = 0
     var accelerationPoints = 0
@@ -159,7 +157,6 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
             trainButton.backgroundColor = UIColor.lightGray
         }
         prepareSummary()
-        trackedData.save(button: "Selected Action", contextName: "SportSummary", metadata1: selectedAction.name ?? "", metadata2: "", ts: NSDate().timeIntervalSinceReferenceDate)
     }
     
     func prepareSummary() {

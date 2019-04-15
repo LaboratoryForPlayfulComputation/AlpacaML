@@ -15,7 +15,6 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
     
     @IBOutlet weak var lineChart: LineChartView!
     @IBOutlet weak var classificationLabel: UILabel!
-    var trackedData: TrackedData = TrackedData()
     
     var accelerationStore = Accelerations()
     var segmentStore = Segments()
