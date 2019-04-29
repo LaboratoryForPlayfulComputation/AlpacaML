@@ -17,7 +17,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
     
     let videoStore = Videos()
     var sport: String!
-    var action: String!
+    var action: Action!
     var images:[(UIImage,Video)]!
     var segments:[Segment] = []
     
@@ -111,7 +111,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         self.addChildViewController(smallScreen)
         self.view.addSubview(smallScreen.view)
         smallScreen.didMove(toParentViewController: self)
-        smallScreen.view.frame = CGRect (x:0, y:50, width:UIScreen.main.bounds.width, height:UIScreen.main.bounds.height/2-50)
+        smallScreen.view.frame = CGRect (x:0, y:50, width:UIScreen.main.bounds.width, height:UIScreen.main.bounds.height/3) // -50
         doneButton.isEnabled = true
     }
     
@@ -134,6 +134,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         smallScreen.removeFromParentViewController()
         segments = []
         segmentsTableView.reloadData()
+        self.doneButton.isEnabled = false
     }
     
     // MARK: UITableView stuff

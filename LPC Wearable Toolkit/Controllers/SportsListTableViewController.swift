@@ -12,6 +12,7 @@ import CoreData
 class SportsListTableViewController: UITableViewController {
     
     @IBOutlet var sportsTableView: UITableView!
+    var trackedData: TrackedData = TrackedData()
     
     //var sports: [String] = []
     

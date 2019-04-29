@@ -1,5 +1,4 @@
 //
-//  CoreDataGesture.swift
 //  LPC Wearable Toolkit
 //
 //  Created by Bridget Murphy on 7/12/18.
@@ -18,11 +17,11 @@ class Segments {
         managedSegments = fetchAll()
     }
     
-    func countAll(sport: String) -> Int {
-        return fetchAllForSport(sport: sport).count
+    func countAll(sport: String, action: String) -> Int {
+        return fetchAllFor(sport: sport, action: action).count
     }
     
-    func fetch(sport: String, gesture: String, trainingSet: Bool) -> [Segment] {
+    func fetch(sport: String, action: String, trainingSet: Bool) -> [Segment] {
         var segments: [Segment] = []
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -35,15 +34,15 @@ class Segments {
         //2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Segment")
-        var sportGesturePredicate: NSPredicate!
+        var sportActionPredicate: NSPredicate!
         if trainingSet {
             print("Fetching segments in training set")
-            sportGesturePredicate = NSPredicate(format: "sport = %@ && gesture = %@ && inTrainingSet = true", sport, gesture)
+            sportActionPredicate = NSPredicate(format: "sport = %@ && action = %@ && inTrainingSet = true", sport, action)
         } else {
             print("Fetching all segments")
-            sportGesturePredicate = NSPredicate(format:"sport = %@ && gesture = %@", sport, gesture)
+            sportActionPredicate = NSPredicate(format:"sport = %@ && action = %@", sport, action)
         }
-        fetchRequest.predicate = sportGesturePredicate
+        fetchRequest.predicate = sportActionPredicate
         
         //3
         do {
@@ -55,7 +54,7 @@ class Segments {
         return segments
     }
     
-    func fetchAllForSport(sport: String) -> [Segment] {
+    func fetchAllFor(sport: String, action: String) -> [Segment] {
         var segments: [Segment] = []
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -69,6 +68,9 @@ class Segments {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Segment")
         
+        let actionPredicate = NSPredicate(format: "sport = %@ && action = %@", sport, action)
+        fetchRequest.predicate = actionPredicate
+        
         //3
         do {
             segments = try managedContext.fetch(fetchRequest) as? [Segment] ?? []
@@ -78,7 +80,33 @@ class Segments {
         return segments
     }
     
-    func save(id: Int64, gesture: String, rating: String,sport: String, start_ts: Double, stop_ts: Double, inTrainingSet: Bool, video: Video ) {
+    func fetchAllFor(sport: String) -> [Segment] {
+        var segments: [Segment] = []
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return []
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Segment")
+        
+        let actionPredicate = NSPredicate(format: "sport = %@", sport)
+        fetchRequest.predicate = actionPredicate
+        
+        //3
+        do {
+            segments = try managedContext.fetch(fetchRequest) as? [Segment] ?? []
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        return segments
+    }
+    
+    func save(id: Int64, action: String, rating: String,sport: String, start_ts: Double, stop_ts: Double, inTrainingSet: Bool, video: Video ) {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -100,7 +128,7 @@ class Segments {
         // 3
         
         segment.setValue(id, forKeyPath: "accelerationID")
-        segment.setValue(gesture, forKeyPath: "gesture")
+        segment.setValue(action, forKeyPath: "action")
         segment.setValue(rating, forKeyPath: "rating")
         segment.setValue(sport, forKey: "sport")
         segment.setValue(start_ts, forKey: "start_ts")

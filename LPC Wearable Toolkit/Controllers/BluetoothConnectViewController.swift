@@ -43,17 +43,19 @@ class BluetoothConnectViewController: UIViewController, UIPickerViewDelegate, UI
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let connected = BluetoothStore.shared.connectToMicrobitAtRow(row: row)
-        let microbitName = BluetoothStore.shared.microbit.name
-        if connected {
-            microbitNameLabel.text = microbitName
-            doneButton.isEnabled = true
-            /*if(microbitName != lastUsedMicrobitName) { // actually want to check if it's not in the entire list
-             microbitStore.save(name: microbitName!, last_connected: NSDate().timeIntervalSince1970, connected: true, has_accelerometer: true)
-             }*/
-        } else {
-            // Set label to no microbits found
-            microbitNameLabel.text = "No micro:bits present"
+        if ( BluetoothStore.shared.devicesFound.count > 0 ) {
+            let connected = BluetoothStore.shared.connectToMicrobitAtRow(row: row)
+            let microbitName = BluetoothStore.shared.microbit.name
+            if connected {
+                microbitNameLabel.text = microbitName
+                doneButton.isEnabled = true
+                /*if(microbitName != lastUsedMicrobitName) { // actually want to check if it's not in the entire list
+                 microbitStore.save(name: microbitName!, last_connected: NSDate().timeIntervalSince1970, connected: true, has_accelerometer: true)
+                 }*/
+            } else {
+                // Set label to no microbits found
+                microbitNameLabel.text = "No micro:bits present"
+            }
         }
     }
     

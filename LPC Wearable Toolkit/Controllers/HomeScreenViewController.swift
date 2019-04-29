@@ -48,7 +48,7 @@ class HomeScreenViewController: UIViewController {
         }
         microbitStore = Peripherals()
         lastUsedMicrobitName = microbitStore.fetchLastConnected()
-        print("lastUsedMicrobitName: \(lastUsedMicrobitName)")
+        print("lastUsedMicrobitName: \(lastUsedMicrobitName ?? "")")
         NotificationCenter.default.addObserver(self, selector: #selector(onDidDiscoverPeripheral(_:)), name: BluetoothNotification.didDiscoverPeripheral.notification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onDidConnectToPeripheral(_:)), name: BluetoothNotification.didConnectToPeripheral.notification, object: nil)
     }

@@ -24,10 +24,12 @@ class Accelerations {
         return fetch(sport: sport).count
     }
     
+    // TODO: Deprecated
     func getMinTimestamp() -> Double {
         return minTimestamp
     }
     
+    // TODO: Deprecated
     func getMaxTimestamp() -> Double {
         return maxTimestamp
     }
@@ -140,7 +142,7 @@ class Accelerations {
         acceleration.setValue(z, forKeyPath: "zAcceleration")
         acceleration.setValue(sport, forKey: "sport")
         acceleration.setValue(timestamp, forKey: "timestamp")
-
+        
         // 4
         do {
             try managedContext.save()

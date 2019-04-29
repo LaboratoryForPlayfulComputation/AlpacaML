@@ -11,14 +11,17 @@ import Charts
 import AVKit
 import MobileCoreServices
 import Photos
+import AVFoundation
 
-class SegmentationViewController: UIViewController, ChartViewDelegate, UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CustomOverlayDelegate {
+class SegmentationViewController: UIViewController, ChartViewDelegate, UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CustomOverlayDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var lineChart: LineChartView!
-    @IBOutlet weak var goodButton: UIButton!
-    @IBOutlet weak var badButton: UIButton!
-    @IBOutlet weak var noneButton: UIButton!
-    @IBOutlet weak var videoStatusLabel: UILabel!
+    @IBOutlet weak var categoryPicker: UIPickerView!
+    @IBOutlet weak var assignCategoryButton: UIButton!
+    
+    @IBOutlet weak var videoButton: UIButton!
+    @IBOutlet weak var libraryButton: UIButton!
+    @IBOutlet weak var importButton: UIButton!
     
     var videoCaptureController: UIImagePickerController!
     var videoStore = Videos()
@@ -26,7 +29,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     var accelerationObjects: [Acceleration] = []
     var segmentStore = Segments()
     var recording = false
-    var timer = Timer()
+    var timer:Timer!
     
     var asset: AVAsset!
     var player: AVPlayer!
@@ -42,11 +45,14 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     var yColors: [UIColor]!
     var zColors: [UIColor]!
     var pointsSelected:[Double] = []
-    var totalGesturesSelected = 0
+    var totalActionsSelected = 0
     
     var hasVideo = false
-    var sport = ""
-    var action = ""
+    var sport:String!
+    var action:Action!
+    var categories:Array<String>!
+    var actionName = ""
+    var selectedCategory = ""
     var savedVideo:Video!
     
     let requiredAssetKeys = [
@@ -57,8 +63,16 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     // Make a user settings variable for sports, or allow user to put it in, or pass it around.
     override func viewDidLoad() {
         super.viewDidLoad()
-        videoStatusLabel.text = "Touch camera icon to record video"
-        self.title = "Train \(sport)"
+        self.title = "Train \(sport ?? "")"
+        self.importButton.isEnabled = false
+        self.assignCategoryButton.isEnabled = false
+        
+        self.categoryPicker.delegate = self
+        self.categoryPicker.dataSource = self
+        
+        actionName = action.name!
+        categories = action.categories
+        categoryPicker.isHidden = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -71,51 +85,18 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         // maybe an issue for current setup?
         stopObservers()
     }
+    
+    // need to do something in here for handling sensor disconnected
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "library" ) {
+            let navigationViewController = segue.destination as! UINavigationController
+            let destinationViewController = navigationViewController.viewControllers[0] as! LibraryCollectionViewController
+            print("Selected sport: \(sport)")
+            destinationViewController.sport = sport
+        }
+    }
  
-    @IBAction func labelSegmentGood(_ sender: UIButton) {
-        totalGesturesSelected = totalGesturesSelected + 1
-        segmentStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "Good", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1], inTrainingSet: true, video: savedVideo)
-        // change color of highlighted portion to green
-        let start = Int(round(pointsSelected[0]))
-        let stop = Int(round(pointsSelected[1]))
-        doHighlight(color: UIColor.green, start: start, stop: stop)
-        
-        pointsSelected = []
-        goodButton.isEnabled = false
-        badButton.isEnabled = false
-        noneButton.isEnabled = false
-        print("How many gestures in database: \(segmentStore.fetchAll().count)")
-    }
-    
-    @IBAction func labelSegmentNone(_ sender: UIButton) {
-        totalGesturesSelected = totalGesturesSelected + 1
-        segmentStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "None", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1], inTrainingSet: true, video: savedVideo)
-        let start = Int(round(pointsSelected[0]))
-        let stop = Int(round(pointsSelected[1]))
-        doHighlight(color: UIColor.brown, start: start, stop: stop)
-        
-        pointsSelected = []
-        goodButton.isEnabled = false
-        badButton.isEnabled = false
-        noneButton.isEnabled = false
-        print("How many gestures in database: \(segmentStore.fetchAll().count)")
-    }
-    
-    @IBAction func labelSegmentBad(_ sender: UIButton) {
-        totalGesturesSelected = totalGesturesSelected + 1
-        segmentStore.save(id: Int64(totalGesturesSelected), gesture: action, rating: "Bad", sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[1], inTrainingSet: true, video: savedVideo)
-        let start = Int(round(pointsSelected[0]))
-        let stop = Int(round(pointsSelected[1]))
-        doHighlight(color: UIColor.red, start: start, stop: stop)
-        
-        pointsSelected = []
-        goodButton.isEnabled = false
-        badButton.isEnabled = false
-        noneButton.isEnabled = false
-        print("How many gestures in database: \(segmentStore.fetchAll().count)")
-    }
-    
-    
     // MARK: Video functions
     
     func prepareToPlay(urlString: String) {
@@ -140,7 +121,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             
             timeObserverToken = player.addPeriodicTimeObserver(forInterval: timeScale, queue: .main) {
                 [weak self] time in
-                self?.setChartValues(seconds: Double(CMTimeGetSeconds(time)))
+                self?.setChartValues(seconds: Double(CMTimeGetSeconds(time))) // seems to round
             }
         }
     }
@@ -152,11 +133,50 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         }
     }
     
-    @IBAction func captureData(_ sender: UIBarButtonItem) {
-        if !BluetoothStore.shared.isMicrobitConnected() {
-            // do popover
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return categories.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return categories[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedCategory = categories[row]
+        if hasVideo {
+            if(pointsSelected.count > 0 ) {
+                assignCategoryButton.isEnabled = true
+                assignCategoryButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
+            }
         }
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+    }
+    
+    @IBAction func assignCategoryToSegment(_ sender: Any) {
+        totalActionsSelected = totalActionsSelected + 1
+        pointsSelected.sort()
+        let last = pointsSelected.count - 1
+        segmentStore.save(id: Int64(totalActionsSelected), action: actionName, rating: selectedCategory, sport: sport, start_ts: pointsSelected[0], stop_ts: pointsSelected[last], inTrainingSet: true, video: savedVideo)
+        
+        let start = Int(round(pointsSelected[0]))
+        let stop = Int(round(pointsSelected[last]))
+        doHighlight(color: UIColor.green, start: start, stop: stop) // should fix this to hover and it'll tell you what you did? or something.
+        pointsSelected = []
+        assignCategoryButton.isEnabled = false
+        assignCategoryButton.backgroundColor = UIColor.lightGray
+        print("How many actions in databse :\(segmentStore.fetchAll().count)")
+    }
+    
+    @IBAction func captureData(_ sender: UIButton) {
+        if !BluetoothStore.shared.isMicrobitConnected() {
+            let alert = UIAlertController(title: "Bluetooth disconnected", message: "AlpacaML detects that your sensor is no longer connected. Please quit the app to reconnect.", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else if UIImagePickerController.isSourceTypeAvailable(.camera) {
             videoCaptureController = UIImagePickerController()
             let customViewController = CustomOverlayViewController()
             let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
@@ -168,7 +188,6 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             videoCaptureController.delegate = self
             videoCaptureController.videoMaximumDuration = 600.0
             
-            videoCaptureController.cameraOverlayView = customView
             present(videoCaptureController, animated: true, completion: {self.videoCaptureController.cameraOverlayView = customView})
         } else {
             print("Camera is not available")
@@ -179,36 +198,40 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let urlOfVideo = info[UIImagePickerControllerMediaURL] as? NSURL
         var finalURL = ""
-        if let url = urlOfVideo {
-        PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url as URL)}, completionHandler: {saved, error in
-                if saved {
-                    let alertController = UIAlertController(title: "Your video was successfully saved", message: nil, preferredStyle: .alert)
-                    let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    alertController.addAction(defaultAction)
-                    self.present(alertController, animated: true, completion: nil)
-                    let fetchOptions = PHFetchOptions()
-                    fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-                    
-                    let fetchResult = PHAsset.fetchAssets(with: .video, options: fetchOptions).lastObject
-                    PHImageManager().requestAVAsset(forVideo: fetchResult!, options: nil, resultHandler: { (avurlAsset, audioMix, dict) in
-                        let newObj = avurlAsset as! AVURLAsset
-                        print("Old URL: \(url.absoluteString ?? "")")
-                        print("New URL: \(newObj.url.absoluteString)")
-                        finalURL = newObj.url.absoluteString
-                        self.savedVideo = self.videoStore.save(name: self.sport, url: finalURL, accelerations: self.accelerationObjects)
-                    })
-                } else if error != nil {
-                    let alertController = UIAlertController(title: "Your video was not saved", message: error.unsafelyUnwrapped.localizedDescription, preferredStyle: .alert)
-                    let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    alertController.addAction(defaultAction)
-                    self.present(alertController, animated: true, completion: nil)
-                }
-            })
 
-            // [AZ] NOTE: We are using finalURL here, but I saw some stuff on stack overflow that suggested this url might change. not sure if true.
+        if let url = urlOfVideo {
+            do {
+                try PHPhotoLibrary.shared().performChangesAndWait({
+                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url as URL)
+                })
+            } catch let error {
+                let alertController = UIAlertController(title: "Your video was not saved", message: error.localizedDescription, preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+            let alertController = UIAlertController(title: "Your video was successfully saved", message: nil, preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(defaultAction)
+            self.present(alertController, animated: true, completion: nil)
+            let fetchOptions = PHFetchOptions()
+            fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
             
-            videoStatusLabel.text = ""
+            let fetchResult = PHAsset.fetchAssets(with: .video, options: fetchOptions).lastObject
+            PHImageManager().requestAVAsset(forVideo: fetchResult!, options: nil, resultHandler: { (avurlAsset, audioMix, dict) in
+                let newObj = avurlAsset as! AVURLAsset
+                print("Old URL: \(url.absoluteString ?? "")")
+                print("New URL: \(newObj.url.absoluteString)")
+                finalURL = newObj.url.absoluteString
+                let acc = self.accelerationObjects
+                self.savedVideo = self.videoStore.save(name: self.sport, url: finalURL, accelerations: acc)
+            })
             
+            videoButton.isHidden = true
+            libraryButton.isHidden = true
+            importButton.isHidden = true
+            categoryPicker.isHidden = false
+            hasVideo = true
             prepareGraph()
             prepareToPlay(urlString: url.absoluteString!)
             updateGraph()
@@ -225,12 +248,16 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     func didCancel(overlayView: CustomOverlayView) {
         videoCaptureController.cameraOverlayView?.removeFromSuperview()
         videoCaptureController.stopVideoCapture()
-        timer.invalidate()
+        // fails on cancel
+        if (timer != nil) {
+            timer.invalidate()
+        }
         videoCaptureController.dismiss(animated: true, completion: nil)
     }
     
     func didShoot(overlayView: CustomOverlayView) {
         if (recording != true) {
+            guard timer == nil else { return }
             timer = Timer.scheduledTimer(timeInterval: 1.0/BluetoothStore.shared.ACCELEROMETER_PERIOD, target: self, selector: #selector(self.readAndSaveAccelerationData), userInfo: nil, repeats: true)
             videoCaptureController.startVideoCapture()
             recording = true
@@ -247,7 +274,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             let acceleration = try BluetoothStore.shared.getAccelerometerDataFromMicrobit()
             print(acceleration)
             let acc_obj = self.accelerationStore.save(x: acceleration.0,y: acceleration.1,z: acceleration.2, timestamp: NSDate().timeIntervalSinceReferenceDate,sport: sport)
-            
+            // print something here
             self.accelerationObjects.append(acc_obj!)
         } catch {
             print("No data available from microbit: \(error)")
@@ -320,15 +347,18 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             self.player.seek(to: duration)
         } else {
             let time = CMTime(value: CMTimeValue(selectedTimestamp), timescale: 1)
+            print("time: \(time.seconds)")
             self.player.seek(to: time)
         }
     }
     
     func setChartValues(seconds: Double) {
+        print("seconds: \(seconds)") // this seems to be printing out the wrong thing
         let chartIndex = Double(round(seconds*BluetoothStore.shared.ACCELEROMETER_PERIOD))
+        print("chart index: \(chartIndex)")
         if Int(chartIndex) < accelerationObjects.count {
             lineChart.highlightValue(x: chartIndex, y: accelerationObjects[Int(chartIndex)].xAcceleration , dataSetIndex: 0, callDelegate: false)
-            lineChart.moveViewToX(max(0, chartIndex - BluetoothStore.shared.ACCELEROMETER_PERIOD))
+            lineChart.moveViewToX(max(0, chartIndex - BluetoothStore.shared.ACCELEROMETER_PERIOD)) // this moves the window over the chart, not the actual line
         }
     }
     
@@ -339,21 +369,23 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         let screenCoordinates = recognizer.location(in: lineChart)
         let chartValue: CGPoint = self.lineChart.valueForTouchPoint(point: screenCoordinates, axis: .right)
         print("Chart value: \(chartValue)")
+        print("Recognizer state: \(recognizer.state)")
+        // check if chart value null
         pointsSelected.append(Double(chartValue.x))
-        if pointsSelected.count > 2 {
-            pointsSelected.remove(at: 1)
-        }
-        if pointsSelected.count == 2 {
-            pointsSelected.sort()
-            goodButton.isEnabled = true
-            badButton.isEnabled = true
-            noneButton.isEnabled = true
-            let start = Int(round(pointsSelected[0]))
-            let stop = Int(round(pointsSelected[1]))
-            doHighlight(color: UIColor.magenta, start: start, stop: stop)
-        } else {
-            let start = Int(round(pointsSelected[0]))
-            let stop = Int(round(pointsSelected[0])) + 5
+        let currentPoint = Int(floor(chartValue.x))
+        xColors[currentPoint] = UIColor.magenta
+        yColors[currentPoint] = UIColor.magenta
+        zColors[currentPoint] = UIColor.magenta
+        
+        xAccelerationLine.setColors(xColors, alpha: 1)
+        yAccelerationLine.setColors(yColors, alpha: 1)
+        zAccelerationLine.setColors(zColors, alpha: 1)
+        lineChart.data?.notifyDataChanged()
+        lineChart.notifyDataSetChanged()
+        AudioServicesPlayAlertSound(SystemSoundID(1105))
+        if(recognizer.state == .ended) {
+            let start = Int(floor(pointsSelected.min() ?? 0))
+            let stop = Int(floor(pointsSelected.max() ?? 0))
             doHighlight(color: UIColor.magenta, start: start, stop: stop)
         }
     }
@@ -369,5 +401,34 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         zAccelerationLine.setColors(zColors, alpha: 1)
         lineChart.data?.notifyDataChanged()
         lineChart.notifyDataSetChanged()
+    }
+
+}
+
+extension SegmentationViewController {
+    @IBAction func cancelToSegmentationViewController(_ segue: UIStoryboardSegue) {
+
+    }
+    
+    @IBAction func finishPickingVideo(_ segue: UIStoryboardSegue) {
+        guard let libraryCollectionViewController = segue.source as? LibraryCollectionViewController,
+            let chosenVideo = libraryCollectionViewController.chosenVideo else {
+                return
+        }
+        videoButton.isHidden = true
+        libraryButton.isHidden = true
+        importButton.isHidden = true
+        categoryPicker.isHidden = false
+        // TODO: Enable buttons
+        self.savedVideo = chosenVideo
+        hasVideo = true
+        prepareGraph()
+        prepareToPlay(urlString: chosenVideo.url! )
+        accelerationObjects = chosenVideo.accelerations?.allObjects as! [Acceleration] // is this right
+        accelerationObjects.sort(by: {(a1, a2) in
+            a1.timestamp < a2.timestamp
+        })
+        updateGraph()
+        startObservers()
     }
 }
