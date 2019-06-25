@@ -165,8 +165,9 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         let stop = Int(round(pointsSelected[last]))
         doHighlight(color: UIColor.green, start: start, stop: stop) // should fix this to hover and it'll tell you what you did? or something.
         pointsSelected = []
-        assignCategoryButton.isEnabled = false
-        assignCategoryButton.backgroundColor = UIColor.lightGray
+        //assignCategoryButton.isEnabled = false
+        //assignCategoryButton.backgroundColor = UIColor.lightGray
+        self.pickerView(categoryPicker, didSelectRow: 0, inComponent: 0)
         print("How many actions in databse :\(segmentStore.fetchAll().count)")
     }
     
@@ -273,6 +274,8 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         do {
             let acceleration = try BluetoothStore.shared.getAccelerometerDataFromMicrobit()
             print(acceleration)
+            
+            // DEBUG HERE
             let acc_obj = self.accelerationStore.save(x: acceleration.0,y: acceleration.1,z: acceleration.2, timestamp: NSDate().timeIntervalSinceReferenceDate,sport: sport)
             // print something here
             self.accelerationObjects.append(acc_obj!)

@@ -18,6 +18,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var reviewButton: UIButton!
     @IBOutlet weak var categoriesButton: UIButton!
     
+    
     var numberVideos = 0
     var numberSegments = 0
     var accelerationPoints = 0
@@ -43,6 +44,10 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
         testButton.isEnabled = false
         reviewButton.isEnabled = false
         categoriesButton.isEnabled = false
+        if(managedActions.count > 0) {
+            print("selected row 0")
+            self.pickerView(actionPicker, didSelectRow: 0, inComponent: 0)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -125,7 +130,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        // this is the issue I think.
+        print("Called didSelectRow")
         selectedAction = managedActions[row]
         categoriesButton.isEnabled = true
         categoriesButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
@@ -174,6 +179,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
 
 extension SportSummaryViewController {
     @IBAction func cancelToSportSummaryViewController(_ segue: UIStoryboardSegue) {
+        self.pickerView(actionPicker, didSelectRow: 0, inComponent: 0)
         prepareSummary()
     }
     
@@ -186,6 +192,7 @@ extension SportSummaryViewController {
         selectedAction.categories = categories
         print(selectedAction.categories?.count ?? "0")
         accelerationPoints = accelerationStore.countAll(sport: sport.name!)
+        self.pickerView(actionPicker, didSelectRow: 0, inComponent: 0)
         self.summaryLabel.text?.append("Total Acceleration Data Points: \(accelerationPoints)\n")
     }
 }

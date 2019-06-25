@@ -95,9 +95,51 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
                     synthesizer.speak(utterance)
                     self.previousClassification = classification
                 }
+                let classified = classification.split(separator: "|")[0].lowercased()
+                self.sendEvent(classified: classified)
             }
         }
         // make it also talk
+    }
+    
+    func sendEvent(classified: String) {
+        let parameters: [String: String] = ["name": sport, "spell": classified]
+        
+        let url = URL(string: "http://10.201.48.91:3030/events")! // fix
+        
+        let session = URLSession.shared
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let task = session.dataTask(with: request, completionHandler: { data, response, error in
+            guard error == nil else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+                    print(json)
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+            
+        })
+        task.resume()
     }
     
     // MARK - Chart functions

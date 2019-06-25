@@ -147,7 +147,8 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         let segment = segments[indexPath.row]
         let cell = segmentsTableView.dequeueReusableCell(withIdentifier: tableCellReuseIdentifier, for: indexPath)
         print("segment start: \(segment.start_ts), segment stop: \(segment.stop_ts)")
-        let range = String(format:"%.1f", segment.start_ts/100.0) + "-" + String(format:"%.1f", segment.stop_ts/100.0)
+        // DEBUG THIS PART 2
+        let range = String(format:"%.1f", segment.start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD) + "-" + String(format:"%.1f", segment.stop_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD)
         cell.textLabel?.text = range
         cell.detailTextLabel?.text = segment.rating
         if segment.inTrainingSet {
@@ -174,7 +175,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
                 if recognizer.state == UIGestureRecognizerState.began {
                     let start_ts = segment.start_ts
                     tappedCell.backgroundColor = UIColor.darkGray
-                    self.player.seek(to: CMTime(value: CMTimeValue(start_ts/100.0), timescale: 1))
+                    self.player.seek(to: CMTime(value: CMTimeValue(start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD), timescale: 1))
                     self.player.play()
                 }
                 if recognizer.state == UIGestureRecognizerState.ended {
@@ -188,36 +189,5 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
             }
         }
     }
-    
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
 
 }
