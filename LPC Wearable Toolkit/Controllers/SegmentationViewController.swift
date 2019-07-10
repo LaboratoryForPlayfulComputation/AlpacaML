@@ -54,6 +54,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     var actionName = ""
     var selectedCategory = ""
     var savedVideo:Video!
+    var videoName = ""
     
     let requiredAssetKeys = [
         "playable",
@@ -210,9 +211,16 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
                 alertController.addAction(defaultAction)
                 self.present(alertController, animated: true, completion: nil)
             }
-            let alertController = UIAlertController(title: "Your video was successfully saved", message: nil, preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alertController.addAction(defaultAction)
+            
+            let numVideos = self.videoStore.countAll(sport: self.sport)
+            let alertController = UIAlertController(title: "Your video was successfully saved. Name Video.", message: nil, preferredStyle: .alert)
+            let defaultName = self.sport + " video " + String(numVideos + 1)
+            alertController.addTextField {(textField) in
+                textField.text = defaultName
+            }
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alertController] (_) in
+                self.videoName = (alertController?.textFields![0].text)!
+            }))
             self.present(alertController, animated: true, completion: nil)
             let fetchOptions = PHFetchOptions()
             fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
@@ -224,7 +232,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
                 print("New URL: \(newObj.url.absoluteString)")
                 finalURL = newObj.url.absoluteString
                 let acc = self.accelerationObjects
-                self.savedVideo = self.videoStore.save(name: self.sport, url: finalURL, accelerations: acc)
+                self.savedVideo = self.videoStore.save(sport: self.sport, name: self.videoName, url: finalURL, accelerations: acc)
             })
             
             videoButton.isHidden = true

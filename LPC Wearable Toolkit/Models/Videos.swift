@@ -68,7 +68,7 @@ class Videos {
         return fetchedSports
     }
     
-    func save(name: String, url: String, accelerations: [Acceleration]) -> Video {
+    func save(sport: String, name: String, url: String, accelerations: [Acceleration]) -> Video {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return Video()
         }
@@ -78,9 +78,10 @@ class Videos {
         let video = Video(entity: entity, insertInto: managedContext)
         let min_ts = accelerations.min(by: {acc1, acc2 in acc1.timestamp < acc2.timestamp})?.timestamp
         video.setValue(1, forKeyPath: "id")
-        video.setValue(name, forKeyPath: "sport")
+        video.setValue(sport, forKey: "sport")
         video.setValue(url, forKey: "url")
         video.setValue(min_ts, forKey: "min_ts")
+        video.setValue(name, forKey: "name")
 
         video.accelerations = NSSet(array: accelerations)
         do {
