@@ -54,7 +54,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     var actionName = ""
     var selectedCategory = ""
     var savedVideo:Video!
-    var videoName = ""
+    var videoName:String!
     
     let requiredAssetKeys = [
         "playable",
