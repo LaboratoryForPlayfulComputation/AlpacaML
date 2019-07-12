@@ -54,7 +54,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     var actionName = ""
     var selectedCategory = ""
     var savedVideo:Video!
-    var videoName:String!
+    var videoName = ""
     
     let requiredAssetKeys = [
         "playable",
@@ -205,6 +205,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
                 try PHPhotoLibrary.shared().performChangesAndWait({
                     PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url as URL)
                 })
+                
             } catch let error {
                 let alertController = UIAlertController(title: "Your video was not saved", message: error.localizedDescription, preferredStyle: .alert)
                 let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -212,29 +213,16 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
                 self.present(alertController, animated: true, completion: nil)
             }
             
-            let numVideos = self.videoStore.countAll(sport: self.sport)
-            let alertController = UIAlertController(title: "Your video was successfully saved. Name Video.", message: nil, preferredStyle: .alert)
-            let defaultName = self.sport + " video " + String(numVideos + 1)
-            alertController.addTextField {(textField) in
-                textField.text = defaultName
-            }
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alertController] (_) in
-                self.videoName = (alertController?.textFields![0].text)!
-            }))
-            self.present(alertController, animated: true, completion: nil)
             let fetchOptions = PHFetchOptions()
             fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-            
             let fetchResult = PHAsset.fetchAssets(with: .video, options: fetchOptions).lastObject
             PHImageManager().requestAVAsset(forVideo: fetchResult!, options: nil, resultHandler: { (avurlAsset, audioMix, dict) in
                 let newObj = avurlAsset as! AVURLAsset
                 print("Old URL: \(url.absoluteString ?? "")")
                 print("New URL: \(newObj.url.absoluteString)")
                 finalURL = newObj.url.absoluteString
-                let acc = self.accelerationObjects
-                self.savedVideo = self.videoStore.save(sport: self.sport, name: self.videoName, url: finalURL, accelerations: acc)
             })
-            
+
             videoButton.isHidden = true
             libraryButton.isHidden = true
             importButton.isHidden = true
@@ -244,9 +232,23 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             prepareToPlay(urlString: url.absoluteString!)
             updateGraph()
             startObservers()
-            
         }
         picker.dismiss(animated: true, completion: nil)
+        
+        let numVideos = self.videoStore.countAll(sport: self.sport)
+        let alertController = UIAlertController(title: "Your video was successfully saved. Please enter a video name or use the default name.", message: nil, preferredStyle: .alert)
+        let defaultName = self.sport + " video " + String(numVideos + 1)
+        alertController.addTextField {(textField) in
+            textField.text = defaultName
+        }
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alertController] (_) in
+            let textField = alertController?.textFields![0]
+            self.videoName = textField!.text!
+            print("video name: \(self.videoName)")
+            self.savedVideo = self.videoStore.save(sport: self.sport, name: self.videoName, url: finalURL, accelerations: self.accelerationObjects)
+            
+        }))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

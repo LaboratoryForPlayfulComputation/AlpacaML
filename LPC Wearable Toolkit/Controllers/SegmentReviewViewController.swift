@@ -120,7 +120,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         let video = images[indexPath.item].1
         let url = NSURL(fileURLWithPath: video.url!) as URL
         displayVideo(url)
-        
+        print("video name: \(video.name)")
         segments = video.segments?.allObjects as! [Segment]
         segments.sort(by: {(s1,s2) in
             s1.start_ts < s2.start_ts
