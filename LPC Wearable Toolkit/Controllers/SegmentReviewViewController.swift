@@ -32,6 +32,8 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
+    @IBOutlet weak var videoLabel: UILabel!
+    
     let requiredAssetKeys = [
         "playable",
         "hasProtectedContent"
@@ -111,7 +113,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         self.addChildViewController(smallScreen)
         self.view.addSubview(smallScreen.view)
         smallScreen.didMove(toParentViewController: self)
-        smallScreen.view.frame = CGRect (x:0, y:50, width:UIScreen.main.bounds.width, height:UIScreen.main.bounds.height/3) // -50
+        smallScreen.view.frame = CGRect (x:0, y:100, width:UIScreen.main.bounds.width, height:UIScreen.main.bounds.height/3) // -50
         doneButton.isEnabled = true
     }
     
@@ -120,7 +122,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         let video = images[indexPath.item].1
         let url = NSURL(fileURLWithPath: video.url!) as URL
         displayVideo(url)
-        print("video name: \(video.name)")
+        videoLabel.text = video.name
         segments = video.segments?.allObjects as! [Segment]
         segments.sort(by: {(s1,s2) in
             s1.start_ts < s2.start_ts
@@ -135,6 +137,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         segments = []
         segmentsTableView.reloadData()
         self.doneButton.isEnabled = false
+        videoLabel.text = "Videos"
     }
     
     // MARK: UITableView stuff
