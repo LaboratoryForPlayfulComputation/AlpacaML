@@ -947,18 +947,29 @@
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="spw-Ml-Da2">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="spw-Ml-Da2">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="34"/>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vWz-ZQ-NRp">
+                                                    <rect key="frame" x="4" y="60" width="42" height="13"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="spw-Ml-Da2" secondAttribute="trailing" id="J7y-nY-KrH"/>
                                             <constraint firstItem="spw-Ml-Da2" firstAttribute="top" secondItem="bvK-vG-G5v" secondAttribute="top" id="OLy-Gx-xEO"/>
-                                            <constraint firstAttribute="bottom" secondItem="spw-Ml-Da2" secondAttribute="bottom" id="unw-X4-8P9"/>
+                                            <constraint firstAttribute="bottom" secondItem="vWz-ZQ-NRp" secondAttribute="bottom" constant="10" id="PLu-wt-cTJ"/>
+                                            <constraint firstItem="vWz-ZQ-NRp" firstAttribute="top" secondItem="spw-Ml-Da2" secondAttribute="bottom" constant="10" id="ROz-Yu-vKt"/>
+                                            <constraint firstItem="vWz-ZQ-NRp" firstAttribute="leading" secondItem="bvK-vG-G5v" secondAttribute="leading" constant="4" id="Vfx-3f-6mi"/>
+                                            <constraint firstAttribute="trailing" secondItem="vWz-ZQ-NRp" secondAttribute="trailing" constant="4" id="ujx-pj-J4r"/>
                                             <constraint firstItem="spw-Ml-Da2" firstAttribute="leading" secondItem="bvK-vG-G5v" secondAttribute="leading" id="wuh-lf-a0y"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="imageTitle" destination="vWz-ZQ-NRp" id="3Lf-tk-ppb"/>
                                             <outlet property="imageView" destination="spw-Ml-Da2" id="dBE-S6-Ta4"/>
                                         </connections>
                                     </collectionViewCell>

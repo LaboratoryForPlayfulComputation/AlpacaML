@@ -81,7 +81,10 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 100)
+        let widthSize = self.videoCollectionView.frame.width / 4
+        let heightSize = self.videoCollectionView.frame.height / 2
+        return CGSize(width: widthSize, height: heightSize)
+        //return CGSize(width: 100, height: 100)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -100,6 +103,8 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionCellReuseIdentifier, for: indexPath) as! VideoCollectionViewCell
 
         cell.imageView.image = images[indexPath.item].0
+        cell.imageTitle.text = images[indexPath.item].1.name
+        cell.imageTitle.font = UIFont(name:"HelveticaNeue-Bold", size: 10.0)
         return cell
     }
     
