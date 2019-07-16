@@ -106,11 +106,11 @@ class Segments {
         return segments
     }
     
-    func save(id: Int64, action: String, rating: String,sport: String, start_ts: Double, stop_ts: Double, inTrainingSet: Bool, video: Video ) {
+    func save(id: Int64, action: String, rating: String,sport: String, start_ts: Double, stop_ts: Double, inTrainingSet: Bool, video: Video ) -> Segment {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
-                return
+                return Segment()
         }
         
         // 1
@@ -140,9 +140,11 @@ class Segments {
         // 4
         do {
             try managedContext.save()
+            return segment
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+        return Segment()
     }
     
     func fetchAll() -> [Segment] {
@@ -166,6 +168,13 @@ class Segments {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         return fetchedSegments
+    }
+    
+    func deleteOne(segment: Segment) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        managedContext.delete(segment)
+        print("Deleted segment")
     }
     
     func deleteAllData(entity: String) {

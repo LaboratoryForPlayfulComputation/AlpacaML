@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1E4F8069220BD141005E2FE7 /* DefineCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4F8068220BD141005E2FE7 /* DefineCategoriesViewController.swift */; };
 		1E8DC9FD21BB2D5600C52A10 /* TrackedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DC9FC21BB2D5600C52A10 /* TrackedData.swift */; };
+		1EEEA02A22C9554C00BBB67E /* SegmentReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33317EFF2162B11200412EB3 /* SegmentReviewViewController.swift */; };
+		1EEEA02C22C9694C00BBB67E /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEEA02B22C9694C00BBB67E /* ReviewTableViewCell.swift */; };
 		2E3C7C8820EE6B6100363CD3 /* DynamicTimeWarping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3C7C8720EE6B6100363CD3 /* DynamicTimeWarping.swift */; };
 		2E88B1D120D3030A0001E4CE /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2E88B1CF20D3030A0001E4CE /* CoreDataModel.xcdatamodeld */; };
 		2EA2D02520F663F3008F30AA /* Accelerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2D02420F663F3008F30AA /* Accelerations.swift */; };
@@ -68,6 +70,7 @@
 		02C3EAA426D9CD19263D804E /* Pods-LPC Wearable Toolkit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable Toolkit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable Toolkit/Pods-LPC Wearable Toolkit.release.xcconfig"; sourceTree = "<group>"; };
 		1E4F8068220BD141005E2FE7 /* DefineCategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefineCategoriesViewController.swift; sourceTree = "<group>"; };
 		1E8DC9FC21BB2D5600C52A10 /* TrackedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedData.swift; sourceTree = "<group>"; };
+		1EEEA02B22C9694C00BBB67E /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		2611241AC6DB8A8017BC01D7 /* Pods-LPC Wearable ToolkitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitTests/Pods-LPC Wearable ToolkitTests.release.xcconfig"; sourceTree = "<group>"; };
 		2E3C7C8720EE6B6100363CD3 /* DynamicTimeWarping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTimeWarping.swift; sourceTree = "<group>"; };
 		2E88B1D020D3030A0001E4CE /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -151,6 +154,7 @@
 			children = (
 				E9939CC920CF09920063505D /* CustomOverlayView.swift */,
 				33171B652162D66A00775B6D /* VideoCollectionViewCell.swift */,
+				1EEEA02B22C9694C00BBB67E /* ReviewTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -486,6 +490,7 @@
 				332E530D21598E3A00B8C2EC /* Peripherals.swift in Sources */,
 				2EA2D02520F663F3008F30AA /* Accelerations.swift in Sources */,
 				E95C85042098DCDF00D8DC8E /* AppDelegate.swift in Sources */,
+				1EEEA02C22C9694C00BBB67E /* ReviewTableViewCell.swift in Sources */,
 				339C7A71218E4E930073FA00 /* LibraryCollectionViewController.swift in Sources */,
 				6051A46E21026A3300A6218A /* SegmentationViewController.swift in Sources */,
 				60227A5B20FEBD84009AA91D /* SportsListTableViewController.swift in Sources */,
@@ -509,6 +514,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EEEA02A22C9554C00BBB67E /* SegmentReviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
