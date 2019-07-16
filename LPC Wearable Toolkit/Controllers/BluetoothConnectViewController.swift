@@ -14,15 +14,22 @@ class BluetoothConnectViewController: UIViewController, UIPickerViewDelegate, UI
     @IBOutlet weak var bluetoothStatus: UILabel!
     @IBOutlet weak var microbitNameLabel: UILabel!
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet weak var connectButton: UIButton!
+    
+    var selectedMicrobit = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.microbitPicker.delegate = self
         self.microbitPicker.dataSource = self
         doneButton.isEnabled = false
+        connectButton.isEnabled = false
         bluetoothStatus.text = BluetoothStore.shared.getCentralManagerState()
         NotificationCenter.default.addObserver(self, selector: #selector(onDidDiscoverPeripheral(_:)), name: BluetoothNotification.didDiscoverPeripheral.notification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onDidConnectToPeripheral(_:)), name: BluetoothNotification.didConnectToPeripheral.notification, object: nil)
+        if(BluetoothStore.shared.devicesFound.count > 0) {
+            self.pickerView(microbitPicker, didSelectRow: 0, inComponent: 0)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -43,15 +50,17 @@ class BluetoothConnectViewController: UIViewController, UIPickerViewDelegate, UI
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if ( BluetoothStore.shared.devicesFound.count > 0 ) {
-            let connected = BluetoothStore.shared.connectToMicrobitAtRow(row: row)
-            let microbitName = BluetoothStore.shared.microbit.name
+        selectedMicrobit = row
+        connectButton.isEnabled = true
+    }
+    
+    @IBAction func connectToMicrobit(_ sender: Any) {
+        if ( BluetoothStore.shared.devicesFound.count > 0 && (selectedMicrobit >= 0)) {
+            let connected = BluetoothStore.shared.connectToMicrobitAtRow(row: selectedMicrobit)
+            let microbitName = BluetoothStore.shared.microbit.name // check to make sure this is correct
             if connected {
                 microbitNameLabel.text = microbitName
                 doneButton.isEnabled = true
-                /*if(microbitName != lastUsedMicrobitName) { // actually want to check if it's not in the entire list
-                 microbitStore.save(name: microbitName!, last_connected: NSDate().timeIntervalSince1970, connected: true, has_accelerometer: true)
-                 }*/
             } else {
                 // Set label to no microbits found
                 microbitNameLabel.text = "No micro:bits present"

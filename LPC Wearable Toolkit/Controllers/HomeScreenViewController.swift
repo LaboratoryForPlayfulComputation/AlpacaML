@@ -19,13 +19,14 @@ class HomeScreenViewController: UIViewController {
     @IBOutlet weak var enterButton: UIButton!
     
     
-    var connectedToLastMicrobit = false
+    var connectedToMicrobit = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        enterButton.isEnabled = false
         // request status: https://stackoverflow.com/questions/39893918/xcode-8-swift-3-phphotolibrary-requestauthorization-crashing
         let status = PHPhotoLibrary.authorizationStatus()
+        
+        enterButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
         
         switch status {
         case .authorized:
@@ -58,6 +59,22 @@ class HomeScreenViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func enterApplication(_ sender: Any) {
+        if(!connectedToMicrobit) {
+            // alert
+            let alert = UIAlertController(title: "No micro:bit", message: "You are not currently connected to a micro:bit. You will not be able to train or test new models, only review old work. Do you still wish to enter?", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { [weak alert] (_) in
+                self.performSegue(withIdentifier: "enter", sender: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            performSegue(withIdentifier: "enter", sender: nil)
+        }
+    }
+    
+    
     @IBAction func deleteFromCoredata(_ sender: Any) {
         let alert = UIAlertController(title: "Wait!", message: "Are you sure you want to clear all data?", preferredStyle: .alert)
 
@@ -82,8 +99,7 @@ class HomeScreenViewController: UIViewController {
     @objc func onDidConnectToPeripheral(_ notification: Notification) {
         print("Connected to peripheral")
         microbitNameLabel.text = lastUsedMicrobitName
-        enterButton.isEnabled = true
-        enterButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
+        connectedToMicrobit = true
     }
 }
 
@@ -93,8 +109,6 @@ extension HomeScreenViewController {
     }
     
     @IBAction func saveMicrobit(_ segue: UIStoryboardSegue) {
-        enterButton.isEnabled = true
-        enterButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
         let connectedMicrobit = BluetoothStore.shared.microbit
         let existingMicrobitNames = microbitStore.fetchAll().map({ $0.name })
         if !existingMicrobitNames.contains(connectedMicrobit?.name) {
