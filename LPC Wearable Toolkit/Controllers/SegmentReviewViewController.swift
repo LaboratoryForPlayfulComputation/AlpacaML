@@ -174,9 +174,12 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
                 let segment = self.segments[tapIndexPath.row]
                 if recognizer.state == UIGestureRecognizerState.began {
                     let start_ts = segment.start_ts
+                    let duration_time = segment.stop_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD - start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD
                     tappedCell.backgroundColor = UIColor.darkGray
                     self.player.seek(to: CMTime(value: CMTimeValue(start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD), timescale: 1))
                     self.player.play()
+                    // solution as seen in:  https://stackoverflow.com/questions/38116574/how-to-stop-avplayer-at-specific-time
+                    self.player.perform(#selector(player?.pause), with: nil, afterDelay: duration_time)
                 }
                 if recognizer.state == UIGestureRecognizerState.ended {
                     self.player.pause()

@@ -69,6 +69,7 @@ class SportSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
             print("Count of actions: \(self.managedActions.count)")
             print("parent: \(self.managedActions[0].parentSport?.name ?? "")")
             self.actionPicker.reloadAllComponents()
+            self.pickerView(self.actionPicker, didSelectRow: self.managedActions.count - 1, inComponent: 0) // check if selects last thing
         }))
         
         self.present(alert, animated: true, completion: nil)
