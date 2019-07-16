@@ -104,7 +104,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
 
         cell.imageView.image = images[indexPath.item].0
         cell.imageTitle.text = images[indexPath.item].1.name
-        cell.imageTitle.font = UIFont(name:"HelveticaNeue-Bold", size: 10.0)
+        cell.imageTitle.font = UIFont(name:"HelveticaNeue-Bold", size: 12.0)
         return cell
     }
     
