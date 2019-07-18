@@ -12,4 +12,9 @@ class ReviewTableViewCell: UITableViewCell {
     
     @IBOutlet weak var time: UILabel!
     @IBOutlet weak var rating: UILabel!
+    
+    var tapAction: ((UITableViewCell) -> Void)?
+    @IBAction func buttonTap(sender: AnyObject) {
+        tapAction?(self)
+    }
 }

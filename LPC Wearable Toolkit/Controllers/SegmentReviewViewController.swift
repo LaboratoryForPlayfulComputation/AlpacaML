@@ -153,7 +153,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let segment = segments[indexPath.row]
-        let cell = segmentsTableView.dequeueReusableCell(withIdentifier: tableCellReuseIdentifier, for: indexPath)
+        let cell = segmentsTableView.dequeueReusableCell(withIdentifier: tableCellReuseIdentifier, for: indexPath) as! ReviewTableViewCell
         print("segment start: \(segment.start_ts), segment stop: \(segment.stop_ts)")
         // DEBUG THIS PART 2
         let range = String(format:"%.1f", segment.start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD) + "-" + String(format:"%.1f", segment.stop_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD)
@@ -165,6 +165,15 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         } else {
             cell.textLabel?.font = UIFont(name:"HelveticaNeue-Regular", size: 17.0)
             cell.backgroundColor = UIColor.white
+        }
+        
+        cell.tapAction = { (cell) in
+            let start_ts = segment.start_ts
+            let duration_time = segment.stop_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD - start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD
+            self.player.seek(to: CMTime(value: CMTimeValue(start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD), timescale: 1))
+            self.player.play()
+            // solution as seen in:  https://stackoverflow.com/questions/38116574/how-to-stop-avplayer-at-specific-time
+            self.player.perform(#selector(self.player?.pause), with: nil, afterDelay: duration_time)
         }
         return cell
     }
