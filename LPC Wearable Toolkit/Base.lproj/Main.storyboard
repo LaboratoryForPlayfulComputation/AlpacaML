@@ -594,7 +594,7 @@
                                     <segue destination="OZG-qV-CE5" kind="presentation" id="JBa-Df-dG8"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get ready to explore your own movements! Connect to your sensor, and press 'Enter' to get started." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8i-5a-RqL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get ready to explore your own movements! Connect to your sensor and press &quot;Get Started.&quot;" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8i-5a-RqL">
                                 <rect key="frame" x="16" y="85" width="288" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="JNV-gi-M7p"/>
