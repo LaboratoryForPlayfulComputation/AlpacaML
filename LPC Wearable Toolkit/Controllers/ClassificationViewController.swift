@@ -90,6 +90,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
                 } else {
                     self.classificationLabel.text = classification
                     let speechText = classification.split(separator: "|")[0].lowercased()
+                    //TODO: here would be the place to send a message via WebRTC
                     let utterance = AVSpeechUtterance(string: speechText)
                     let synthesizer = AVSpeechSynthesizer()
                     synthesizer.speak(utterance)
