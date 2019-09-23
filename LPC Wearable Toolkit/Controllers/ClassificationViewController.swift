@@ -88,9 +88,12 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
                     self.classificationLabel.text = ""
                     self.previousClassification = classification
                 } else {
+                    // speak classifications and send them as WebRTC messages
                     self.classificationLabel.text = classification
                     let speechText = classification.split(separator: "|")[0].lowercased()
-                    //TODO: here would be the place to send a message via WebRTC
+                    // send a message via WebRTC
+                    self.sendWebRTCData(dataToSend: speechText)
+                    // speak the classification
                     let utterance = AVSpeechUtterance(string: speechText)
                     let synthesizer = AVSpeechSynthesizer()
                     synthesizer.speak(utterance)
@@ -101,6 +104,11 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
             }
         }
         // make it also talk
+    }
+    
+    func sendWebRTCData(dataToSend: String) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.webRTCClient.sendData(dataToSend.data(using: .utf8)!)
     }
     
     func sendEvent(classified: String) {
