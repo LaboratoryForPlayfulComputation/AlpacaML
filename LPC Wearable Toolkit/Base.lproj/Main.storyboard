@@ -796,7 +796,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LJX-qm-03w">
-                                <rect key="frame" x="58.5" y="492.5" width="258" height="36"/>
+                                <rect key="frame" x="58.5" y="436.5" width="258" height="36"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
                                 <state key="normal" title="Connect to a new micro:bit">
                                     <color key="titleColor" red="0.79859640860000003" green="0.53451445750000004" blue="0.88702234459999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -825,7 +825,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oyC-Ud-9Me">
-                                <rect key="frame" x="48" y="436.5" width="279" height="36"/>
+                                <rect key="frame" x="48" y="492.5" width="279" height="36"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
                                 <state key="normal" title="Connect to a WebRTC device">
                                     <color key="titleColor" red="0.80819535255432129" green="0.55114847421646118" blue="0.89036041498184204" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -838,14 +838,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="lv4-ib-Fgt" firstAttribute="centerX" secondItem="Xcz-1v-7HB" secondAttribute="centerX" id="29x-wq-MF3"/>
+                            <constraint firstItem="oyC-Ud-9Me" firstAttribute="top" secondItem="LJX-qm-03w" secondAttribute="bottom" constant="20" id="2QQ-9e-B6J"/>
                             <constraint firstItem="V8i-5a-RqL" firstAttribute="centerX" secondItem="XCv-7u-4hx" secondAttribute="centerX" id="3PP-Ec-ePR"/>
                             <constraint firstItem="Xcz-1v-7HB" firstAttribute="centerX" secondItem="Utu-sY-NbB" secondAttribute="centerX" id="5Eg-vD-Ahr"/>
-                            <constraint firstItem="LJX-qm-03w" firstAttribute="top" secondItem="oyC-Ud-9Me" secondAttribute="bottom" constant="20" id="LLQ-q9-j8X"/>
                             <constraint firstItem="lv4-ib-Fgt" firstAttribute="top" secondItem="Xcz-1v-7HB" secondAttribute="bottom" constant="8" symbolic="YES" id="Lkb-n2-1GT"/>
                             <constraint firstItem="3dv-kJ-G3x" firstAttribute="leading" secondItem="vkf-RR-Iq9" secondAttribute="leading" id="Lyb-be-p1k"/>
                             <constraint firstItem="LJX-qm-03w" firstAttribute="centerX" secondItem="vkf-RR-Iq9" secondAttribute="centerX" id="UMk-Zj-t44"/>
-                            <constraint firstItem="vkf-RR-Iq9" firstAttribute="top" secondItem="LJX-qm-03w" secondAttribute="bottom" constant="73" id="YQ0-dJ-qyY"/>
-                            <constraint firstItem="oyC-Ud-9Me" firstAttribute="centerX" secondItem="LJX-qm-03w" secondAttribute="centerX" id="ceL-wf-Zkx"/>
+                            <constraint firstItem="oyC-Ud-9Me" firstAttribute="centerX" secondItem="vkf-RR-Iq9" secondAttribute="centerX" id="Vcc-H7-7PC"/>
                             <constraint firstItem="V8i-5a-RqL" firstAttribute="centerX" secondItem="Utu-sY-NbB" secondAttribute="centerX" id="e8v-Nr-UsC"/>
                             <constraint firstItem="Xcz-1v-7HB" firstAttribute="leading" secondItem="Ech-4C-mgf" secondAttribute="leading" constant="35" id="gVd-Aj-1Nb"/>
                             <constraint firstItem="Xcz-1v-7HB" firstAttribute="top" secondItem="V8i-5a-RqL" secondAttribute="bottom" constant="58" id="ieE-KZ-qpJ"/>
@@ -854,6 +853,7 @@
                             <constraint firstItem="XCv-7u-4hx" firstAttribute="top" secondItem="3dv-kJ-G3x" secondAttribute="bottom" constant="1" id="r2t-n3-DaA"/>
                             <constraint firstItem="XCv-7u-4hx" firstAttribute="top" secondItem="Ech-4C-mgf" secondAttribute="top" constant="21" id="slH-BG-h26"/>
                             <constraint firstItem="vkf-RR-Iq9" firstAttribute="bottom" secondItem="Ech-4C-mgf" secondAttribute="bottom" id="tDE-HA-voz"/>
+                            <constraint firstItem="vkf-RR-Iq9" firstAttribute="top" secondItem="oyC-Ud-9Me" secondAttribute="bottom" constant="73" id="tpr-a2-LQo"/>
                             <constraint firstItem="V8i-5a-RqL" firstAttribute="top" secondItem="XCv-7u-4hx" secondAttribute="bottom" constant="8" symbolic="YES" id="u4b-Oc-GGB"/>
                             <constraint firstItem="vkf-RR-Iq9" firstAttribute="leading" secondItem="Ech-4C-mgf" secondAttribute="leading" id="vsl-x2-w3Q"/>
                             <constraint firstItem="vkf-RR-Iq9" firstAttribute="trailing" secondItem="Ech-4C-mgf" secondAttribute="trailing" id="xqv-02-Pyy"/>
