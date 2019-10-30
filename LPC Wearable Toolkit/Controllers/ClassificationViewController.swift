@@ -84,6 +84,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
             let test = self.newAccelerations[(maxIndex-self.chunkSize)..<maxIndex]
             let classification = self.dtw.classify(test: Array(test))
             DispatchQueue.main.async {
+                // TODO: add to this if: "classification.split(separator: "|")[1] < threshold"? (threshold could be a UI slider)
                 if classification.starts(with: "None") || (classification == self.previousClassification) {
                     self.classificationLabel.text = ""
                     self.previousClassification = classification

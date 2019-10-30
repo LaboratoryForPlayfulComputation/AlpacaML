@@ -48,7 +48,7 @@ final class WebRTCClient: NSObject {
         config.iceServers = [RTCIceServer(urlStrings: iceServers)]
         
         // Unified plan is more superior than planB
-        config.sdpSemantics = .unifiedPlan
+        config.sdpSemantics = .unifiedPlan // TODO: try planB
         
         // gatherContinually will let WebRTC to listen to any network changes and send any new candidates to the other client
         config.continualGatheringPolicy = .gatherContinually
@@ -187,7 +187,11 @@ final class WebRTCClient: NSObject {
     // MARK: Data Channels
     private func createDataChannel() -> RTCDataChannel? {
         let config = RTCDataChannelConfiguration()
-        guard let dataChannel = self.peerConnection.dataChannel(forLabel: "WebRTCData", configuration: config) else {
+        //use out-of-band negotiation with an agreed-upon id (101 here):
+        config.isNegotiated = true
+        config.channelId = 101
+        
+        guard let dataChannel = self.peerConnection.dataChannel(forLabel: "alpacaChannel", configuration: config) else {
             debugPrint("Warning: Couldn't create data channel.")
             return nil
         }
@@ -196,7 +200,8 @@ final class WebRTCClient: NSObject {
     
     func sendData(_ data: Data) {
         let buffer = RTCDataBuffer(data: data, isBinary: true)
-        self.remoteDataChannel?.sendData(buffer)
+        //self.remoteDataChannel?.sendData(buffer) //TODO: this is the original code
+        self.localDataChannel?.sendData(buffer)
     }
 }
 

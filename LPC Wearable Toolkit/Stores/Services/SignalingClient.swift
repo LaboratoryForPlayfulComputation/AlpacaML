@@ -49,6 +49,7 @@ final class SignalingClient {
         do {
             let dataMessage = try self.encoder.encode(message)
             self.socket.write(data: dataMessage)
+            print(dataMessage)
         }
         catch {
             debugPrint("Warning: Could not encode candidate: \(error)")
@@ -105,5 +106,21 @@ extension SignalingClient: WebSocketDelegate {
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
+        let data = text.data(using: .utf8)!
+        let message: Message
+        do {
+            message = try self.decoder.decode(Message.self, from: data)
+        }
+        catch {
+            debugPrint("Warning: Could not decode incoming message: \(error)")
+            return
+        }
+        
+        switch message {
+        case .candidate(let iceCandidate):
+            self.delegate?.signalClient(self, didReceiveCandidate: iceCandidate.rtcIceCandidate)
+        case .sdp(let sessionDescription):
+            self.delegate?.signalClient(self, didReceiveRemoteSdp: sessionDescription.rtcSessionDescription)
+        }
     }
 }

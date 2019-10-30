@@ -11,7 +11,7 @@ import Foundation
 // Set this to the machine's address which runs the signaling server
 //fileprivate let defaultSignalingServerUrl = URL(string: "ws://127.0.0.1:8080")!      //localhost
 //fileprivate let defaultSignalingServerUrl = URL(string: "wss://connect.websocket.in/alpacaml_in?room_id=2")! //websocket.in
-fileprivate let defaultSignalingServerUrl = URL(string: "ws://10.201.46.164:8080")! //personal server
+fileprivate let defaultSignalingServerUrl = URL(string: "ws://10.201.45.10:8080")! //personal server
 
 
 // We use Google's public stun servers. For production apps you should deploy your own stun/turn servers.
