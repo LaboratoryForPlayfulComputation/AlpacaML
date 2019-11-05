@@ -94,7 +94,7 @@ class WebRTCViewController: UIViewController {
         self.hasRemoteSdp = false
         self.localCandidateCount = 0
         self.remoteCandidateCount = 0
-        self.webRTCStatusLabel?.text = "New"
+        self.webRTCStatusLabel?.text = "New (" + self.webRTCClient.pairId + ")"
         
         self.signalClient.connect()
         self.webRTCClient.delegate = self
@@ -151,6 +151,17 @@ extension WebRTCViewController: SignalClientDelegate {
         self.webRTCClient.set(remoteSdp: sdp) { (error) in
             self.hasRemoteSdp = true
         }
+        
+        //Wait 1 second then answer the offer if the pairIds match (case insensitive)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            if (self.webRTCClient.pairId.caseInsensitiveCompare(self.webRTCClient.remotePairId) == .orderedSame) {
+                print("pairId match!")
+                self.webRTCClient.answer { (localSdp) in
+                    self.hasLocalSdp = true
+                    self.signalClient.send(sdp: localSdp)
+                }
+            }
+        }
     }
     
     func signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate) {
@@ -183,7 +194,7 @@ extension WebRTCViewController: WebRTCClientDelegate {
             textColor = .black
         }
         DispatchQueue.main.async {
-            self.webRTCStatusLabel?.text = state.description.capitalized
+            self.webRTCStatusLabel?.text = state.description.capitalized + " (" + self.webRTCClient.pairId + ")"
             self.webRTCStatusLabel?.textColor = textColor
         }
     }

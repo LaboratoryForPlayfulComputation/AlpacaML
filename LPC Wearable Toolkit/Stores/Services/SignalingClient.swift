@@ -107,6 +107,17 @@ extension SignalingClient: WebSocketDelegate {
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
         let data = text.data(using: .utf8)!
+        
+        // look for pairId from Scratch
+        let json = try? JSONSerialization.jsonObject(with: data, options: [])
+        if let jsonArray = json as? [String: Any] {
+            if let id = jsonArray["pairId"] as? String {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.webRTCClient.remotePairId = id
+            }
+        }
+        
+        // try to interpret message as candidate/sdp
         let message: Message
         do {
             message = try self.decoder.decode(Message.self, from: data)

@@ -37,6 +37,8 @@ final class WebRTCClient: NSObject {
     private var remoteVideoTrack: RTCVideoTrack?
     private var localDataChannel: RTCDataChannel?
     private var remoteDataChannel: RTCDataChannel?
+    var pairId: String
+    var remotePairId: String
 
     @available(*, unavailable)
     override init() {
@@ -53,15 +55,24 @@ final class WebRTCClient: NSObject {
         // gatherContinually will let WebRTC to listen to any network changes and send any new candidates to the other client
         config.continualGatheringPolicy = .gatherContinually
         
-        //TODO: Shawn! What are these constraints? Disable them...?
         let constraints = RTCMediaConstraints(mandatoryConstraints: nil,
                                               optionalConstraints: ["DtlsSrtpKeyAgreement":kRTCMediaConstraintsValueTrue])
         self.peerConnection = WebRTCClient.factory.peerConnection(with: config, constraints: constraints, delegate: nil)
+        
+        self.pairId = ""
+        self.remotePairId = ""
         
         super.init()
         self.createMediaSenders()
         self.configureAudioSession()
         self.peerConnection.delegate = self
+        self.pairId = randomPairId(length: 4)
+    }
+    
+    // MARK: Helper functions
+    func randomPairId(length: Int) -> String {
+        let letters = "ABCDEFGHKLMNPQRSTUVWXYZ123456789"
+        return String((0..<length).map{ _ in letters.randomElement()! })
     }
     
     // MARK: Signaling
