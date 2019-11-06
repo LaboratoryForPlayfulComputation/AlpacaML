@@ -94,7 +94,7 @@ class WebRTCViewController: UIViewController {
         self.hasRemoteSdp = false
         self.localCandidateCount = 0
         self.remoteCandidateCount = 0
-        self.webRTCStatusLabel?.text = "New (" + self.webRTCClient.pairId + ")"
+        self.webRTCStatusLabel?.text = /*"New (" +*/ self.webRTCClient.pairId /*+ ")"*/
         
         self.signalClient.connect()
         self.webRTCClient.delegate = self
@@ -120,8 +120,8 @@ class WebRTCViewController: UIViewController {
     }
     
     @IBAction func sendDataDidTap(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Send a message to the other peer",
-                                      message: "This will be transferred over WebRTC data channel",
+        let alert = UIAlertController(title: "Send a message to your Scratch project",
+                                      message: "This mimics the messages your gestures will send.",
                                       preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.placeholder = "Message to send"
@@ -194,7 +194,7 @@ extension WebRTCViewController: WebRTCClientDelegate {
             textColor = .black
         }
         DispatchQueue.main.async {
-            self.webRTCStatusLabel?.text = state.description.capitalized + " (" + self.webRTCClient.pairId + ")"
+            self.webRTCStatusLabel?.text = /*state.description.capitalized + " (" +*/ self.webRTCClient.pairId /*+ ")"*/
             self.webRTCStatusLabel?.textColor = textColor
         }
     }
@@ -202,7 +202,7 @@ extension WebRTCViewController: WebRTCClientDelegate {
     func webRTCClient(_ client: WebRTCClient, didReceiveData data: Data) {
         DispatchQueue.main.async {
             let message = String(data: data, encoding: .utf8) ?? "(Binary: \(data.count) bytes)"
-            let alert = UIAlertController(title: "Message from WebRTC", message: message, preferredStyle: .alert)
+            let alert = UIAlertController(title: "Incoming Message", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
