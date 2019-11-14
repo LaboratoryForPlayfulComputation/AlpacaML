@@ -84,72 +84,28 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
             let test = self.newAccelerations[(maxIndex-self.chunkSize)..<maxIndex]
             let classification = self.dtw.classify(test: Array(test))
             DispatchQueue.main.async {
-                // TODO: add to this if: "classification.split(separator: "|")[1] < threshold"? (threshold could be a UI slider)
-                if classification.starts(with: "None") || (classification == self.previousClassification) {
+                let classified = classification.split(separator: "|")[0].lowercased()
+                if classified.starts(with: "none") || (classified == self.previousClassification) {
                     self.classificationLabel.text = ""
-                    self.previousClassification = classification
+                    self.previousClassification = classified
                 } else {
                     // speak classifications and send them as WebRTC messages
-                    self.classificationLabel.text = classification
-                    let speechText = classification.split(separator: "|")[0].lowercased()
+                    self.classificationLabel.text = classification // yes I think we do want to show the full string. right? for now
                     // send a message via WebRTC
-                    self.sendWebRTCData(dataToSend: speechText)
+                    self.sendWebRTCData(dataToSend: classified)
                     // speak the classification
-                    let utterance = AVSpeechUtterance(string: speechText)
+                    let utterance = AVSpeechUtterance(string: classified)
                     let synthesizer = AVSpeechSynthesizer()
                     synthesizer.speak(utterance)
-                    self.previousClassification = classification
+                    self.previousClassification = classified
                 }
-                let classified = classification.split(separator: "|")[0].lowercased()
-                self.sendEvent(classified: classified)
             }
         }
-        // make it also talk
     }
     
     func sendWebRTCData(dataToSend: String) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.webRTCClient.sendData(dataToSend.data(using: .utf8)!)
-    }
-    
-    func sendEvent(classified: String) {
-        let parameters: [String: String] = ["name": sport, "spell": classified]
-        
-        let url = URL(string: "http://10.201.48.91:3030/events")! // fix
-        
-        let session = URLSession.shared
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-        } catch let error {
-            print(error.localizedDescription)
-        }
-        
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        let task = session.dataTask(with: request, completionHandler: { data, response, error in
-            guard error == nil else {
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
-                    print(json)
-                }
-            } catch let error {
-                print(error.localizedDescription)
-            }
-            
-        })
-        task.resume()
     }
     
     // MARK - Chart functions
@@ -206,7 +162,6 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
                     // TODO: what do we want to save from here?
                     //accelerationStore.save(x: acceleration.0, y: acceleration.1, z: acceleration.2, timestamp: NSDate().timeIntervalSinceReferenceDate, sport: sport,  id: 1)
                     updateChart()
-                    print("hi its me")
                     if newAccelerations.count > chunkSize {
                         classifyChunk()
                     }
