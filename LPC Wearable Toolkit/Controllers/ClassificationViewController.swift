@@ -84,12 +84,17 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
             let test = self.newAccelerations[(maxIndex-self.chunkSize)..<maxIndex]
             let classification = self.dtw.classify(test: Array(test))
             DispatchQueue.main.async {
+                // TODO: add to this if: "classification.split(separator: "|")[1] < threshold"? (threshold could be a UI slider)
                 if classification.starts(with: "None") || (classification == self.previousClassification) {
                     self.classificationLabel.text = ""
                     self.previousClassification = classification
                 } else {
+                    // speak classifications and send them as WebRTC messages
                     self.classificationLabel.text = classification
                     let speechText = classification.split(separator: "|")[0].lowercased()
+                    // send a message via WebRTC
+                    self.sendWebRTCData(dataToSend: speechText)
+                    // speak the classification
                     let utterance = AVSpeechUtterance(string: speechText)
                     let synthesizer = AVSpeechSynthesizer()
                     synthesizer.speak(utterance)
@@ -100,6 +105,11 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
             }
         }
         // make it also talk
+    }
+    
+    func sendWebRTCData(dataToSend: String) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.webRTCClient.sendData(dataToSend.data(using: .utf8)!)
     }
     
     func sendEvent(classified: String) {

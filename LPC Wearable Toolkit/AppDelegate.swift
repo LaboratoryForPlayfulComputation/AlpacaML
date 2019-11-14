@@ -13,6 +13,8 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    let signalClient = SignalingClient(serverUrl: Config.default.signalingServerUrl)
+    let webRTCClient = WebRTCClient(iceServers: Config.default.webRTCIceServers)
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -89,6 +91,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    // MARK: - Helper functions
+    
+//    private func buildWebRTCViewController() -> UIViewController {
+//        let signalClient = SignalingClient(serverUrl: self.config.signalingServerUrl)
+//        let webRTCClient = WebRTCClient(iceServers: self.config.webRTCIceServers)
+//        let webRTCViewController = WebRTCViewController(signalClient: signalClient,
+//                                                    webRTCClient: webRTCClient)
+//        let navViewController = UINavigationController(rootViewController: webRTCViewController)
+//        navViewController.navigationBar.isTranslucent = false
+//        if #available(iOS 11.0, *) {
+//            navViewController.navigationBar.prefersLargeTitles = true
+//        }
+//        return navViewController
+//    }
+    
     
 }
 

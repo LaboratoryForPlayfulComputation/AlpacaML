@@ -2,17 +2,25 @@ PODS:
   - Charts (3.1.1):
     - Charts/Core (= 3.1.1)
   - Charts/Core (3.1.1)
+  - GoogleWebRTC (1.1.29024)
+  - Starscream (3.1.0)
 
 DEPENDENCIES:
   - Charts
+  - GoogleWebRTC (~> 1.1)
+  - Starscream (~> 3.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Charts
+    - GoogleWebRTC
+    - Starscream
 
 SPEC CHECKSUMS:
   Charts: 90a4d61da0f6e06684c591e3bcab11940fe61736
+  GoogleWebRTC: 3d459ebbdc9461f94442e7bf03e5571238f390f7
+  Starscream: 08172b481e145289c4930cb567230fb55897cfa4
 
-PODFILE CHECKSUM: b72b7925ce31442bbfca3c3428f50d396de04285
+PODFILE CHECKSUM: fd8eb9bb4a1e9686858999193c4f87156ba4e0b5
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.7.5
