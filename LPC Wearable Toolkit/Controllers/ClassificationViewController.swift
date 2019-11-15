@@ -92,7 +92,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
                     // speak classifications and send them as WebRTC messages
                     self.classificationLabel.text = classification // yes I think we do want to show the full string. right? for now
                     // send a message via WebRTC
-                    self.sendWebRTCData(dataToSend: classified)
+                    self.sendWebRTCData(dataToSend: String(classification.split(separator: "|")[0]))
                     // speak the classification
                     let utterance = AVSpeechUtterance(string: classified)
                     let synthesizer = AVSpeechSynthesizer()
