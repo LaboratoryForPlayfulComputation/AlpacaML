@@ -768,6 +768,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
+                                    <action selector="trainButtonClicked:" destination="44z-zV-wuf" eventType="touchUpInside" id="jZv-Y2-2xc"/>
                                     <segue destination="eBj-cE-d48" kind="presentation" identifier="train" id="3Tq-VM-0K1"/>
                                 </connections>
                             </button>

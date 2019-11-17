@@ -31,8 +31,6 @@ class ModelSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
     var selectedModel: Model!
     var selectedLabel: String!
     
-    let NONE_LABEL = "None"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.labelPicker.delegate = self
@@ -76,14 +74,31 @@ class ModelSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     @IBAction func deleteLabel(_ sender: UIButton) {
         if (model.labels != nil) {
-            print("removing: \(self.selectedLabel ?? "")")
-            model.labels!.removeAll {$0 == selectedLabel}
-            do {
-                try model.managedObjectContext?.save()
-            } catch {
-                fatalError("Failure to save context: \(error)")
+            if (selectedLabel == Models.Constants.NONE_LABEL) {
+                let alert = UIAlertController(title: "Deleting None", message: "Are you sure you want to delete None? This may affect the behavior of your model.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { action in
+                    print("removing: \(self.selectedLabel ?? "")")
+                    self.model.labels!.removeAll {$0 == self.selectedLabel}
+                    do {
+                        try self.model.managedObjectContext?.save()
+                    } catch {
+                        fatalError("Failure to save context: \(error)")
+                    }
+                    self.labelPicker.reloadAllComponents()
+                }))
+                alert.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                
+            } else {
+                print("removing: \(self.selectedLabel ?? "")")
+                model.labels!.removeAll {$0 == selectedLabel}
+                do {
+                    try model.managedObjectContext?.save()
+                } catch {
+                    fatalError("Failure to save context: \(error)")
+                }
+                labelPicker.reloadAllComponents()
             }
-            labelPicker.reloadAllComponents()
             doSummarySetup()
         }
     }
@@ -140,7 +155,8 @@ class ModelSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func doSummarySetup() {
-        if (model.labels == nil) {
+        if (model.labels?.count ?? 0 < 2) {
+            // why doesn't this redo after delete
             trainButton.isEnabled = false
             testButton.isEnabled = false
             reviewButton.isEnabled = false

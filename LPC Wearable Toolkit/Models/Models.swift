@@ -10,9 +10,13 @@ import Foundation
 import CoreData
 import UIKit
 
-class Models {
+public class Models {
     
     var managedModels: [Model] = []
+    
+    public struct Constants {
+        static let NONE_LABEL = "None"
+    }
     
     init() {
         managedModels = fetchAll()
@@ -60,6 +64,8 @@ class Models {
         
         model.name = name
         model.notes = modelDescription
+        model.labels = []
+        model.labels!.append(Constants.NONE_LABEL)
         
         do {
             try managedContext.save()
