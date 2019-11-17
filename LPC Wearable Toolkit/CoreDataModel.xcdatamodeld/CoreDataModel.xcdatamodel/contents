@@ -13,7 +13,6 @@
         <attribute name="categories" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sport" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="parentSport" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Model" syncable="YES"/>
     </entity>
     <entity name="Model" representedClassName="Model" syncable="YES" codeGenerationType="class">
         <attribute name="labels" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
@@ -56,7 +55,7 @@
     </entity>
     <elements>
         <element name="Acceleration" positionX="153" positionY="180" width="128" height="150"/>
-        <element name="Action" positionX="-452" positionY="-216" width="128" height="105"/>
+        <element name="Action" positionX="-452" positionY="-216" width="128" height="90"/>
         <element name="Peripheral" positionX="196" positionY="-162" width="128" height="105"/>
         <element name="Segment" positionX="-297" positionY="171" width="128" height="150"/>
         <element name="Model" positionX="-218" positionY="-229" width="128" height="135"/>
