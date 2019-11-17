@@ -10,16 +10,16 @@ import Foundation
 import CoreData
 import UIKit
 
-class Sports {
+class Models {
     
-    var managedSports: [NSManagedObject] = []
+    var managedModels: [Model] = []
     
     init() {
-        managedSports = fetchAll()
+        managedModels = fetchAll()
     }
     
-    func fetchAll() -> [NSManagedObject] {
-        var fetchedSports: [NSManagedObject] = []
+    func fetchAll() -> [Model] {
+        var fetchedModels: [Model] = []
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return []
@@ -30,40 +30,40 @@ class Sports {
         
         //2
         let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Sport")
+            NSFetchRequest<NSManagedObject>(entityName: "Model")
         
         //3
         do {
-            fetchedSports = try managedContext.fetch(fetchRequest)
+            fetchedModels = try managedContext.fetch(fetchRequest) as? [Model] ?? []
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-        return fetchedSports
+        return fetchedModels
     }
     
     func count() -> Int {
-        return managedSports.count
+        return managedModels.count
     }
     
     func objectAtIndex(i: Int) -> NSManagedObject {
-        return managedSports[i]
+        return managedModels[i]
     }
     
-    func save(name: String, sportDescription: String) {
+    func save(name: String, modelDescription: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Sport", in: managedContext)!
-        let sport = Sport(entity: entity, insertInto: managedContext)
+        let entity = NSEntityDescription.entity(forEntityName: "Model", in: managedContext)!
+        let model = Model(entity: entity, insertInto: managedContext)
         
-        sport.name = name
-        sport.notes = sportDescription
+        model.name = name
+        model.notes = modelDescription
         
         do {
             try managedContext.save()
-            managedSports.append(sport)
+            managedModels.append(model)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }

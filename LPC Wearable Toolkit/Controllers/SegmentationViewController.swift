@@ -16,8 +16,8 @@ import AVFoundation
 class SegmentationViewController: UIViewController, ChartViewDelegate, UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CustomOverlayDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var lineChart: LineChartView!
-    @IBOutlet weak var categoryPicker: UIPickerView!
-    @IBOutlet weak var assignCategoryButton: UIButton!
+    @IBOutlet weak var labelPicker: UIPickerView!
+    @IBOutlet weak var assignLabelButton: UIButton!
     
     @IBOutlet weak var videoButton: UIButton!
     @IBOutlet weak var libraryButton: UIButton!
@@ -55,11 +55,9 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     var totalActionsSelected = 0
     
     var hasVideo = false
-    var sport:String!
-    var action:Action!
-    var categories:Array<String>!
-    var actionName = ""
-    var selectedCategory = ""
+    var model:Model!
+    var labels:Array<String>!
+    var selectedLabel = ""
     var savedVideo:Video!
     var videoName = ""
     
@@ -71,16 +69,15 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     // Make a user settings variable for sports, or allow user to put it in, or pass it around.
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Train \(sport ?? "")"
+        self.title = "Train \(model.name ?? "")"
         self.importButton.isEnabled = false
-        self.assignCategoryButton.isEnabled = false
+        self.assignLabelButton.isEnabled = false
         
-        self.categoryPicker.delegate = self
-        self.categoryPicker.dataSource = self
+        self.labelPicker.delegate = self
+        self.labelPicker.dataSource = self
         
-        actionName = action.name!
-        categories = action.categories
-        categoryPicker.isHidden = true
+        labels = model.labels
+        labelPicker.isHidden = true
         
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(recognizer:)))
         recognizer.numberOfTapsRequired = 2
@@ -104,8 +101,8 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         if (segue.identifier == "library" ) {
             let navigationViewController = segue.destination as! UINavigationController
             let destinationViewController = navigationViewController.viewControllers[0] as! LibraryCollectionViewController
-            print("Selected sport: \(sport)")
-            destinationViewController.sport = sport
+            print("Selected model: \(model.name ?? "")")
+            destinationViewController.model = model
         }
     }
  
@@ -150,29 +147,29 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return categories.count
+        return labels.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return categories[row]
+        return labels[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedCategory = categories[row]
+        selectedLabel = labels[row]
         if hasVideo {
             if(pointsSelected.count > 0 ) {
-                assignCategoryButton.isEnabled = true
-                assignCategoryButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
+                assignLabelButton.isEnabled = true
+                assignLabelButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
             }
             if (editingSegment) { // nil check
-                if (selectedCategory != curSegment.rating) {
-                    assignCategoryButton.isEnabled = true
-                    assignCategoryButton.setTitle("Assign", for: .normal)
-                    assignCategoryButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
+                if (selectedLabel != curSegment.rating) {
+                    assignLabelButton.isEnabled = true
+                    assignLabelButton.setTitle("Assign", for: .normal)
+                    assignLabelButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
                 } else {
-                    assignCategoryButton.isEnabled = true
-                    assignCategoryButton.setTitle("Delete", for: .normal)
-                    assignCategoryButton.backgroundColor = UIColor.red
+                    assignLabelButton.isEnabled = true
+                    assignLabelButton.setTitle("Delete", for: .normal)
+                    assignLabelButton.backgroundColor = UIColor.red
                 }
             }
         }
@@ -187,14 +184,14 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         if(!editingSegment) {
             print("Text == assign")
             totalActionsSelected = totalActionsSelected + 1
-            let curSegment = segmentStore.save(id: Int64(totalActionsSelected), action: actionName, rating: selectedCategory, sport: sport, start_ts: start, stop_ts: stop, inTrainingSet: true, video: savedVideo)
+            let curSegment = segmentStore.save(id: Int64(totalActionsSelected), model: model, rating: selectedLabel, start_ts: start, stop_ts: stop, inTrainingSet: true, video: savedVideo)
             segmentObjects.append(curSegment)
             doHighlight(color: UIColor.green, start: Int(start), stop: Int(stop)) // should fix this to hover and it'll tell you what you did? or something.
             pointsSelected = []
-            assignCategoryButton.isEnabled = false
-            assignCategoryButton.backgroundColor = UIColor.lightGray
+            assignLabelButton.isEnabled = false
+            assignLabelButton.backgroundColor = UIColor.lightGray
             print("How many actions in databse :\(segmentStore.fetchAll().count)")
-        } else if (editingSegment && (selectedCategory == curSegment.rating)) {
+        } else if (editingSegment && (selectedLabel == curSegment.rating)) {
             print("Text == delete")
             print("Segment Objects before delete: \(segmentObjects.count)")
             segmentStore.deleteOne(segment: curSegment)
@@ -202,23 +199,23 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             print("Segment Objects after delete: \(segmentObjects.count)")
             undoHighlight(start: Int(start), stop: Int(stop))
             pointsSelected = []
-            assignCategoryButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
-            assignCategoryButton.isEnabled = false
-            assignCategoryButton.setTitle("Assign", for: .normal)
-            assignCategoryButton.backgroundColor = UIColor.lightGray
+            assignLabelButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
+            assignLabelButton.isEnabled = false
+            assignLabelButton.setTitle("Assign", for: .normal)
+            assignLabelButton.backgroundColor = UIColor.lightGray
             editingSegment = !editingSegment
-        } else if (editingSegment && (selectedCategory != curSegment.rating)) {
+        } else if (editingSegment && (selectedLabel != curSegment.rating)) {
             print("Text == assign")
-            curSegment.rating = selectedCategory
+            curSegment.rating = selectedLabel
             doHighlight(color: UIColor.green, start: Int(start), stop: Int(stop))
             
             pointsSelected = []
-            assignCategoryButton.isEnabled = false
-            assignCategoryButton.setTitle("Assign", for: .normal)
-            assignCategoryButton.backgroundColor = UIColor.lightGray
+            assignLabelButton.isEnabled = false
+            assignLabelButton.setTitle("Assign", for: .normal)
+            assignLabelButton.backgroundColor = UIColor.lightGray
             editingSegment = !editingSegment
         }
-        self.pickerView(categoryPicker, didSelectRow: 0, inComponent: 0)
+        self.pickerView(labelPicker, didSelectRow: 0, inComponent: 0)
     }
     
     @IBAction func captureData(_ sender: UIButton) {
@@ -279,7 +276,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             videoLabel.isHidden = true
             libraryLabel.isHidden = true
             importLabel.isHidden = true
-            categoryPicker.isHidden = false
+            labelPicker.isHidden = false
             hasVideo = true
             prepareGraph()
             prepareToPlay(urlString: url.absoluteString!)
@@ -288,9 +285,9 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
         }
         picker.dismiss(animated: true, completion: nil)
         
-        let numVideos = self.videoStore.countAll(sport: self.sport)
+        let numVideos = self.videoStore.countAll(model: model)
         let alertController = UIAlertController(title: "Your video was successfully saved. Please enter a video name or use the default name.", message: nil, preferredStyle: .alert)
-        let defaultName = self.sport + " video " + String(numVideos + 1)
+        let defaultName = self.model.name ?? "" + " video " + String(numVideos + 1)
         alertController.addTextField {(textField) in
             textField.text = defaultName
         }
@@ -298,7 +295,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             let textField = alertController?.textFields![0]
             self.videoName = textField!.text!
             print("video name: \(self.videoName)")
-            self.savedVideo = self.videoStore.save(sport: self.sport, name: self.videoName, url: finalURL, accelerations: self.accelerationObjects)
+            self.savedVideo = self.videoStore.save(model: self.model, name: self.videoName, url: finalURL, accelerations: self.accelerationObjects)
             
         }))
         self.present(alertController, animated: true, completion: nil)
@@ -338,7 +335,7 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             print(acceleration)
             
             // DEBUG HERE
-            let acc_obj = self.accelerationStore.save(x: acceleration.0,y: acceleration.1,z: acceleration.2, timestamp: NSDate().timeIntervalSinceReferenceDate,sport: sport)
+            let acc_obj = self.accelerationStore.save(x: acceleration.0,y: acceleration.1,z: acceleration.2, model: model, timestamp: NSDate().timeIntervalSinceReferenceDate)
             // print something here
             self.accelerationObjects.append(acc_obj!)
         } catch {
@@ -491,21 +488,21 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             return chartValue.x.isLess(than: CGFloat(segment.stop_ts))
         })
         if contained.count == 1 {
-            let index = categories.index(of: contained[0].rating!)
-            self.pickerView(categoryPicker, didSelectRow: index.unsafelyUnwrapped, inComponent: 0)
+            let index = labels.index(of: contained[0].rating!)
+            self.pickerView(labelPicker, didSelectRow: index.unsafelyUnwrapped, inComponent: 0)
             if (editingSegment) {
-                assignCategoryButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
-                assignCategoryButton.isEnabled = false
-                assignCategoryButton.setTitle("Assign", for: .normal)
+                assignLabelButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
+                assignLabelButton.isEnabled = false
+                assignLabelButton.setTitle("Assign", for: .normal)
                 curSegment = nil
                 let start = contained[0].start_ts
                 let end = contained[0].stop_ts
                 pointsSelected = []
                 doHighlight(color: UIColor.green, start: Int(start), stop: Int(end))
             } else {
-                assignCategoryButton.backgroundColor = UIColor.red
-                assignCategoryButton.isEnabled = true
-                assignCategoryButton.setTitle("Delete", for: .normal)
+                assignLabelButton.backgroundColor = UIColor.red
+                assignLabelButton.isEnabled = true
+                assignLabelButton.setTitle("Delete", for: .normal)
                 curSegment = contained[0]
                 let start = contained[0].start_ts
                 let end = contained[0].stop_ts
@@ -536,7 +533,7 @@ extension SegmentationViewController {
         videoLabel.isHidden = true
         libraryLabel.isHidden = true
         importLabel.isHidden = true
-        categoryPicker.isHidden = false
+        labelPicker.isHidden = false
         self.savedVideo = chosenVideo
         hasVideo = true
         prepareGraph()

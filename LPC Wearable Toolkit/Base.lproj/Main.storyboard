@@ -10,16 +10,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Projects-->
+        <!--Models-->
         <scene sceneID="7Jh-v3-9fN">
             <objects>
-                <tableViewController id="WIP-BE-XCh" customClass="SportsListTableViewController" customModule="LPC_Wearable_Toolkit" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="WIP-BE-XCh" customClass="ModelListTableViewController" customModule="LPC_Wearable_Toolkit" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="NtW-Ye-f6x">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SportCell" textLabel="YLQ-VE-SpW" detailTextLabel="vnA-z7-SUA" style="IBUITableViewCellStyleSubtitle" id="4Z9-Yf-m7S">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ModelCell" textLabel="YLQ-VE-SpW" detailTextLabel="vnA-z7-SUA" style="IBUITableViewCellStyleSubtitle" id="4Z9-Yf-m7S" userLabel="ModelCell">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4Z9-Yf-m7S" id="QAb-wV-HOd">
@@ -52,7 +52,7 @@
                             <outlet property="delegate" destination="WIP-BE-XCh" id="96C-Yc-cWa"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Projects" id="FIR-Ny-5f8">
+                    <navigationItem key="navigationItem" title="Models" id="FIR-Ny-5f8">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="VRf-Wr-coB">
                             <connections>
                                 <segue destination="ENb-Cv-n0b" kind="presentation" id="Paz-K0-fdj"/>
@@ -60,7 +60,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="sportsTableView" destination="NtW-Ye-f6x" id="WDj-Yp-ggz"/>
+                        <outlet property="modelsTableView" destination="NtW-Ye-f6x" id="WDj-Yp-ggz"/>
                         <outlet property="tableView" destination="NtW-Ye-f6x" id="Mjk-fO-0lp"/>
                     </connections>
                 </tableViewController>
@@ -68,10 +68,10 @@
             </objects>
             <point key="canvasLocation" x="382.5" y="106.69014084507042"/>
         </scene>
-        <!--Add Sport View Controller-->
+        <!--Add Model View Controller-->
         <scene sceneID="GO9-SG-PcS">
             <objects>
-                <viewController id="ENb-Cv-n0b" customClass="AddSportViewController" customModule="LPC_Wearable_Toolkit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ENb-Cv-n0b" customClass="AddModelViewController" customModule="LPC_Wearable_Toolkit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ucE-05-KNr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -79,16 +79,16 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QjO-Wk-0DQ">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
-                                    <navigationItem title="Add Project" id="cqI-au-xBB">
+                                    <navigationItem title="Add Model" id="cqI-au-xBB">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="UFm-7j-sMi">
                                             <connections>
-                                                <segue destination="fob-ky-UaH" kind="unwind" unwindAction="cancelToSportsListTableViewController:" id="yMb-02-sdb"/>
+                                                <segue destination="fob-ky-UaH" kind="unwind" unwindAction="cancelToModelsListTableViewController:" id="yMb-02-sdb"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="DY1-BU-uYt">
                                             <connections>
                                                 <action selector="done:" destination="ENb-Cv-n0b" id="WII-j1-x0G"/>
-                                                <segue destination="fob-ky-UaH" kind="unwind" identifier="saveSportDetail" unwindAction="saveSportDetail:" id="tgF-9F-VcL"/>
+                                                <segue destination="fob-ky-UaH" kind="unwind" identifier="saveModelDetail" unwindAction="saveModelDetail:" id="tgF-9F-VcL"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -127,8 +127,8 @@
                         <viewLayoutGuide key="safeArea" id="qfa-DM-M2P"/>
                     </view>
                     <connections>
-                        <outlet property="sportDescriptionTextField" destination="Piy-Ki-eo0" id="rc4-IE-3Q0"/>
-                        <outlet property="sportNameTextField" destination="Mzv-eD-llM" id="g4W-L8-GQ2"/>
+                        <outlet property="modelDescriptionTextField" destination="Piy-Ki-eo0" id="FhX-r2-mLC"/>
+                        <outlet property="modelNameTextField" destination="Mzv-eD-llM" id="n7j-UE-UDF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Oh-Fq-dBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -195,7 +195,7 @@
                     <navigationItem key="navigationItem" title="Test" id="KsQ-c4-SxP">
                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="0yr-MG-e9m">
                             <connections>
-                                <segue destination="4cC-4g-sLJ" kind="unwind" unwindAction="cancelToSportSummaryViewController:" id="aNi-eC-fCC"/>
+                                <segue destination="4cC-4g-sLJ" kind="unwind" unwindAction="cancelToModelSummaryViewController:" id="aNi-eC-fCC"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -392,15 +392,15 @@
                     <navigationItem key="navigationItem" title="Train" id="E10-VM-Ohn">
                         <barButtonItem key="leftBarButtonItem" title="Done" id="Otv-qu-Kme">
                             <connections>
-                                <segue destination="oVc-T8-IwH" kind="unwind" unwindAction="cancelToSportSummaryViewController:" id="MQR-BR-7dh"/>
+                                <segue destination="oVc-T8-IwH" kind="unwind" unwindAction="cancelToModelSummaryViewController:" id="MQR-BR-7dh"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="assignCategoryButton" destination="io3-tr-OJB" id="cg2-oC-A88"/>
-                        <outlet property="categoryPicker" destination="i1m-Xg-lWW" id="gwF-sr-OuU"/>
+                        <outlet property="assignLabelButton" destination="io3-tr-OJB" id="cg2-oC-A88"/>
                         <outlet property="importButton" destination="Skl-X5-IXe" id="UZX-HH-08v"/>
                         <outlet property="importLabel" destination="xSB-SY-MYx" id="NDK-tX-8Yh"/>
+                        <outlet property="labelPicker" destination="i1m-Xg-lWW" id="gwF-sr-OuU"/>
                         <outlet property="libraryButton" destination="7Gk-hk-ZyO" id="Xoe-VU-oo7"/>
                         <outlet property="libraryLabel" destination="qRA-2k-TnP" id="l1X-7G-yqq"/>
                         <outlet property="lineChart" destination="AM0-6s-Abu" id="wVi-2s-Wyj"/>
@@ -739,34 +739,18 @@
             </objects>
             <point key="canvasLocation" x="-1623.75" y="106.69014084507042"/>
         </scene>
-        <!--Project-->
+        <!--Model-->
         <scene sceneID="BbF-mH-pJ5">
             <objects>
-                <viewController id="44z-zV-wuf" customClass="SportSummaryViewController" customModule="LPC_Wearable_Toolkit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="44z-zV-wuf" customClass="ModelSummaryViewController" customModule="LPC_Wearable_Toolkit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Df-jt-2qa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select an action" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fbs-IP-dRu">
-                                <rect key="frame" x="16" y="82" width="115" height="18"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xzA-M5-acA">
-                                <rect key="frame" x="307" y="76" width="60" height="30"/>
-                                <state key="normal" title="Add new"/>
-                                <connections>
-                                    <action selector="addNewAction:" destination="44z-zV-wuf" eventType="touchUpInside" id="Xi4-rq-9tr"/>
-                                </connections>
-                            </button>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vo7-Dt-T6a">
-                                <rect key="frame" x="0.0" y="114" width="375" height="216"/>
-                            </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sml-mb-aQ0">
-                                <rect key="frame" x="8" y="406" width="359" height="159"/>
+                                <rect key="frame" x="8" y="420" width="359" height="159"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="159" id="dIP-fn-zQD"/>
+                                    <constraint firstAttribute="height" constant="159" id="e2p-Yg-Pe3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -814,63 +798,85 @@
                                     <segue destination="sqH-oD-eDU" kind="presentation" identifier="review" id="vVK-qZ-wgg"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iNt-ZL-WEK">
-                                <rect key="frame" x="114" y="338" width="147" height="33"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Yc-b5-O2A">
+                                <rect key="frame" x="12" y="394" width="69" height="18"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e12-L4-MKJ">
+                                <rect key="frame" x="1" y="94" width="373" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="saveEnteredLabel:forEvent:" destination="44z-zV-wuf" eventType="primaryActionTriggered" id="5bp-l4-9Dp"/>
+                                </connections>
+                            </textField>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vo7-Dt-T6a">
+                                <rect key="frame" x="28" y="132" width="319" height="216"/>
+                            </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d8h-uT-jN0">
+                                <rect key="frame" x="157" y="356" width="67" height="33"/>
+                                <color key="backgroundColor" red="1" green="0.4838134516" blue="0.2008649216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
-                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Define Categories">
+                                <state key="normal" title="Delete">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="VPF-oL-tCC" kind="presentation" identifier="categories" id="nDA-b6-Yb2"/>
+                                    <action selector="deleteLabel:" destination="44z-zV-wuf" eventType="touchUpInside" id="q6c-wg-YuN"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Yc-b5-O2A">
-                                <rect key="frame" x="12" y="380" width="69" height="18"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Labels" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZtA-Ef-jse">
+                                <rect key="frame" x="12" y="69" width="54" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Sml-mb-aQ0" firstAttribute="top" secondItem="d8h-uT-jN0" secondAttribute="bottom" constant="31" id="0pb-YG-exg"/>
+                            <constraint firstItem="Sml-mb-aQ0" firstAttribute="leading" secondItem="k1S-r3-JyM" secondAttribute="leading" constant="8" id="0tB-W5-sGn"/>
+                            <constraint firstItem="jRE-OH-Xz7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gjo-mG-9Gb" secondAttribute="trailing" constant="8" symbolic="YES" id="261-WN-LeE"/>
                             <constraint firstItem="jRE-OH-Xz7" firstAttribute="baseline" secondItem="gjo-mG-9Gb" secondAttribute="baseline" id="2gO-mb-xmY"/>
-                            <constraint firstItem="Sml-mb-aQ0" firstAttribute="centerX" secondItem="3Df-jt-2qa" secondAttribute="centerX" id="5F1-rR-5e2"/>
-                            <constraint firstItem="xzA-M5-acA" firstAttribute="top" secondItem="k1S-r3-JyM" secondAttribute="top" constant="12" id="6fc-zf-m1z"/>
-                            <constraint firstItem="fbs-IP-dRu" firstAttribute="leading" secondItem="k1S-r3-JyM" secondAttribute="leading" constant="16" id="6yU-ci-kNq"/>
-                            <constraint firstItem="Sml-mb-aQ0" firstAttribute="leading" secondItem="k1S-r3-JyM" secondAttribute="leading" constant="8" id="9aZ-Y1-cj0"/>
+                            <constraint firstItem="2Yc-b5-O2A" firstAttribute="leading" secondItem="gjo-mG-9Gb" secondAttribute="leading" id="60a-Zl-y3s"/>
+                            <constraint firstItem="d8h-uT-jN0" firstAttribute="top" secondItem="Vo7-Dt-T6a" secondAttribute="bottom" constant="8" symbolic="YES" id="8nC-Or-ESg"/>
                             <constraint firstItem="k1S-r3-JyM" firstAttribute="bottom" secondItem="gjo-mG-9Gb" secondAttribute="bottom" constant="8" id="Bxa-LO-X9y"/>
+                            <constraint firstItem="Vo7-Dt-T6a" firstAttribute="leading" secondItem="k1S-r3-JyM" secondAttribute="leading" constant="28" id="DSd-Ul-g5x"/>
                             <constraint firstItem="jRE-OH-Xz7" firstAttribute="width" secondItem="jRE-OH-Xz7" secondAttribute="height" multiplier="9:4" id="DW6-Y6-afk"/>
-                            <constraint firstItem="Sml-mb-aQ0" firstAttribute="top" secondItem="2Yc-b5-O2A" secondAttribute="bottom" constant="8" id="Fh9-1J-TAH"/>
-                            <constraint firstItem="jRE-OH-Xz7" firstAttribute="centerX" secondItem="Sml-mb-aQ0" secondAttribute="centerX" id="Ire-CW-8zy"/>
-                            <constraint firstItem="iNt-ZL-WEK" firstAttribute="centerX" secondItem="3Df-jt-2qa" secondAttribute="centerX" id="KIp-63-4RH"/>
-                            <constraint firstItem="Vo7-Dt-T6a" firstAttribute="top" secondItem="xzA-M5-acA" secondAttribute="bottom" constant="8" id="KVX-Qw-JeP"/>
-                            <constraint firstItem="Vo7-Dt-T6a" firstAttribute="centerX" secondItem="3Df-jt-2qa" secondAttribute="centerX" id="Ovu-Fq-cyc"/>
-                            <constraint firstItem="Vo7-Dt-T6a" firstAttribute="leading" secondItem="k1S-r3-JyM" secondAttribute="leading" id="ReT-TO-ad4"/>
+                            <constraint firstItem="ZtA-Ef-jse" firstAttribute="top" secondItem="k1S-r3-JyM" secondAttribute="top" constant="5" id="Kjr-Pu-ZNt"/>
+                            <constraint firstItem="wSB-dz-hNo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="jRE-OH-Xz7" secondAttribute="trailing" constant="8" symbolic="YES" id="Vl4-FJ-pfm"/>
                             <constraint firstItem="gjo-mG-9Gb" firstAttribute="leading" secondItem="k1S-r3-JyM" secondAttribute="leading" constant="12" id="WOr-tE-nZI"/>
-                            <constraint firstItem="fbs-IP-dRu" firstAttribute="top" secondItem="k1S-r3-JyM" secondAttribute="top" constant="18" id="kFw-rO-sHp"/>
-                            <constraint firstItem="iNt-ZL-WEK" firstAttribute="top" secondItem="Vo7-Dt-T6a" secondAttribute="bottom" constant="8" id="ke6-9J-tiq"/>
+                            <constraint firstItem="e12-L4-MKJ" firstAttribute="leading" secondItem="k1S-r3-JyM" secondAttribute="leading" constant="1" id="aOx-31-3Y8"/>
+                            <constraint firstItem="Sml-mb-aQ0" firstAttribute="centerX" secondItem="3Df-jt-2qa" secondAttribute="centerX" id="bSE-6f-ATL"/>
+                            <constraint firstItem="k1S-r3-JyM" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="2Yc-b5-O2A" secondAttribute="trailing" symbolic="YES" id="c85-I4-Syh"/>
+                            <constraint firstItem="Vo7-Dt-T6a" firstAttribute="centerX" secondItem="3Df-jt-2qa" secondAttribute="centerX" id="d1H-4a-8B0"/>
+                            <constraint firstItem="gjo-mG-9Gb" firstAttribute="top" secondItem="Sml-mb-aQ0" secondAttribute="bottom" constant="47" id="fIM-0m-LQv"/>
+                            <constraint firstItem="e12-L4-MKJ" firstAttribute="centerX" secondItem="Vo7-Dt-T6a" secondAttribute="centerX" id="few-4G-pZP"/>
+                            <constraint firstItem="d8h-uT-jN0" firstAttribute="leading" secondItem="k1S-r3-JyM" secondAttribute="leading" constant="157" id="gKf-xj-XD0"/>
+                            <constraint firstItem="Sml-mb-aQ0" firstAttribute="top" secondItem="2Yc-b5-O2A" secondAttribute="bottom" constant="8" symbolic="YES" id="h7K-BU-olh"/>
+                            <constraint firstItem="ZtA-Ef-jse" firstAttribute="leading" secondItem="2Yc-b5-O2A" secondAttribute="leading" id="jAm-uv-00g"/>
+                            <constraint firstItem="Sml-mb-aQ0" firstAttribute="centerX" secondItem="jRE-OH-Xz7" secondAttribute="centerX" id="l5e-gi-hdp"/>
                             <constraint firstItem="k1S-r3-JyM" firstAttribute="trailing" secondItem="wSB-dz-hNo" secondAttribute="trailing" constant="12" id="m94-qt-FRQ"/>
-                            <constraint firstItem="Vo7-Dt-T6a" firstAttribute="trailing" secondItem="k1S-r3-JyM" secondAttribute="trailing" id="oMc-u9-UoU"/>
-                            <constraint firstItem="2Yc-b5-O2A" firstAttribute="leading" secondItem="k1S-r3-JyM" secondAttribute="leading" constant="12" id="pj3-Ys-7jz"/>
-                            <constraint firstItem="k1S-r3-JyM" firstAttribute="trailing" secondItem="Sml-mb-aQ0" secondAttribute="trailing" constant="8" id="tVh-dI-JDU"/>
-                            <constraint firstItem="k1S-r3-JyM" firstAttribute="trailing" secondItem="xzA-M5-acA" secondAttribute="trailing" constant="8" id="vi8-Ae-P8I"/>
+                            <constraint firstItem="Vo7-Dt-T6a" firstAttribute="top" secondItem="e12-L4-MKJ" secondAttribute="bottom" constant="8" symbolic="YES" id="ukU-Dx-Gv4"/>
                             <constraint firstItem="k1S-r3-JyM" firstAttribute="bottom" secondItem="wSB-dz-hNo" secondAttribute="bottom" constant="8" id="wXV-bV-8k6"/>
-                            <constraint firstItem="2Yc-b5-O2A" firstAttribute="top" secondItem="Vo7-Dt-T6a" secondAttribute="bottom" constant="50" id="wr0-9t-pw0"/>
+                            <constraint firstItem="k1S-r3-JyM" firstAttribute="trailing" secondItem="d8h-uT-jN0" secondAttribute="trailing" constant="151" id="yMu-oR-hZR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="k1S-r3-JyM"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Project" id="d9n-Kx-zgp">
+                    <navigationItem key="navigationItem" title="Model" id="d9n-Kx-zgp">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="6dm-iw-SGN">
                             <connections>
-                                <segue destination="vXz-E8-nWs" kind="unwind" unwindAction="cancelToSportsListTableViewController:" id="e4I-Ke-5Zy"/>
+                                <segue destination="vXz-E8-nWs" kind="unwind" unwindAction="cancelToModelsListTableViewController:" id="e4I-Ke-5Zy"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="actionPicker" destination="Vo7-Dt-T6a" id="cpU-Ql-LuX"/>
-                        <outlet property="categoriesButton" destination="iNt-ZL-WEK" id="KW3-C0-1d2"/>
+                        <outlet property="deleteButton" destination="d8h-uT-jN0" id="XZW-bO-rnL"/>
+                        <outlet property="labelPicker" destination="Vo7-Dt-T6a" id="cpU-Ql-LuX"/>
+                        <outlet property="labelTextField" destination="e12-L4-MKJ" id="Fqb-0M-Gb3"/>
                         <outlet property="navigationBar" destination="d9n-Kx-zgp" id="bZe-vf-sgJ"/>
                         <outlet property="reviewButton" destination="jRE-OH-Xz7" id="Eyj-f9-WdG"/>
                         <outlet property="summaryLabel" destination="Sml-mb-aQ0" id="TUm-BL-yJQ"/>
@@ -881,7 +887,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KEK-4K-Fdh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="vXz-E8-nWs" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2244.375" y="-739.43661971830988"/>
+            <point key="canvasLocation" x="2244" y="-739.88005997001505"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Dm7-AN-aYo">
@@ -1166,7 +1172,7 @@
                     <navigationItem key="navigationItem" id="aJu-cS-7ls">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="hug-Uv-9IV">
                             <connections>
-                                <segue destination="h3U-tv-hMm" kind="unwind" unwindAction="cancelToSportSummaryViewController:" id="mDY-BL-Tn2"/>
+                                <segue destination="h3U-tv-hMm" kind="unwind" unwindAction="cancelToModelSummaryViewController:" id="mDY-BL-Tn2"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="JNf-VQ-Zcu">

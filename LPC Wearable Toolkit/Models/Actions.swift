@@ -45,7 +45,7 @@ class Actions {
     }
     
     
-    func save(name: String, sport: Sport ) {
+    func save(name: String, sport: Model ) {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
