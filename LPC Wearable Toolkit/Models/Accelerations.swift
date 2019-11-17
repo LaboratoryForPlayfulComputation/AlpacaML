@@ -20,8 +20,8 @@ class Accelerations {
         maxTimestamp = managedAccelerations.max(by: {acc1, acc2 in acc1.timestamp < acc2.timestamp})?.timestamp
     }
     
-    func countAll(sport: String) -> Int {
-        return fetch(sport: sport).count
+    func countAll(model: Model) -> Int {
+        return fetch(model: model).count
     }
     
     // TODO: Deprecated
@@ -57,7 +57,7 @@ class Accelerations {
         return fetchedAccelerations
     }
     
-    func fetch(sport: String, start_ts: Double, stop_ts: Double) -> [Acceleration] {
+    func fetch(model: Model, start_ts: Double, stop_ts: Double) -> [Acceleration] {
         var accelerations: [Acceleration] = []
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -71,8 +71,8 @@ class Accelerations {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Acceleration")
         
-        let sportPredicate = NSPredicate(format: "sport = %@ && ( timestamp >= \(start_ts) && timestamp <= \(stop_ts))", sport) // This is apparently not safe
-        fetchRequest.predicate = sportPredicate
+        let modelPredicate = NSPredicate(format: "model = %@ && ( timestamp >= \(start_ts) && timestamp <= \(stop_ts))", model) // This is apparently not safe, also not sure if the model thing will work
+        fetchRequest.predicate = modelPredicate
         
         let sort = NSSortDescriptor(key: #keyPath(Acceleration.timestamp), ascending: true)
         fetchRequest.sortDescriptors = [sort]
@@ -86,7 +86,7 @@ class Accelerations {
         return accelerations
     }
     
-    func fetch(sport: String) -> [Acceleration] {
+    func fetch(model: Model) -> [Acceleration] {
         var accelerations: [Acceleration] = []
         //1
         guard let appDelegate =
@@ -101,8 +101,8 @@ class Accelerations {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Acceleration")
         
-        let sportPredicate = NSPredicate(format: "sport = %@", sport)
-        fetchRequest.predicate = sportPredicate
+        let modelPredicate = NSPredicate(format: "model = %@", model)
+        fetchRequest.predicate = modelPredicate
         
         let sort = NSSortDescriptor(key: #keyPath(Acceleration.timestamp), ascending: true)
         fetchRequest.sortDescriptors = [sort]
@@ -117,7 +117,7 @@ class Accelerations {
     }
     
     //
-    func save(x: Double, y: Double, z: Double, timestamp: Double, sport: String) -> Acceleration? {
+    func save(x: Double, y: Double, z: Double, model: Model, timestamp: Double) -> Acceleration? {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -140,9 +140,9 @@ class Accelerations {
         acceleration.setValue(x, forKeyPath: "xAcceleration")
         acceleration.setValue(y, forKeyPath: "yAcceleration")
         acceleration.setValue(z, forKeyPath: "zAcceleration")
-        acceleration.setValue(sport, forKey: "sport")
         acceleration.setValue(timestamp, forKey: "timestamp")
         
+        acceleration.model = model
         // 4
         do {
             try managedContext.save()

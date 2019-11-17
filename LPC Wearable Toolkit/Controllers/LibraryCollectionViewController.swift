@@ -14,7 +14,7 @@ private let reuseIdentifier = "libraryVideoCell"
 class LibraryCollectionViewController: UICollectionViewController {
     // ^ fix thing
     let videoStore = Videos()
-    var sport: String! = nil
+    var model: Model! = nil
     var images:[(UIImage, Video)]!
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
@@ -26,7 +26,7 @@ class LibraryCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         doneButton.isEnabled = false
-        let videos = videoStore.fetch(sport: sport)
+        let videos = videoStore.fetch(model: model)
         print("Number of videos: \(videos.count)")
         images = videos.map({v -> (UIImage, Video) in
             do {

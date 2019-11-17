@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let signalClient = SignalingClient(serverUrl: Config.default.signalingServerUrl)
     let webRTCClient = WebRTCClient(iceServers: Config.default.webRTCIceServers)
     
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         print(BluetoothStore.shared)
