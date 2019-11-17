@@ -88,6 +88,36 @@ class ModelSummaryViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
+    @IBAction func testButtonClicked(_ sender: Any) {
+        print("Test button clicked")
+        if (modelHasEmptyLabels()) {
+            let alert = UIAlertController(title: "Do you have all your training data?", message: "It looks like your model is missing data for some labels. Do you still want to test?", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { action in
+                self.performSegue(withIdentifier: "test", sender: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            performSegue(withIdentifier: "test", sender: nil)
+        }
+    }
+    
+    func modelHasEmptyLabels() -> Bool {
+        print("checking empty labels")
+        let segments = model.segments?.allObjects as? [Segment] ?? []
+        let labels = model.labels ?? []
+        if (labels.count == 0) {
+            return true
+        }
+        for label in labels {
+            if (!segments.contains(where: {$0.rating == label && $0.inTrainingSet})) {
+                print("Model does not have label: \(label)")
+                return true
+            }
+        }
+        return false
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "train") {

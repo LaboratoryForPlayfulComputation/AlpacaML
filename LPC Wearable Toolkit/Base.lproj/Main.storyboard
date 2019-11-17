@@ -392,6 +392,7 @@
                     <navigationItem key="navigationItem" title="Train" id="E10-VM-Ohn">
                         <barButtonItem key="leftBarButtonItem" title="Done" id="Otv-qu-Kme">
                             <connections>
+                                <action selector="doneTraining:" destination="flV-Oe-7sc" id="unt-JI-9Cr"/>
                                 <segue destination="oVc-T8-IwH" kind="unwind" unwindAction="cancelToModelSummaryViewController:" id="MQR-BR-7dh"/>
                             </connections>
                         </barButtonItem>
@@ -781,7 +782,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="bQD-wm-39A" kind="presentation" identifier="test" id="GXm-hd-9fQ"/>
+                                    <action selector="testButtonClicked:" destination="44z-zV-wuf" eventType="touchUpInside" id="qZ3-3E-nqs"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jRE-OH-Xz7">
@@ -882,6 +883,7 @@
                         <outlet property="summaryLabel" destination="Sml-mb-aQ0" id="TUm-BL-yJQ"/>
                         <outlet property="testButton" destination="wSB-dz-hNo" id="E6P-lx-BWj"/>
                         <outlet property="trainButton" destination="gjo-mG-9Gb" id="seu-dA-zxx"/>
+                        <segue destination="bQD-wm-39A" kind="presentation" identifier="test" id="6Bo-zS-gOT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KEK-4K-Fdh" userLabel="First Responder" sceneMemberID="firstResponder"/>
