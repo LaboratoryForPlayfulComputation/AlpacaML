@@ -225,18 +225,41 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         } else if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            videoCaptureController = UIImagePickerController()
-            let customViewController = CustomOverlayViewController()
-            let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
-            customView.frame = videoCaptureController.view.frame
-            customView.delegate = self
-            videoCaptureController.sourceType = .camera
-            videoCaptureController.showsCameraControls = false
-            videoCaptureController.mediaTypes = [kUTTypeMovie as String]
-            videoCaptureController.delegate = self
-            videoCaptureController.videoMaximumDuration = 600.0
+            let alert = UIAlertController(title: "Front or Back?", message: "Would you like to use the front-facing camera or the back-facing camera?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Front", style: .default, handler: { action in
+                self.videoCaptureController = UIImagePickerController()
+                let customViewController = CustomOverlayViewController()
+                let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
+                customView.frame = self.videoCaptureController.view.frame
+                customView.delegate = self
+                self.videoCaptureController.sourceType = .camera
+                self.videoCaptureController.showsCameraControls = false
+                self.videoCaptureController.mediaTypes = [kUTTypeMovie as String]
+                self.videoCaptureController.delegate = self
+                self.videoCaptureController.videoMaximumDuration = 600.0
+                self.videoCaptureController.cameraDevice = UIImagePickerController.CameraDevice.front
+
+                self.present(self.videoCaptureController, animated: true, completion: {self.videoCaptureController.cameraOverlayView = customView})
+            }))
+            alert.addAction(UIAlertAction(title: "Back", style: .default, handler: { action in
+                self.videoCaptureController = UIImagePickerController()
+                let customViewController = CustomOverlayViewController()
+                let customView:CustomOverlayView = customViewController.view as! CustomOverlayView
+                customView.frame = self.videoCaptureController.view.frame
+                customView.delegate = self
+                self.videoCaptureController.sourceType = .camera
+                self.videoCaptureController.showsCameraControls = false
+                self.videoCaptureController.mediaTypes = [kUTTypeMovie as String]
+                self.videoCaptureController.delegate = self
+                self.videoCaptureController.videoMaximumDuration = 600.0
+                self.videoCaptureController.cameraDevice = UIImagePickerController.CameraDevice.rear
+                
+                self.present(self.videoCaptureController, animated: true, completion: {self.videoCaptureController.cameraOverlayView = customView})
+
+            }))
+            self.present(alert, animated: true, completion: nil)
             
-            present(videoCaptureController, animated: true, completion: {self.videoCaptureController.cameraOverlayView = customView})
+            
         } else {
             print("Camera is not available")
         }
