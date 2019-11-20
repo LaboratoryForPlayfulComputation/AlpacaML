@@ -52,20 +52,13 @@
                             <outlet property="delegate" destination="WIP-BE-XCh" id="96C-Yc-cWa"/>
                         </connections>
                     </tableView>
-                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Models" id="FIR-Ny-5f8">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="3r8-SG-Rah">
-                            <connections>
-                                <segue destination="5OY-Nm-cmy" kind="showDetail" id="nal-VG-AVx"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="VRf-Wr-coB">
                             <connections>
                                 <segue destination="ENb-Cv-n0b" kind="presentation" id="Paz-K0-fdj"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="modelsTableView" destination="NtW-Ye-f6x" id="WDj-Yp-ggz"/>
                         <outlet property="tableView" destination="NtW-Ye-f6x" id="Mjk-fO-0lp"/>
