@@ -27,26 +27,23 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
     var zAccelerations: [ChartDataEntry]!
     var isRecording = false
     var chunkSize = 0
-    var sport = ""
-    var action:Action!
-    var actionName:String!
+    var model:Model?
     let dtw = DTW()
     var previousClassification: String = "None"
-    var categories:Array<String>!
+    var labels:Array<String>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Test \(sport)"
+        self.title = "Test \(model?.name ?? "")"
         self.lineChart.delegate = self
-        self.actionName = action.name
-        self.segmentList = segmentStore.fetch(sport: sport, action: actionName, trainingSet: true)
-        categories = action.categories
+        self.segmentList = segmentStore.fetch(model: model!, trainingSet: true)
+        labels = model?.labels
         for segment in segmentList {
             let video = segment.video
             let min_ts = video?.min_ts
             let adjustedStart = segment.start_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts!
             let adjustedStop = segment.stop_ts/BluetoothStore.shared.ACCELEROMETER_PERIOD + min_ts!
-            let accelerations = self.accelerationStore.fetch(sport: sport, start_ts: adjustedStart, stop_ts: adjustedStop)
+            let accelerations = self.accelerationStore.fetch(model: model!, start_ts: adjustedStart, stop_ts: adjustedStop)
             let accelerationAsDoubles = accelerations.map({acc in return (acc.xAcceleration, acc.yAcceleration, acc.zAcceleration)})
             dtw.addToTrainingSet(label: segment.rating!, data: accelerationAsDoubles)
         }
@@ -92,7 +89,7 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
                     // speak classifications and send them as WebRTC messages
                     self.classificationLabel.text = classification // yes I think we do want to show the full string. right? for now
                     // send a message via WebRTC
-                    self.sendWebRTCData(dataToSend: classified)
+                    self.sendWebRTCData(dataToSend: String(classification.split(separator: "|")[0]))
                     // speak the classification
                     let utterance = AVSpeechUtterance(string: classified)
                     let synthesizer = AVSpeechSynthesizer()

@@ -16,8 +16,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
     let tableCellReuseIdentifier = "SegmentCell"
     
     let videoStore = Videos()
-    var sport: String!
-    var action: Action!
+    var model: Model!
     var images:[(UIImage,Video)]!
     var segments:[Segment] = []
     
@@ -50,7 +49,7 @@ class SegmentReviewViewController: UIViewController, UICollectionViewDataSource,
         self.segmentsTableView.delegate = self
         self.segmentsTableView.dataSource = self
         
-        let videos = videoStore.fetch(sport: sport)
+        let videos = videoStore.fetch(model: model)
         print("Number of videos: \(videos.count)")
         images = videos.map({v -> (UIImage,Video) in
             do {

@@ -17,96 +17,7 @@ class Segments {
         managedSegments = fetchAll()
     }
     
-    func countAll(sport: String, action: String) -> Int {
-        return fetchAllFor(sport: sport, action: action).count
-    }
-    
-    func fetch(sport: String, action: String, trainingSet: Bool) -> [Segment] {
-        var segments: [Segment] = []
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return []
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        //2
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Segment")
-        var sportActionPredicate: NSPredicate!
-        if trainingSet {
-            print("Fetching segments in training set")
-            sportActionPredicate = NSPredicate(format: "sport = %@ && action = %@ && inTrainingSet = true", sport, action)
-        } else {
-            print("Fetching all segments")
-            sportActionPredicate = NSPredicate(format:"sport = %@ && action = %@", sport, action)
-        }
-        fetchRequest.predicate = sportActionPredicate
-        
-        //3
-        do {
-            segments = try managedContext.fetch(fetchRequest) as? [Segment] ?? []
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-        print("Fetched \(segments.count) segments")
-        return segments
-    }
-    
-    func fetchAllFor(sport: String, action: String) -> [Segment] {
-        var segments: [Segment] = []
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return []
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        //2
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Segment")
-        
-        let actionPredicate = NSPredicate(format: "sport = %@ && action = %@", sport, action)
-        fetchRequest.predicate = actionPredicate
-        
-        //3
-        do {
-            segments = try managedContext.fetch(fetchRequest) as? [Segment] ?? []
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-        return segments
-    }
-    
-    func fetchAllFor(sport: String) -> [Segment] {
-        var segments: [Segment] = []
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return []
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        //2
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Segment")
-        
-        let actionPredicate = NSPredicate(format: "sport = %@", sport)
-        fetchRequest.predicate = actionPredicate
-        
-        //3
-        do {
-            segments = try managedContext.fetch(fetchRequest) as? [Segment] ?? []
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-        return segments
-    }
-    
-    func save(id: Int64, action: String, rating: String,sport: String, start_ts: Double, stop_ts: Double, inTrainingSet: Bool, video: Video ) -> Segment {
+    func save(id: Int64, model: Model, rating: String, start_ts: Double, stop_ts: Double, inTrainingSet: Bool, video: Video ) -> Segment {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -128,15 +39,13 @@ class Segments {
         // 3
         
         segment.setValue(id, forKeyPath: "accelerationID")
-        segment.setValue(action, forKeyPath: "action")
         segment.setValue(rating, forKeyPath: "rating")
-        segment.setValue(sport, forKey: "sport")
         segment.setValue(start_ts, forKey: "start_ts")
         segment.setValue(stop_ts, forKey: "stop_ts")
         segment.setValue(inTrainingSet, forKey: "inTrainingSet")
         
         segment.video = video
-        
+        segment.model = model
         // 4
         do {
             try managedContext.save()
@@ -145,6 +54,11 @@ class Segments {
             print("Could not save. \(error), \(error.userInfo)")
         }
         return Segment()
+    }
+    
+    func fetch(model: Model, trainingSet: Bool) -> [Segment] {
+        let segments = model.segments.unsafelyUnwrapped.allObjects as? [Segment] ?? []
+        return segments.filter({$0.inTrainingSet})
     }
     
     func fetchAll() -> [Segment] {
