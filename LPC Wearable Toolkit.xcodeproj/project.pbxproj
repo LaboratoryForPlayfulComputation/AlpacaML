@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B0642AA23849CB100D85D64 /* AddModelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0642A923849CB100D85D64 /* AddModelViewController.swift */; };
+		0B0642AE23849CE300D85D64 /* ClassificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0642AD23849CE300D85D64 /* ClassificationViewController.swift */; };
+		0B0642B023849CF300D85D64 /* LibraryCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0642AF23849CF300D85D64 /* LibraryCollectionViewController.swift */; };
+		0B0642B223849D0000D85D64 /* ModelListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0642B123849D0000D85D64 /* ModelListTableViewController.swift */; };
+		0B0642B423849D0E00D85D64 /* ModelSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0642B323849D0E00D85D64 /* ModelSummaryViewController.swift */; };
+		0B0642B623849D4200D85D64 /* SegmentReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0642B523849D4200D85D64 /* SegmentReviewViewController.swift */; };
+		0B0642B923849DDB00D85D64 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B0642B723849DDB00D85D64 /* CoreDataModel.xcdatamodeld */; };
+		0B0642BB23849E2500D85D64 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0642BA23849E2400D85D64 /* Models.swift */; };
+		0B0642BE23849E8F00D85D64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B0642BC23849E8E00D85D64 /* Main.storyboard */; };
 		0BF3F8782331754C00406D7D /* RTCStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF3F8722331754C00406D7D /* RTCStates.swift */; };
 		0BF3F8792331754C00406D7D /* SessionDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF3F8732331754C00406D7D /* SessionDescription.swift */; };
 		0BF3F87A2331754C00406D7D /* IceCandidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF3F8742331754C00406D7D /* IceCandidate.swift */; };
@@ -15,30 +24,22 @@
 		0BF3F8822331759B00406D7D /* SignalingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF3F87F2331759B00406D7D /* SignalingClient.swift */; };
 		0BF3F885233179F600406D7D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF3F884233179F600406D7D /* Config.swift */; };
 		0BF3F8872332BD5C00406D7D /* WebRTCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF3F8862332BD5C00406D7D /* WebRTCViewController.swift */; };
-		1E4F8069220BD141005E2FE7 /* DefineCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4F8068220BD141005E2FE7 /* DefineCategoriesViewController.swift */; };
 		1E8DC9FD21BB2D5600C52A10 /* TrackedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DC9FC21BB2D5600C52A10 /* TrackedData.swift */; };
 		1EEEA02A22C9554C00BBB67E /* SegmentReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33317EFF2162B11200412EB3 /* SegmentReviewViewController.swift */; };
 		1EEEA02C22C9694C00BBB67E /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEEA02B22C9694C00BBB67E /* ReviewTableViewCell.swift */; };
 		2E3C7C8820EE6B6100363CD3 /* DynamicTimeWarping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3C7C8720EE6B6100363CD3 /* DynamicTimeWarping.swift */; };
-		2E88B1D120D3030A0001E4CE /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2E88B1CF20D3030A0001E4CE /* CoreDataModel.xcdatamodeld */; };
 		2EA2D02520F663F3008F30AA /* Accelerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2D02420F663F3008F30AA /* Accelerations.swift */; };
 		2EA2D02720F7DE7C008F30AA /* Segments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2D02620F7DE7C008F30AA /* Segments.swift */; };
 		311E16B9BB7151435561C858 /* Pods_LPC_Wearable_ToolkitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD29D513C89B125D5C981D25 /* Pods_LPC_Wearable_ToolkitTests.framework */; };
 		33171B662162D66A00775B6D /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33171B652162D66A00775B6D /* VideoCollectionViewCell.swift */; };
-		332E530B21598E2500B8C2EC /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E530A21598E2500B8C2EC /* Actions.swift */; };
 		332E530D21598E3A00B8C2EC /* Peripherals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E530C21598E3A00B8C2EC /* Peripherals.swift */; };
-		332E531321598F1E00B8C2EC /* SportSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E531221598F1E00B8C2EC /* SportSummaryViewController.swift */; };
 		332E531521598F3800B8C2EC /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E531421598F3800B8C2EC /* HomeScreenViewController.swift */; };
 		332E531721598F4D00B8C2EC /* BluetoothConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E531621598F4D00B8C2EC /* BluetoothConnectViewController.swift */; };
 		33317F002162B11200412EB3 /* SegmentReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33317EFF2162B11200412EB3 /* SegmentReviewViewController.swift */; };
 		339C7A71218E4E930073FA00 /* LibraryCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C7A70218E4E930073FA00 /* LibraryCollectionViewController.swift */; };
 		339C7A7321900BE60073FA00 /* ModelSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339C7A7221900BE60073FA00 /* ModelSharing.swift */; };
-		60227A5B20FEBD84009AA91D /* SportsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60227A5A20FEBD84009AA91D /* SportsListTableViewController.swift */; };
-		60227A5D20FFA9A8009AA91D /* AddSportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60227A5C20FFA9A8009AA91D /* AddSportViewController.swift */; };
-		60227A5F20FFC91E009AA91D /* Sports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60227A5E20FFC91E009AA91D /* Sports.swift */; };
 		6051A46C2102566D00A6218A /* Videos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6051A46B2102566D00A6218A /* Videos.swift */; };
 		6051A46E21026A3300A6218A /* SegmentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6051A46D21026A3300A6218A /* SegmentationViewController.swift */; };
-		6051A47021080B5500A6218A /* ClassificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6051A46F21080B5500A6218A /* ClassificationViewController.swift */; };
 		6051A47221080FA600A6218A /* BluetoothStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6051A47121080FA600A6218A /* BluetoothStore.swift */; };
 		77597669F73F7D50C6144786 /* Pods_LPC_Wearable_ToolkitUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E6E3827C21ACB7E333A46FC /* Pods_LPC_Wearable_ToolkitUITests.framework */; };
 		E92802A220AC821E0051DC5F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E928029E20AB6FCC0051DC5F /* CoreVideo.framework */; };
@@ -46,7 +47,6 @@
 		E94E0B3420CED9670013F3C4 /* CustomOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94E0B3220CED9670013F3C4 /* CustomOverlayViewController.swift */; };
 		E94E0B3520CED9670013F3C4 /* CustomOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E94E0B3320CED9670013F3C4 /* CustomOverlayViewController.xib */; };
 		E95C85042098DCDF00D8DC8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95C85032098DCDF00D8DC8E /* AppDelegate.swift */; };
-		E95C85092098DCDF00D8DC8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E95C85072098DCDF00D8DC8E /* Main.storyboard */; };
 		E95C850B2098DCDF00D8DC8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E95C850A2098DCDF00D8DC8E /* Assets.xcassets */; };
 		E95C850E2098DCDF00D8DC8E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E95C850C2098DCDF00D8DC8E /* LaunchScreen.storyboard */; };
 		E9939CCA20CF09920063505D /* CustomOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9939CC920CF09920063505D /* CustomOverlayView.swift */; };
@@ -76,6 +76,15 @@
 /* Begin PBXFileReference section */
 		011F54828883135DD2D72F82 /* Pods-LPC Wearable Toolkit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable Toolkit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable Toolkit/Pods-LPC Wearable Toolkit.debug.xcconfig"; sourceTree = "<group>"; };
 		02C3EAA426D9CD19263D804E /* Pods-LPC Wearable Toolkit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable Toolkit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable Toolkit/Pods-LPC Wearable Toolkit.release.xcconfig"; sourceTree = "<group>"; };
+		0B0642A923849CB100D85D64 /* AddModelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddModelViewController.swift; sourceTree = "<group>"; };
+		0B0642AD23849CE300D85D64 /* ClassificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassificationViewController.swift; sourceTree = "<group>"; };
+		0B0642AF23849CF300D85D64 /* LibraryCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryCollectionViewController.swift; sourceTree = "<group>"; };
+		0B0642B123849D0000D85D64 /* ModelListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelListTableViewController.swift; sourceTree = "<group>"; };
+		0B0642B323849D0E00D85D64 /* ModelSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelSummaryViewController.swift; sourceTree = "<group>"; };
+		0B0642B523849D4200D85D64 /* SegmentReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentReviewViewController.swift; sourceTree = "<group>"; };
+		0B0642B823849DDB00D85D64 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		0B0642BA23849E2400D85D64 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		0B0642BD23849E8E00D85D64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0BF3F8722331754C00406D7D /* RTCStates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTCStates.swift; sourceTree = "<group>"; };
 		0BF3F8732331754C00406D7D /* SessionDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionDescription.swift; sourceTree = "<group>"; };
 		0BF3F8742331754C00406D7D /* IceCandidate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IceCandidate.swift; sourceTree = "<group>"; };
@@ -84,30 +93,22 @@
 		0BF3F87F2331759B00406D7D /* SignalingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalingClient.swift; sourceTree = "<group>"; };
 		0BF3F884233179F600406D7D /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		0BF3F8862332BD5C00406D7D /* WebRTCViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebRTCViewController.swift; sourceTree = "<group>"; };
-		1E4F8068220BD141005E2FE7 /* DefineCategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefineCategoriesViewController.swift; sourceTree = "<group>"; };
 		1E8DC9FC21BB2D5600C52A10 /* TrackedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedData.swift; sourceTree = "<group>"; };
 		1EEEA02B22C9694C00BBB67E /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		2611241AC6DB8A8017BC01D7 /* Pods-LPC Wearable ToolkitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitTests/Pods-LPC Wearable ToolkitTests.release.xcconfig"; sourceTree = "<group>"; };
 		2E3C7C8720EE6B6100363CD3 /* DynamicTimeWarping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTimeWarping.swift; sourceTree = "<group>"; };
-		2E88B1D020D3030A0001E4CE /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		2EA2D02420F663F3008F30AA /* Accelerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accelerations.swift; sourceTree = "<group>"; };
 		2EA2D02620F7DE7C008F30AA /* Segments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segments.swift; sourceTree = "<group>"; };
 		33171B652162D66A00775B6D /* VideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCollectionViewCell.swift; sourceTree = "<group>"; };
-		332E530A21598E2500B8C2EC /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		332E530C21598E3A00B8C2EC /* Peripherals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peripherals.swift; sourceTree = "<group>"; };
-		332E531221598F1E00B8C2EC /* SportSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportSummaryViewController.swift; sourceTree = "<group>"; };
 		332E531421598F3800B8C2EC /* HomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
 		332E531621598F4D00B8C2EC /* BluetoothConnectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothConnectViewController.swift; sourceTree = "<group>"; };
 		33317EFF2162B11200412EB3 /* SegmentReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentReviewViewController.swift; sourceTree = "<group>"; };
 		339C7A70218E4E930073FA00 /* LibraryCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionViewController.swift; sourceTree = "<group>"; };
 		339C7A7221900BE60073FA00 /* ModelSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSharing.swift; sourceTree = "<group>"; };
 		3934657A810EC5A83F4D3890 /* Pods-LPC Wearable ToolkitUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitUITests/Pods-LPC Wearable ToolkitUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		60227A5A20FEBD84009AA91D /* SportsListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsListTableViewController.swift; sourceTree = "<group>"; };
-		60227A5C20FFA9A8009AA91D /* AddSportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSportViewController.swift; sourceTree = "<group>"; };
-		60227A5E20FFC91E009AA91D /* Sports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sports.swift; sourceTree = "<group>"; };
 		6051A46B2102566D00A6218A /* Videos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Videos.swift; sourceTree = "<group>"; };
 		6051A46D21026A3300A6218A /* SegmentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentationViewController.swift; sourceTree = "<group>"; };
-		6051A46F21080B5500A6218A /* ClassificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationViewController.swift; sourceTree = "<group>"; };
 		6051A47121080FA600A6218A /* BluetoothStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothStore.swift; sourceTree = "<group>"; };
 		6E6E3827C21ACB7E333A46FC /* Pods_LPC_Wearable_ToolkitUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LPC_Wearable_ToolkitUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83FBE06DE7F63623CF7CE774 /* Pods-LPC Wearable ToolkitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LPC Wearable ToolkitUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LPC Wearable ToolkitUITests/Pods-LPC Wearable ToolkitUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -118,7 +119,6 @@
 		E94E0B3320CED9670013F3C4 /* CustomOverlayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomOverlayViewController.xib; sourceTree = "<group>"; };
 		E95C85002098DCDF00D8DC8E /* LPC Wearable Toolkit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LPC Wearable Toolkit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E95C85032098DCDF00D8DC8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E95C85082098DCDF00D8DC8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E95C850A2098DCDF00D8DC8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E95C850D2098DCDF00D8DC8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E95C850F2098DCDF00D8DC8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -198,18 +198,19 @@
 		60227A3020FE7EF5009AA91D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0B0642B323849D0E00D85D64 /* ModelSummaryViewController.swift */,
+				0B0642B123849D0000D85D64 /* ModelListTableViewController.swift */,
+				0B0642AF23849CF300D85D64 /* LibraryCollectionViewController.swift */,
+				0B0642AD23849CE300D85D64 /* ClassificationViewController.swift */,
+				0B0642A923849CB100D85D64 /* AddModelViewController.swift */,
 				0BF3F8862332BD5C00406D7D /* WebRTCViewController.swift */,
-				60227A5A20FEBD84009AA91D /* SportsListTableViewController.swift */,
+				0B0642B523849D4200D85D64 /* SegmentReviewViewController.swift */,
 				E94E0B3220CED9670013F3C4 /* CustomOverlayViewController.swift */,
-				60227A5C20FFA9A8009AA91D /* AddSportViewController.swift */,
 				6051A46D21026A3300A6218A /* SegmentationViewController.swift */,
-				6051A46F21080B5500A6218A /* ClassificationViewController.swift */,
-				332E531221598F1E00B8C2EC /* SportSummaryViewController.swift */,
 				332E531421598F3800B8C2EC /* HomeScreenViewController.swift */,
 				332E531621598F4D00B8C2EC /* BluetoothConnectViewController.swift */,
 				33317EFF2162B11200412EB3 /* SegmentReviewViewController.swift */,
 				339C7A70218E4E930073FA00 /* LibraryCollectionViewController.swift */,
-				1E4F8068220BD141005E2FE7 /* DefineCategoriesViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -217,11 +218,10 @@
 		60227A3120FE7F12009AA91D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0B0642BA23849E2400D85D64 /* Models.swift */,
 				2EA2D02420F663F3008F30AA /* Accelerations.swift */,
 				2EA2D02620F7DE7C008F30AA /* Segments.swift */,
-				60227A5E20FFC91E009AA91D /* Sports.swift */,
 				6051A46B2102566D00A6218A /* Videos.swift */,
-				332E530A21598E2500B8C2EC /* Actions.swift */,
 				332E530C21598E3A00B8C2EC /* Peripherals.swift */,
 				1E8DC9FC21BB2D5600C52A10 /* TrackedData.swift */,
 			);
@@ -282,10 +282,10 @@
 				60227A2F20FE7ED4009AA91D /* Views */,
 				E95C85032098DCDF00D8DC8E /* AppDelegate.swift */,
 				0BF3F884233179F600406D7D /* Config.swift */,
-				E95C85072098DCDF00D8DC8E /* Main.storyboard */,
+				0B0642BC23849E8E00D85D64 /* Main.storyboard */,
+				0B0642B723849DDB00D85D64 /* CoreDataModel.xcdatamodeld */,
 				E94E0B3320CED9670013F3C4 /* CustomOverlayViewController.xib */,
 				E95C850A2098DCDF00D8DC8E /* Assets.xcassets */,
-				2E88B1CF20D3030A0001E4CE /* CoreDataModel.xcdatamodeld */,
 				E95C850C2098DCDF00D8DC8E /* LaunchScreen.storyboard */,
 				E95C850F2098DCDF00D8DC8E /* Info.plist */,
 			);
@@ -421,7 +421,7 @@
 				E94E0B3520CED9670013F3C4 /* CustomOverlayViewController.xib in Resources */,
 				E95C850E2098DCDF00D8DC8E /* LaunchScreen.storyboard in Resources */,
 				E95C850B2098DCDF00D8DC8E /* Assets.xcassets in Resources */,
-				E95C85092098DCDF00D8DC8E /* Main.storyboard in Resources */,
+				0B0642BE23849E8F00D85D64 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,11 +526,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				33171B662162D66A00775B6D /* VideoCollectionViewCell.swift in Sources */,
+				0B0642BB23849E2500D85D64 /* Models.swift in Sources */,
 				33317F002162B11200412EB3 /* SegmentReviewViewController.swift in Sources */,
-				60227A5D20FFA9A8009AA91D /* AddSportViewController.swift in Sources */,
+				0B0642B923849DDB00D85D64 /* CoreDataModel.xcdatamodeld in Sources */,
 				2E3C7C8820EE6B6100363CD3 /* DynamicTimeWarping.swift in Sources */,
-				6051A47021080B5500A6218A /* ClassificationViewController.swift in Sources */,
-				1E4F8069220BD141005E2FE7 /* DefineCategoriesViewController.swift in Sources */,
 				332E530D21598E3A00B8C2EC /* Peripherals.swift in Sources */,
 				0BF3F8872332BD5C00406D7D /* WebRTCViewController.swift in Sources */,
 				2EA2D02520F663F3008F30AA /* Accelerations.swift in Sources */,
@@ -538,26 +537,27 @@
 				1EEEA02C22C9694C00BBB67E /* ReviewTableViewCell.swift in Sources */,
 				339C7A71218E4E930073FA00 /* LibraryCollectionViewController.swift in Sources */,
 				0BF3F8822331759B00406D7D /* SignalingClient.swift in Sources */,
+				0B0642B223849D0000D85D64 /* ModelListTableViewController.swift in Sources */,
+				0B0642AA23849CB100D85D64 /* AddModelViewController.swift in Sources */,
 				6051A46E21026A3300A6218A /* SegmentationViewController.swift in Sources */,
-				60227A5B20FEBD84009AA91D /* SportsListTableViewController.swift in Sources */,
 				332E531521598F3800B8C2EC /* HomeScreenViewController.swift in Sources */,
 				1E8DC9FD21BB2D5600C52A10 /* TrackedData.swift in Sources */,
+				0B0642AE23849CE300D85D64 /* ClassificationViewController.swift in Sources */,
 				E9939CCA20CF09920063505D /* CustomOverlayView.swift in Sources */,
 				332E531721598F4D00B8C2EC /* BluetoothConnectViewController.swift in Sources */,
+				0B0642B423849D0E00D85D64 /* ModelSummaryViewController.swift in Sources */,
 				0BF3F87A2331754C00406D7D /* IceCandidate.swift in Sources */,
-				332E531321598F1E00B8C2EC /* SportSummaryViewController.swift in Sources */,
 				0BF3F8782331754C00406D7D /* RTCStates.swift in Sources */,
-				332E530B21598E2500B8C2EC /* Actions.swift in Sources */,
 				0BF3F8812331759B00406D7D /* WebRTCClient.swift in Sources */,
+				0B0642B623849D4200D85D64 /* SegmentReviewViewController.swift in Sources */,
 				6051A47221080FA600A6218A /* BluetoothStore.swift in Sources */,
 				339C7A7321900BE60073FA00 /* ModelSharing.swift in Sources */,
-				2E88B1D120D3030A0001E4CE /* CoreDataModel.xcdatamodeld in Sources */,
+				0B0642B023849CF300D85D64 /* LibraryCollectionViewController.swift in Sources */,
 				0BF3F885233179F600406D7D /* Config.swift in Sources */,
 				0BF3F8792331754C00406D7D /* SessionDescription.swift in Sources */,
 				2EA2D02720F7DE7C008F30AA /* Segments.swift in Sources */,
 				6051A46C2102566D00A6218A /* Videos.swift in Sources */,
 				0BF3F8802331759B00406D7D /* Message.swift in Sources */,
-				60227A5F20FFC91E009AA91D /* Sports.swift in Sources */,
 				E94E0B3420CED9670013F3C4 /* CustomOverlayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -593,10 +593,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E95C85072098DCDF00D8DC8E /* Main.storyboard */ = {
+		0B0642BC23849E8E00D85D64 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E95C85082098DCDF00D8DC8E /* Base */,
+				0B0642BD23849E8E00D85D64 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -879,12 +879,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		2E88B1CF20D3030A0001E4CE /* CoreDataModel.xcdatamodeld */ = {
+		0B0642B723849DDB00D85D64 /* CoreDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				2E88B1D020D3030A0001E4CE /* CoreDataModel.xcdatamodel */,
+				0B0642B823849DDB00D85D64 /* CoreDataModel.xcdatamodel */,
 			);
-			currentVersion = 2E88B1D020D3030A0001E4CE /* CoreDataModel.xcdatamodel */;
+			currentVersion = 0B0642B823849DDB00D85D64 /* CoreDataModel.xcdatamodel */;
 			path = CoreDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
