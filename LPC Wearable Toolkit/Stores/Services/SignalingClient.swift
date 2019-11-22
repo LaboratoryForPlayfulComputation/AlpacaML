@@ -75,6 +75,7 @@ final class SignalingClient {
 extension SignalingClient: WebSocketDelegate {
     func websocketDidConnect(socket: WebSocketClient) {
         self.delegate?.signalClientDidConnect(self)
+        debugPrint("Connected to signaling server")
     }
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
