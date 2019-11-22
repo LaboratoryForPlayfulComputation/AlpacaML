@@ -9,7 +9,8 @@
 import Foundation
 
 // Set this to the machine's address which runs the signaling server
-fileprivate let defaultSignalingServerUrl = URL(string: "ws://192.168.0.11:8080")! //personal server
+//fileprivate let defaultSignalingServerUrl = URL(string: "ws://Shawns-MacBook-Pro.local:8080")! //personal server
+fileprivate let defaultSignalingServerUrl = URL(string: "ws://scratchpaca.playfulcomputation.group:1230")! //Ben's server
 
 
 // We use Google's public stun servers. For production apps you should deploy your own stun/turn servers.
