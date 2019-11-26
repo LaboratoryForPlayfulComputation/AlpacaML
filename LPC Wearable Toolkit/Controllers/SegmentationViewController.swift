@@ -502,39 +502,42 @@ class SegmentationViewController: UIViewController, ChartViewDelegate, UIGesture
     }
     
     @objc func handleDoubleTap(recognizer: UITapGestureRecognizer) {
-        let tapLocation = recognizer.location(in: self.lineChart)
-        let chartValue: CGPoint = self.lineChart.valueForTouchPoint(point: tapLocation, axis: .right)
-        let greaterThan = segmentObjects.filter({ (segment) -> Bool in
-            return !chartValue.x.isLess(than: CGFloat(segment.start_ts))
-        })
-        let contained = greaterThan.filter({ (segment) -> Bool in
-            return chartValue.x.isLess(than: CGFloat(segment.stop_ts))
-        })
-        if contained.count == 1 {
-            let index = labels.index(of: contained[0].rating!)
-            self.pickerView(labelPicker, didSelectRow: index.unsafelyUnwrapped, inComponent: 0)
-            if (editingSegment) {
-                assignLabelButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
-                assignLabelButton.isEnabled = false
-                assignLabelButton.setTitle("Assign", for: .normal)
-                curSegment = nil
-                let start = contained[0].start_ts
-                let end = contained[0].stop_ts
-                pointsSelected = []
-                doHighlight(color: UIColor.green, start: Int(start), stop: Int(end))
+        print("Recognized a double tap. Points selected: \(pointsSelected.count)")
+        if (pointsSelected.count == 0) {
+            let tapLocation = recognizer.location(in: self.lineChart)
+            let chartValue: CGPoint = self.lineChart.valueForTouchPoint(point: tapLocation, axis: .right)
+            let greaterThan = segmentObjects.filter({ (segment) -> Bool in
+                return !chartValue.x.isLess(than: CGFloat(segment.start_ts))
+            })
+            let contained = greaterThan.filter({ (segment) -> Bool in
+                return chartValue.x.isLess(than: CGFloat(segment.stop_ts))
+            })
+            if contained.count == 1 {
+                let index = labels.index(of: contained[0].rating!)
+                self.pickerView(labelPicker, didSelectRow: index.unsafelyUnwrapped, inComponent: 0)
+                if (editingSegment) {
+                    assignLabelButton.backgroundColor = UIColor(red: 69/255.0, green: 255/255.0, blue: 190/255.0, alpha: 1.0)
+                    assignLabelButton.isEnabled = false
+                    assignLabelButton.setTitle("Assign", for: .normal)
+                    curSegment = nil
+                    let start = contained[0].start_ts
+                    let end = contained[0].stop_ts
+                    pointsSelected = []
+                    doHighlight(color: UIColor.green, start: Int(start), stop: Int(end))
+                } else {
+                    assignLabelButton.backgroundColor = UIColor.red
+                    assignLabelButton.isEnabled = true
+                    assignLabelButton.setTitle("Delete", for: .normal)
+                    curSegment = contained[0]
+                    let start = contained[0].start_ts
+                    let end = contained[0].stop_ts
+                    pointsSelected = [start,end] // not sure if need plus 1
+                    doHighlight(color: UIColor.magenta, start: Int(start), stop: Int(end))
+                }
+                editingSegment = !editingSegment
             } else {
-                assignLabelButton.backgroundColor = UIColor.red
-                assignLabelButton.isEnabled = true
-                assignLabelButton.setTitle("Delete", for: .normal)
-                curSegment = contained[0]
-                let start = contained[0].start_ts
-                let end = contained[0].stop_ts
-                pointsSelected = [start,end] // not sure if need plus 1
-                doHighlight(color: UIColor.magenta, start: Int(start), stop: Int(end))
+                print("contained in \(contained.count) segments.")
             }
-            editingSegment = !editingSegment
-        } else {
-            print("contained in \(contained.count) segments.")
         }
     }
 
