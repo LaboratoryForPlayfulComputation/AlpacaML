@@ -105,6 +105,23 @@ class ClassificationViewController: UIViewController, ChartViewDelegate {
         appDelegate.webRTCClient.sendData(dataToSend.data(using: .utf8)!)
     }
     
+    @IBAction func sendAMessageDidTap(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Send a message to your Scratch project",
+                                      message: "This mimics the messages your gestures will send.",
+                                      preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.placeholder = "Message to send"
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { [weak self, unowned alert] _ in
+            guard let msg = alert.textFields?.first?.text else {
+                return
+            }
+            self!.sendWebRTCData(dataToSend: msg)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     // MARK - Chart functions
     
     private func updateChart() {

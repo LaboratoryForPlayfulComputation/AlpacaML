@@ -175,18 +175,27 @@
                                     <action selector="toggleDataCapture:" destination="C1A-Fg-Qeg" eventType="touchUpInside" id="mgX-Bf-T9F"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Classification" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyS-Ge-Mgv">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Classification" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyS-Ge-Mgv">
                                 <rect key="frame" x="82" y="270" width="156" height="29"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="24"/>
                                 <color key="textColor" red="0.79859640860000003" green="0.53451445750000004" blue="0.88702234459999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E85-mp-tbV">
+                                <rect key="frame" x="131" y="550.5" width="113" height="30"/>
+                                <state key="normal" title="Send a message"/>
+                                <connections>
+                                    <action selector="sendAMessageDidTap:" destination="C1A-Fg-Qeg" eventType="touchUpInside" id="6Gm-Us-F2E"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="b13-c2-fHI" firstAttribute="top" secondItem="E85-mp-tbV" secondAttribute="bottom" constant="15" id="DoW-wV-bel"/>
                             <constraint firstItem="Mgm-6L-zxs" firstAttribute="top" secondItem="uD4-pw-A6b" secondAttribute="bottom" constant="11" id="H6F-rh-Q97"/>
                             <constraint firstItem="b13-c2-fHI" firstAttribute="trailing" secondItem="SOL-Ec-Ioe" secondAttribute="trailing" id="JHX-aE-CXJ"/>
-                            <constraint firstItem="gyS-Ge-Mgv" firstAttribute="centerX" secondItem="bfm-Us-AXL" secondAttribute="centerX" id="KNV-1W-D9y"/>
+                            <constraint firstItem="gyS-Ge-Mgv" firstAttribute="centerX" secondItem="bfm-Us-AXL" secondAttribute="centerX" constant="-27.5" id="KNV-1W-D9y"/>
+                            <constraint firstItem="E85-mp-tbV" firstAttribute="centerX" secondItem="bfm-Us-AXL" secondAttribute="centerX" id="NJH-ic-kcy"/>
                             <constraint firstItem="Mgm-6L-zxs" firstAttribute="leading" secondItem="SOL-Ec-Ioe" secondAttribute="leading" constant="16" id="QWV-yh-MDd"/>
                             <constraint firstItem="Mgm-6L-zxs" firstAttribute="centerX" secondItem="uD4-pw-A6b" secondAttribute="centerX" id="S2y-t2-m1e"/>
                             <constraint firstAttribute="bottom" secondItem="Mgm-6L-zxs" secondAttribute="bottom" constant="365" id="VLi-VB-PaR"/>
@@ -194,7 +203,7 @@
                             <constraint firstItem="Mgm-6L-zxs" firstAttribute="top" secondItem="bfm-Us-AXL" secondAttribute="top" constant="75" id="WUM-mL-gFw"/>
                             <constraint firstItem="b13-c2-fHI" firstAttribute="bottom" secondItem="SOL-Ec-Ioe" secondAttribute="bottom" id="k4k-9k-P8H"/>
                             <constraint firstItem="SOL-Ec-Ioe" firstAttribute="trailing" secondItem="Mgm-6L-zxs" secondAttribute="trailing" constant="16" id="nGS-oT-hDY"/>
-                            <constraint firstItem="b13-c2-fHI" firstAttribute="top" secondItem="gyS-Ge-Mgv" secondAttribute="bottom" constant="38" id="qtM-we-jf8"/>
+                            <constraint firstItem="b13-c2-fHI" firstAttribute="top" secondItem="gyS-Ge-Mgv" secondAttribute="bottom" constant="296.5" id="qtM-we-jf8"/>
                             <constraint firstItem="uD4-pw-A6b" firstAttribute="leading" secondItem="b13-c2-fHI" secondAttribute="leading" id="xFa-0e-8U0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SOL-Ec-Ioe"/>

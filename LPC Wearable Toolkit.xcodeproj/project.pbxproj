@@ -213,10 +213,7 @@
 				0B0642A923849CB100D85D64 /* AddModelViewController.swift */,
 				0BF3F8862332BD5C00406D7D /* WebRTCViewController.swift */,
 				60227A5A20FEBD84009AA91D /* ModelListTableViewController.swift */,
-				E94E0B3220CED9670013F3C4 /* CustomOverlayViewController.swift */,
 				60227A5C20FFA9A8009AA91D /* AddModelViewController.swift */,
-				6051A46D21026A3300A6218A /* SegmentationViewController.swift */,
-				6051A46F21080B5500A6218A /* ClassificationViewController.swift */,
 				332E531221598F1E00B8C2EC /* ModelSummaryViewController.swift */,
 				0B0642B523849D4200D85D64 /* SegmentReviewViewController.swift */,
 				E94E0B3220CED9670013F3C4 /* CustomOverlayViewController.swift */,
@@ -545,7 +542,6 @@
 				33317F002162B11200412EB3 /* SegmentReviewViewController.swift in Sources */,
 				60227A5D20FFA9A8009AA91D /* AddModelViewController.swift in Sources */,
 				2E3C7C8820EE6B6100363CD3 /* DynamicTimeWarping.swift in Sources */,
-				6051A47021080B5500A6218A /* ClassificationViewController.swift in Sources */,
 				0B0642B923849DDB00D85D64 /* CoreDataModel.xcdatamodeld in Sources */,
 				2E3C7C8820EE6B6100363CD3 /* DynamicTimeWarping.swift in Sources */,
 				332E530D21598E3A00B8C2EC /* Peripherals.swift in Sources */,
@@ -751,12 +747,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8JR6566HZ6;
+				DEVELOPMENT_TEAM = H2SSBVPREV;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "LPC Wearable Toolkit/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.playfulcomputation.alpaca;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.playfulcomputation.alpaca-3";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
@@ -771,12 +767,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8JR6566HZ6;
+				DEVELOPMENT_TEAM = H2SSBVPREV;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "LPC Wearable Toolkit/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.playfulcomputation.alpaca;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.playfulcomputation.alpaca-3";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;

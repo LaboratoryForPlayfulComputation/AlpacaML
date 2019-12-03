@@ -312,6 +312,7 @@ extension WebRTCClient {
 
 extension WebRTCClient: RTCDataChannelDelegate {
     func dataChannelDidChangeState(_ dataChannel: RTCDataChannel) {
+        // TODO: if state equals "closing" or "closed" try to reinitiate the data channel
         debugPrint("dataChannel did change state: \(dataChannel.readyState)")
     }
     

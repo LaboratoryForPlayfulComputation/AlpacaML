@@ -24,6 +24,8 @@
 	<true/>
 	<key>NSAllowsArbitraryLoads</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Uses bluetooth to connect to micro:bit</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>$(PRODUCT_NAME) uses bluetooth to connect to bbc micro:bit</string>
 	<key>NSCameraUsageDescription</key>
