@@ -39,6 +39,7 @@ final class WebRTCClient: NSObject {
     private var remoteDataChannel: RTCDataChannel?
     var pairId: String
     var remotePairId: String
+    var status: RTCIceConnectionState
 
     @available(*, unavailable)
     override init() {
@@ -61,6 +62,7 @@ final class WebRTCClient: NSObject {
         
         self.pairId = ""
         self.remotePairId = ""
+        self.status = RTCIceConnectionState.new
         
         super.init()
         self.createMediaSenders()
@@ -94,6 +96,7 @@ final class WebRTCClient: NSObject {
         let constrains = RTCMediaConstraints(mandatoryConstraints: self.mediaConstrains,
                                              optionalConstraints: nil)
         self.peerConnection.answer(for: constrains) { (sdp, error) in
+            print(error ?? "No error")
             guard let sdp = sdp else {
                 return
             }
@@ -236,6 +239,7 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) {
         debugPrint("peerConnection new connection state: \(newState)")
+        status = newState
         self.delegate?.webRTCClient(self, didChangeConnectionState: newState)
     }
     

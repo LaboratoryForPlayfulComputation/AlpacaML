@@ -14,11 +14,13 @@ struct IceCandidate: Codable {
     let sdp: String
     let sdpMLineIndex: Int32
     let sdpMid: String?
+    let pairId: String
     
-    init(from iceCandidate: RTCIceCandidate) {
+    init(from iceCandidate: RTCIceCandidate, with pairId: String) {
         self.sdpMLineIndex = iceCandidate.sdpMLineIndex
         self.sdpMid = iceCandidate.sdpMid
         self.sdp = iceCandidate.sdp
+        self.pairId = pairId
     }
     
     var rtcIceCandidate: RTCIceCandidate {

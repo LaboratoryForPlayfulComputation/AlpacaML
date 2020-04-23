@@ -11,6 +11,7 @@ import Foundation
 enum Message {
     case sdp(SessionDescription)
     case candidate(IceCandidate)
+    case login(String)
 }
 
 extension Message: Codable {
@@ -36,6 +37,9 @@ extension Message: Codable {
         case .candidate(let iceCandidate):
             try container.encode(iceCandidate, forKey: .payload)
             try container.encode(String(describing: IceCandidate.self), forKey: .type)
+        case .login(let pairId):
+            try container.encode(pairId, forKey: .payload)
+            try container.encode(String(describing: "login"), forKey: .type)
         }
     }
     

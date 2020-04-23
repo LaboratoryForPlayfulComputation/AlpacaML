@@ -28,15 +28,28 @@ final class SignalingClient {
         self.socket = WebSocket(url: serverUrl)
         
     }
+    
     func connect() {
         self.socket.delegate = self
         self.socket.connect()
     }
     
-    func send(sdp rtcSdp: RTCSessionDescription) {
-        let message = Message.sdp(SessionDescription(from: rtcSdp))
+    func login(pairId: String) {
+        
+        let message = Message.login(pairId)
+        do {
+            let loginMessage = try self.encoder.encode(message)
+            socket.write(data: loginMessage)
+        } catch {
+            print("Could not encode login message for: \(pairId). Received Error: \(error)")
+        }
+    }
+    
+    func send(sdp rtcSdp: RTCSessionDescription, pairId: String) {
+        let message = Message.sdp(SessionDescription(from: rtcSdp, with: pairId))
         do {
             let dataMessage = try self.encoder.encode(message)
+            print(dataMessage.base64EncodedString())
             self.socket.write(data: dataMessage)
         }
         catch {
@@ -44,8 +57,8 @@ final class SignalingClient {
         }
     }
     
-    func send(candidate rtcIceCandidate: RTCIceCandidate) {
-        let message = Message.candidate(IceCandidate(from: rtcIceCandidate))
+    func send(candidate rtcIceCandidate: RTCIceCandidate, pairId: String) { // try adding pairID here , also try to figure out when this gets called
+        let message = Message.candidate(IceCandidate(from: rtcIceCandidate, with: pairId))
         do {
             let dataMessage = try self.encoder.encode(message)
             self.socket.write(data: dataMessage)
@@ -89,6 +102,7 @@ extension SignalingClient: WebSocketDelegate {
     }
     
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
+        print("received data")
         let message: Message
         do {
             message = try self.decoder.decode(Message.self, from: data)
@@ -103,20 +117,14 @@ extension SignalingClient: WebSocketDelegate {
             self.delegate?.signalClient(self, didReceiveCandidate: iceCandidate.rtcIceCandidate)
         case .sdp(let sessionDescription):
             self.delegate?.signalClient(self, didReceiveRemoteSdp: sessionDescription.rtcSessionDescription)
+        default :
+            print("Received message of unknown type \(message)")
         }
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
         let data = text.data(using: .utf8)!
-        
-        // look for pairId from Scratch
-        let json = try? JSONSerialization.jsonObject(with: data, options: [])
-        if let jsonArray = json as? [String: Any] {
-            if let id = jsonArray["pairId"] as? String {
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.webRTCClient.remotePairId = id
-            }
-        }
+        print("received string")
         
         // try to interpret message as candidate/sdp
         let message: Message
@@ -133,6 +141,8 @@ extension SignalingClient: WebSocketDelegate {
             self.delegate?.signalClient(self, didReceiveCandidate: iceCandidate.rtcIceCandidate)
         case .sdp(let sessionDescription):
             self.delegate?.signalClient(self, didReceiveRemoteSdp: sessionDescription.rtcSessionDescription)
+        default :
+            print("Received message of unknown type \(message)")
         }
     }
 }

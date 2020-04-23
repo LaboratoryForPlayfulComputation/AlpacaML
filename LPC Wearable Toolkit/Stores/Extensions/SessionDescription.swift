@@ -26,9 +26,11 @@ enum SdpType: String, Codable {
 struct SessionDescription: Codable {
     let sdp: String
     let type: SdpType
+    let pairId: String
     
-    init(from rtcSessionDescription: RTCSessionDescription) {
+    init(from rtcSessionDescription: RTCSessionDescription, with pairId: String) {
         self.sdp = rtcSessionDescription.sdp
+        self.pairId = pairId
         
         switch rtcSessionDescription.type {
         case .offer:    self.type = .offer
